@@ -1,0 +1,322 @@
+<?xml version="1.0"?>
+
+<!--
+ GOAL interpreter that facilitates developing and executing GOAL multi-agent
+ programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
+ 
+ This program is free software: you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ 
+ This program is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ details.
+ 
+ You should have received a copy of the GNU General Public License along with
+ this program. If not, see <http://www.gnu.org/licenses/>.
+ -->
+
+
+<!-- Author W.Pasman@mmi.tudelft.nl december 2008
+	@modified W.Pasman Updated 25feb09 to handle new actionrule and perceptrule format.
+	@modified W.Pasman Small highlighting changes 24mar09
+	@modified N.Kraayenbrink
+ -->
+
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+
+<MODE>
+	<PROPS>
+		<PROPERTY NAME="indentOpenBrackets" VALUE="{" />
+		<PROPERTY NAME="indentCloseBrackets" VALUE="}" />
+		<PROPERTY NAME="lineComment" VALUE="%" />
+	</PROPS>
+	
+	<RULES IGNORE_CASE="FALSE">
+		<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+
+		<EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+
+		<!-- general issue with SPAN_REGEXP is (http://xilize.sourceforge.net/MiscNotes/jEditMisc/modefiles.html)
+		that you can not match multi lines. Eg. "knowledge/n/n{/n/n" can not be matched -->
+		
+		<!-- 'BUG': if you would DELEGATE to RULES "PROLOG" (instead of prolog::MAIN),
+			the prolog HIGHLIGHT_DIGITS property won't work correctly. You then need to copy that property to
+			your call to the DELEGATE prolog::MAIN. Maybe this is because the HIGHLIGHT_DIGITS property
+			is within the first opening bracket (<) -->
+		
+		<!-- import commands -->
+		<SPAN_REGEXP TYPE="KEYWORD2" DELEGATE="STRING">
+		  <BEGIN>#import(\s)*</BEGIN>
+		  <END>.</END>
+		</SPAN_REGEXP>
+		
+		<!-- special modules -->
+		<SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="MODULE" AT_WORD_START="TRUE">
+		    <!--   [_____module name________]     [options] --> 
+		    <BEGIN>(main|event|init)\s+module(\s)*(\[.*])?(\s)*\{</BEGIN>
+		    <END>}</END>
+		</SPAN_REGEXP>
+		<!-- 'normal' modules -->
+		<SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="MODULE" AT_WORD_START="TRUE">
+		    <!--              [________module name_____][=======parameters=====]      [options] --> 
+            <BEGIN>module(\s)+([a-zA-Z_$][a-zA-Z0-9_$]*)(\([a-zA-Z0-9_$(),\s]+\))?(\s)*(\[.*])?(\s)*\{</BEGIN>
+            <END>}</END>
+        </SPAN_REGEXP>
+        
+        <!-- 'globally' defined macros -->
+        <SPAN_REGEXP TYPE="KEYWORD2" DELEGATE="MSQUERY" AT_WORD_START="TRUE">
+          <BEGIN>#define</BEGIN>
+          <END>.</END>
+        </SPAN_REGEXP>
+		
+		<!-- keywords to help the auto completer -->
+		<KEYWORDS>
+			<KEYWORD1>{</KEYWORD1>
+			<KEYWORD1>}</KEYWORD1>
+			<KEYWORD2>#define</KEYWORD2>
+			<KEYWORD2>#import</KEYWORD2>
+			<KEYWORD1>module</KEYWORD1>
+			<KEYWORD1>main</KEYWORD1>
+			<KEYWORD1>event</KEYWORD1>
+			<KEYWORD1>init</KEYWORD1>
+		</KEYWORDS>
+	</RULES>
+
+	<RULES SET="MODULE" IGNORE_CASE="FALSE">
+		<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+	
+        <EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+	   
+	    <!-- Knowledge section -->
+	    <SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="prolog::MAIN" AT_WORD_START="TRUE">
+            <BEGIN>knowledge(\s)*\{</BEGIN>
+            <END>}</END>
+        </SPAN_REGEXP>
+        
+        <!-- Belief section -->
+        <SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="prolog::MAIN" AT_WORD_START="TRUE">
+            <BEGIN>beliefs(\s)*\{</BEGIN>
+            <END>}</END> 
+        </SPAN_REGEXP>
+        
+        <!-- Goals section -->
+        <SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="prolog::MAIN" AT_WORD_START="TRUE">
+            <BEGIN>goals(\s)*\{</BEGIN>
+            <END>}</END>
+        </SPAN_REGEXP>
+        
+        <!-- Program section -->
+        <SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="ACTRULES" AT_WORD_START="TRUE">
+            <BEGIN>program(\s)*(\[.*])?(\s)*\{</BEGIN>
+            <END>}</END> 
+        </SPAN_REGEXP>
+        
+        <!-- Actionspec section -->
+        <SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="ACTIONSPEC" AT_WORD_START="TRUE">
+            <BEGIN>actionspec(\s)*\{</BEGIN>
+            <END>}</END>
+        </SPAN_REGEXP>
+	   
+	   <KEYWORDS>
+           <KEYWORD1>knowledge</KEYWORD1>
+           <KEYWORD1>beliefs</KEYWORD1>
+           <KEYWORD1>goals</KEYWORD1>
+           <KEYWORD1>program</KEYWORD1>
+           <KEYWORD1>actionspec</KEYWORD1>
+       </KEYWORDS>
+	</RULES>
+	
+	<RULES SET="ACTRULES" IGNORE_CASE="FALSE">
+    	<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+        <EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+        
+        <SPAN_REGEXP TYPE="KEYWORD2" DELEGATE="MSQUERY" AT_WORD_START="TRUE">
+          <BEGIN>#define</BEGIN>
+          <END>.</END>
+        </SPAN_REGEXP>
+        
+        <SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="MSQUERY" AT_WORD_START="TRUE">
+            <BEGIN>if\b</BEGIN>
+            <END>then</END> 
+            <!-- note, the part after then is GOAL so here we get away with this -->
+        </SPAN_REGEXP>
+        <SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="MSQUERY" AT_WORD_START="TRUE">
+            <BEGIN>forall\b</BEGIN>
+            <END>do</END> 
+        </SPAN_REGEXP>
+        <SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="LISTALLCOND" AT_WORD_START="TRUE">
+            <BEGIN>listall\b</BEGIN>
+            <END>do</END>
+        </SPAN_REGEXP>
+        
+        <SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="prolog::MAIN">
+            <BEGIN>((adopt)|(drop)|(insert)|(delete)|(send)|(sendonce))(\s)*\(</BEGIN>
+            <END>)</END>
+        </SPAN_REGEXP>
+        
+        <!-- these braces are for the 'anonymous modules' -->
+        <SPAN TYPE="KEYWORD1" DELEGATE="ACTRULES">
+            <BEGIN>{</BEGIN>
+            <END>}</END>
+        </SPAN>
+        
+        <!-- exit-module does not use prolog for the argument -->
+        <SEQ_REGEXP TYPE="KEYWORD1">\sexit-module(\(all\))?</SEQ_REGEXP>
+        
+        <KEYWORDS>
+
+            <!-- Keywords that are built-in predicates -->
+            <KEYWORD1>adopt</KEYWORD1>
+            <KEYWORD1>drop</KEYWORD1>
+            <KEYWORD1>insert</KEYWORD1>
+            <KEYWORD1>delete</KEYWORD1>
+            <KEYWORD1>send</KEYWORD1>
+            <KEYWORD1>sendonce</KEYWORD1>
+            <KEYWORD1>exit-module</KEYWORD1>
+            <!-- 
+            <KEYWORD1>if</KEYWORD1>
+            <KEYWORD1>then</KEYWORD1>
+ -->
+            <KEYWORD1>.</KEYWORD1>
+            <KEYWORD2>#define</KEYWORD2>
+        </KEYWORDS>                     
+    </RULES>
+
+	<RULES SET="MSQUERY" IGNORE_CASE="FALSE">
+		<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+	    <!-- IMPORTANT: propagate changes in these rules to LISTALLCOND rules as well -->
+	
+	    <EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+	
+        <SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="MSQUERY">
+            <BEGIN>not(\s)*\(</BEGIN>
+            <END>)</END>
+        </SPAN_REGEXP>
+	
+		<SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="prolog::MAIN" AT_WORD_START="TRUE">
+			<BEGIN>((a-goal)|(goal)|(goal-a)|(bel))(\s)*\(</BEGIN>
+			<END>)</END>
+		</SPAN_REGEXP>
+		<!-- color macros differently from built-in literals -->
+		<SPAN_REGEXP TYPE="LITERAL3" DELEGATE="prolog::MAIN" AT_WORD_START="TRUE">
+		    <BEGIN>[a-zA-Z\$_][a-zA-Z0-9_\$]+(\s)*\(</BEGIN>
+		    <END>)</END>
+		</SPAN_REGEXP>
+		
+		<SEQ TYPE="KEYWORD1" AT_WORD_START="TRUE">true</SEQ>
+		
+				<!-- keywords to help the auto completer -->
+		<KEYWORDS>
+			<KEYWORD1>not</KEYWORD1>
+			<KEYWORD1>a-goal</KEYWORD1>
+			<KEYWORD1>goal-a</KEYWORD1>
+			<KEYWORD1>goal</KEYWORD1>
+			<KEYWORD1>bel</KEYWORD1>
+			<KEYWORD1>true</KEYWORD1>
+		</KEYWORDS>
+	</RULES>
+	
+	<RULES SET="LISTALLCOND" IGNORE_CASE="FALSE"> <!-- copy of MSQUERY with some modifications -->
+    	<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+        <EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+    
+        <SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="MSQUERY" AT_WORD_START="TRUE">
+            <BEGIN>not(\s)*\(</BEGIN>
+            <END>)</END>
+        </SPAN_REGEXP>
+    
+        <SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="prolog::MAIN" AT_WORD_START="TRUE">
+            <BEGIN>((a-goal)|(goal)|(goal-a)|(bel)|([a-zA-Z\$_][a-zA-Z0-9_\$]+))(\s)*\(</BEGIN>
+            <END>)</END>
+        </SPAN_REGEXP>
+        
+        <SEQ TYPE="KEYWORD1" AT_WORD_START="TRUE">true</SEQ>
+        
+        <!-- also allow 'loose' variables (that are not anonymous) -->
+        <SEQ_REGEXP TYPE="KEYWORD4" AT_WORD_START="TRUE">[A-Z]([a-zA-Z0-9_]*)</SEQ_REGEXP>
+        
+        <!-- keywords to help the auto completer -->
+        <KEYWORDS>
+            <KEYWORD1>not</KEYWORD1>
+            <KEYWORD1>a-goal</KEYWORD1>
+            <KEYWORD1>goal-a</KEYWORD1>
+            <KEYWORD1>goal</KEYWORD1>
+            <KEYWORD1>bel</KEYWORD1>
+            <KEYWORD1>true</KEYWORD1>
+        </KEYWORDS>
+    </RULES>
+	
+	<RULES SET="ACTIONSPEC" IGNORE_CASE="FALSE">
+		<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+		<EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+		
+		<SPAN TYPE="KEYWORD1" DELEGATE="ACTIONSPECPREPOST">
+			<BEGIN>{</BEGIN>
+			<END>}</END>	
+		</SPAN>
+		
+		<SPAN_REGEXP TYPE="KEYWORD3" DELEGATE="VARIABLELIST" AT_WORD_START="TRUE">
+            <BEGIN>(([a-zA-Z\$_][a-zA-Z0-9_\$]+))(\s)*\(</BEGIN>
+            <END>)</END>
+        </SPAN_REGEXP>
+
+        <SEQ_REGEXP TYPE="KEYWORD3" AT_WORD_START="TRUE">(([a-zA-Z\$_][a-zA-Z0-9_\$]+))</SEQ_REGEXP>
+
+	</RULES>
+	
+	
+	<RULES SET="ACTIONSPECPREPOST" IGNORE_CASE="FALSE">
+		<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+		<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+		<!-- ACTIONSPEC section -->
+		<EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+		
+		<SPAN TYPE="KEYWORD1" DELEGATE="prolog::MAIN">
+			<BEGIN>{</BEGIN>
+			<END>}</END>	
+		</SPAN>
+		
+		<KEYWORDS>
+            <KEYWORD1>pre</KEYWORD1>
+            <KEYWORD1>post</KEYWORD1>
+        </KEYWORDS>
+	</RULES>
+	
+	<RULES SET="VARIABLELIST" IGNORE_CASE="FALSE">
+		<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+		<!-- a list of variables for inside actionspecrule -->
+        <SEQ_REGEXP TYPE="KEYWORD4" AT_WORD_START="TRUE">[A-Z]([a-zA-Z0-9_]*)</SEQ_REGEXP>
+	</RULES>
+
+    <RULES SET="STRING">
+		<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+        <SPAN TYPE="LITERAL2" NO_LINE_BREAK="TRUE">
+            <BEGIN>"</BEGIN>
+            <END>"</END>
+        </SPAN>
+    </RULES>
+
+</MODE>
