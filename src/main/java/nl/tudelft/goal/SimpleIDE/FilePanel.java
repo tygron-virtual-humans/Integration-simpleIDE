@@ -18,10 +18,6 @@
 
 package nl.tudelft.goal.SimpleIDE;
 
-import goal.core.kr.KRlanguage;
-import goal.core.mas.AgentFile;
-import goal.core.mas.MASProgram;
-import goal.core.program.GOALProgram;
 import goal.preferences.PMPreferences;
 import goal.tools.PlatformManager;
 import goal.tools.errorhandling.Resources;
@@ -31,7 +27,6 @@ import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALCommandCancelledException;
 import goal.tools.errorhandling.exceptions.GOALException;
 import goal.tools.errorhandling.exceptions.GOALIncompleteGUIUsageException;
-import goal.tools.errorhandling.exceptions.GOALParseException;
 import goal.tools.errorhandling.exceptions.GOALUserError;
 import goal.util.Extension;
 import goal.util.IterableStitcher;
@@ -48,7 +43,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
@@ -69,6 +63,10 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import krTools.KRInterface;
+import krTools.errors.exceptions.ParserException;
+import languageTools.program.agent.AgentProgram;
+import languageTools.program.mas.MASProgram;
 import nl.tudelft.goal.SimpleIDE.actions.CloseAndRemoveAction;
 import nl.tudelft.goal.SimpleIDE.actions.DeleteAction;
 import nl.tudelft.goal.SimpleIDE.actions.EditAction;
@@ -96,10 +94,10 @@ import org.apache.commons.io.IOUtils;
  * {@link NodeType#NULLFILE}. Allows the user to select and edit files.<br>
  * Below each {@link NodeType#GOALFILE} will be its imported files, but only
  * once the user saves the agent file.
- * 
+ *
  * @author K.Hindriks
  * @author N.Kraayenbrink rewritten 30 apr 2010, see trac #1062
- * 
+ *
  */
 public class FilePanel extends JPanel {
 
@@ -118,12 +116,12 @@ public class FilePanel extends JPanel {
 	 * DOC
 	 */
 	private final FileNodeMap allFiles;
-	
+
 	private final PlatformManager platform;
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @param mainp
 	 *            the main panel, for centering dialogs.
 	 * @param state
@@ -131,27 +129,27 @@ public class FilePanel extends JPanel {
 	 */
 	public FilePanel(JPanel mainp, IDEState state) {
 
-		mainpanel = mainp;
-		ideState = state;
+		this.mainpanel = mainp;
+		this.ideState = state;
 		this.rootNode = new FileNode(NodeType.ROOT, null);
 		this.rootNode.setAllowsChildren(true);
 		this.projectsNode = new FileNode(NodeType.ROOT,
 				new File("MAS Projects")); //$NON-NLS-1$
 		this.nullNode = new NullNode();
-		this.rootNode.add(projectsNode);
-		this.rootNode.add(nullNode);
+		this.rootNode.add(this.projectsNode);
+		this.rootNode.add(this.nullNode);
 
 		this.treeModel = new DefaultTreeModel(this.rootNode, true);
 		this.fileTree = new JTree(this.treeModel);
 
 		// add the various event listeners
-		this.addListeners();
+		addListeners();
 
 		// double-click should not toggle the tree
 		this.fileTree.setToggleClickCount(-1);
 
 		// set the layout
-		this.setLayout(new BorderLayout());
+		setLayout(new BorderLayout());
 		this.fileTree.setEditable(false); // TODO: allow this.
 		this.fileTree.setRootVisible(false);
 		this.fileTree.setShowsRootHandles(true);
@@ -162,7 +160,7 @@ public class FilePanel extends JPanel {
 		this.add(fileTreeView, BorderLayout.CENTER);
 
 		this.allFiles = new FileNodeMap();
-		
+
 		this.platform = PlatformManager.getCurrent();
 	}
 
@@ -192,28 +190,28 @@ public class FilePanel extends JPanel {
 	 */
 	private void addListeners() {
 		// add mouse listener
-		fileTree.addMouseListener(new myMouseListener());
+		this.fileTree.addMouseListener(new myMouseListener());
 
 		// add tree selection listener
-		fileTree.addTreeSelectionListener(new TreeSelectionListener() {
+		this.fileTree.addTreeSelectionListener(new TreeSelectionListener() {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
 				// theIDE.refreshMenuItemsAndButtons();
-				ActionFactory.broadcastStateChange(ideState);
+				ActionFactory.broadcastStateChange(FilePanel.this.ideState);
 			}
 		});
 		// tree expansion listener
-		fileTree.addTreeExpansionListener(new TreeExpansionListener() {
+		this.fileTree.addTreeExpansionListener(new TreeExpansionListener() {
 			@Override
 			public void treeExpanded(TreeExpansionEvent event) {
 				// theIDE.refreshMenuItemsAndButtons();
-				ActionFactory.broadcastStateChange(ideState);
+				ActionFactory.broadcastStateChange(FilePanel.this.ideState);
 			}
 
 			@Override
 			public void treeCollapsed(TreeExpansionEvent event) {
 				// theIDE.refreshMenuItemsAndButtons();
-				ActionFactory.broadcastStateChange(ideState);
+				ActionFactory.broadcastStateChange(FilePanel.this.ideState);
 			}
 		});
 	}
@@ -223,16 +221,16 @@ public class FilePanel extends JPanel {
 	 * <ul>
 	 * <li>Create popup menu
 	 * <li>Handle double click to open editor.
-	 * 
+	 *
 	 * @author W.Pasman 18jul2011
-	 * 
+	 *
 	 */
 	private class myMouseListener extends MouseAdapter {
 		/**
 		 * Handles double click events on file nodes, in order to open editor
 		 * panels for the file(s) that are selected. Single click events are
 		 * handled by the tree selection listener.
-		 * 
+		 *
 		 * @see http ://java.sun.com/j2se/1.4.2/docs/api/javax/swing/JTree.html
 		 *      for code.
 		 */
@@ -240,8 +238,8 @@ public class FilePanel extends JPanel {
 		public void mousePressed(MouseEvent event) {
 			if (event.isPopupTrigger()) {
 				try {
-					createPopupMenu()
-							.show(fileTree, event.getX(), event.getY());
+					createPopupMenu().show(FilePanel.this.fileTree,
+							event.getX(), event.getY());
 				} catch (Exception e) {
 					new Warning(
 							Resources
@@ -249,15 +247,15 @@ public class FilePanel extends JPanel {
 							e);
 				}
 			}
-			TreePath selPath = fileTree.getPathForLocation(event.getX(),
-					event.getY());
+			TreePath selPath = FilePanel.this.fileTree.getPathForLocation(
+					event.getX(), event.getY());
 			// path is null if nothing is selected
 			if (selPath == null) {
 				return;
 			}
 			FileNode node = (FileNode) selPath.getLastPathComponent();
 			if (node != null && event.getClickCount() == 2
-					&& !(node.equals(nullNode))) {
+					&& !(node.equals(FilePanel.this.nullNode))) {
 				// user double clicked process node
 				try {
 					ActionFactory.getAction(EditAction.class).Execute(node,
@@ -273,8 +271,8 @@ public class FilePanel extends JPanel {
 		public void mouseReleased(MouseEvent event) {
 			if (event.isPopupTrigger()) {
 				try {
-					createPopupMenu()
-							.show(fileTree, event.getX(), event.getY());
+					createPopupMenu().show(FilePanel.this.fileTree,
+							event.getX(), event.getY());
 				} catch (Exception e) {
 					new Warning(
 							Resources
@@ -289,11 +287,11 @@ public class FilePanel extends JPanel {
 	 * Get ALL selected {@link FileNode}s in the panel's tree, on top-to-bottom
 	 * order. See #545. If nothing is selected, returns list with the root node
 	 * only.
-	 * 
+	 *
 	 * @return list of all selected nodes.
 	 */
 	public List<IDENode> getSelectedNodes() {
-		TreePath[] paths = fileTree.getSelectionPaths();
+		TreePath[] paths = this.fileTree.getSelectionPaths();
 		List<IDENode> nodes = new ArrayList<IDENode>();
 		if (paths == null) {
 			nodes.add(this.rootNode);
@@ -307,7 +305,7 @@ public class FilePanel extends JPanel {
 
 	/**
 	 * Checks if this FilePanel contains a reference to the given file.
-	 * 
+	 *
 	 * @param file
 	 *            The file that may or may not be referenced in this panel.
 	 * @return {@code true} iff there is a reference to the given file in this
@@ -325,7 +323,7 @@ public class FilePanel extends JPanel {
 	 * is selected (or any of its child GOAL files), the new GOAL file will be
 	 * located below that MAS file. If not, the new GOAL file will be located
 	 * under the null-node.
-	 * 
+	 *
 	 * @param newFile
 	 *            The File to add to the tree in this {@link FilePanel}.
 	 * @return <ul>
@@ -339,9 +337,10 @@ public class FilePanel extends JPanel {
 	 * @throws GOALException
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
+	 * @throws ParserException
 	 */
 	public FileNode insertFile(File newFile) throws IllegalAccessException,
-			InstantiationException, GOALException {
+			InstantiationException, GOALException, ParserException {
 		FileNode newNode = null;
 
 		Extension ext = Extension.getFileExtension(newFile);
@@ -355,7 +354,7 @@ public class FilePanel extends JPanel {
 			case MAS:
 				newNode = insertMASfile(newFile);
 				List<File> agentFiles = this.platform.getMASProgram(
-						newNode.getBaseFile()).getAgentPaths();
+						newNode.getBaseFile()).getAgentFiles();
 				for (File agentfile : agentFiles) {
 					refreshGOALFile(agentfile);
 				}
@@ -367,13 +366,13 @@ public class FilePanel extends JPanel {
 				newNode = new ModulesNode(newFile);
 				appendNode(null, newNode);
 				this.allFiles.add(newNode);
-				this.refreshSpuriousList();
+				refreshSpuriousList();
 				break;
 			case PROLOG:
 				newNode = new PrologNode(newFile);
 				appendNode(null, newNode);
 				this.allFiles.add(newNode);
-				this.refreshSpuriousList();
+				refreshSpuriousList();
 				break;
 			default:
 				throw new UnsupportedOperationException("Unhandled Extension " //$NON-NLS-1$
@@ -381,7 +380,7 @@ public class FilePanel extends JPanel {
 			}
 		}
 		if (newNode != null) {
-			this.selectNode(newNode);
+			selectNode(newNode);
 		}
 		return newNode;
 	}
@@ -392,7 +391,7 @@ public class FilePanel extends JPanel {
 	 * corresponding MASNode. Otherwise a new {@link MASNode} is created and
 	 * appended at the end (or before the null-node if it is visible).<br>
 	 * The MAS-file is parsed and all relevant child GOAL-files are appended.
-	 * 
+	 *
 	 * @param newMASfile
 	 *            The new .mas-file to append.
 	 * @return The (possibly new, possibly old) {@link MASNode} with a link to
@@ -400,12 +399,13 @@ public class FilePanel extends JPanel {
 	 * @throws GOALException
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
+	 * @throws ParserException
 	 */
 	private MASNode insertMASfile(File newMASfile)
 			throws IllegalAccessException, InstantiationException,
-			GOALException {
+			GOALException, ParserException {
 
-		List<FileNode> newNodeList = allFiles.getAll(newMASfile);
+		List<FileNode> newNodeList = this.allFiles.getAll(newMASfile);
 		MASNode newNode = null;
 		// DOC: check whether node for MAS file already exists???
 		if (newNodeList != null && newNodeList.size() > 0) {
@@ -420,18 +420,18 @@ public class FilePanel extends JPanel {
 
 			// create a new node, and add it to the mapping.
 			newNode = new MASNode(newMASfile);
-			allFiles.add(newNode);
+			this.allFiles.add(newNode);
 
 			// add the new node at the end. The null-node will be reset in
 			// the #refreshMASNode call.
-			this.appendNode(projectsNode, newNode);
+			appendNode(this.projectsNode, newNode);
 		} else {
 			ActionFactory.getAction(ReloadFileAction.class).Execute(newNode,
 					null);
 		}
 
 		// Refresh the tree so that the children of the MAS node are reset.
-		this.refreshMASNode(newNode);
+		refreshMASNode(newNode);
 
 		return newNode;
 	}
@@ -448,9 +448,9 @@ public class FilePanel extends JPanel {
 	 * goal file will become a child of the null file node, which is then made
 	 * visible if it wasn't already.
 	 * </p>
-	 * 
+	 *
 	 * FIXME implementation<->documentation mismatch.
-	 * 
+	 *
 	 * @param newGOALfile
 	 *            The agent (.goal) file to append.
 	 * @return The (possibly new, possibly old) {@link GOALNode} with a link to
@@ -475,7 +475,7 @@ public class FilePanel extends JPanel {
 		} else {
 			// reload the .goal file in the editor (if it is open)
 			// TODO: use command that fails silently.
-			this.selectNode(newNode);
+			selectNode(newNode);
 			try {
 				ActionFactory.getAction(ReloadFileAction.class).Execute(
 						newNode, null);
@@ -493,7 +493,7 @@ public class FilePanel extends JPanel {
 	 * does not completely refresh the list, and may contain duplicates or
 	 * non-spurious files. Call {@link #refreshSpuriousList()} to properly
 	 * refresh it.
-	 * 
+	 *
 	 * @param file
 	 *            The file to add to the list of spurious files.
 	 * @return The newly created {@link FileNode} referencing the given
@@ -531,7 +531,7 @@ public class FilePanel extends JPanel {
 	 * If parent is null, the child is removed from its parent (if it has one).
 	 * If the node was not a child of the {@link #nullNode}, it will be moved
 	 * there. Otherwise, this call would be the same as {@link #removeFileNode}.
-	 * 
+	 *
 	 * @param parent
 	 *            The desired parent of the given child.
 	 * @param child
@@ -550,10 +550,10 @@ public class FilePanel extends JPanel {
 		} else if (!oldParentWasNullNode && child.getType() != NodeType.MASFILE) {
 			// automatically move the old node to the null-node when it
 			// has been removed, unless it is a MAS-file
-			this.treeModel.insertNodeInto(child, nullNode,
-					nullNode.getChildCount());
+			this.treeModel.insertNodeInto(child, this.nullNode,
+					this.nullNode.getChildCount());
 			this.fileTree.expandPath(new TreePath(child.getPath()));
-			this.refreshSpuriousList();
+			refreshSpuriousList();
 		}
 	}
 
@@ -561,7 +561,7 @@ public class FilePanel extends JPanel {
 	 * Removes the given filenode from the tree. This will not send the node to
 	 * the {@link #nullNode}, as {@link #appendNode}<code>(null, child)</code>
 	 * does.
-	 * 
+	 *
 	 * @param child
 	 *            The node to remove from the tree.
 	 */
@@ -574,7 +574,7 @@ public class FilePanel extends JPanel {
 	/**
 	 * Selects a single node in the tree, and expands the tree so that the given
 	 * node is visible. Assumes the given node is inside the tree.
-	 * 
+	 *
 	 * @param node
 	 *            The node to be selected. Can be <code>null</code>, in which
 	 *            case the result will be that nothing is selected.
@@ -594,7 +594,7 @@ public class FilePanel extends JPanel {
 	 * correspond to the agent files described in the mas file. Any goal files
 	 * that are children of the given mas node but are not referenced to in the
 	 * mas file will be moved to the null file node.
-	 * 
+	 *
 	 * @param masNode
 	 *            The mas node of which the children should be refreshed.
 	 * @param showLoadError
@@ -620,7 +620,7 @@ public class FilePanel extends JPanel {
 		// Compare current nodes with current agent files associated with MAS
 		// file.
 		// Get current node children.
-		List<FileNode> currentChildren = this.getChildrenOf(masNode);
+		List<FileNode> currentChildren = getChildrenOf(masNode);
 		// Get the associated files.
 		List<File> currentFiles = new ArrayList<File>();
 		for (FileNode node : currentChildren) {
@@ -628,15 +628,8 @@ public class FilePanel extends JPanel {
 		}
 
 		// Get new agent files.
-		List<AgentFile> newAgentFiles = this.platform.getMASProgram(
-				masNode.getBaseFile()).getAgentFiles();
-		// Get the non-null files associated with agent files.
-		List<File> newFiles = new ArrayList<File>();
-		for (AgentFile agentFile : newAgentFiles) {
-			if (agentFile.getAgentFile() != null) {
-				newFiles.add(agentFile.getAgentFile());
-			}
-		}
+		List<File> newFiles = this.platform
+				.getMASProgram(masNode.getBaseFile()).getAgentFiles();
 
 		// Check whether nodes need to be removed, i.e., whether they do not
 		// correspond with any files associated with the MAS file.
@@ -646,11 +639,11 @@ public class FilePanel extends JPanel {
 				appendNode(null, node);
 			}
 		}
-		// CHECK is this always abcolute path?
+		// CHECK is this always absolute path?
 		String masdir = masNode.getBaseFile().getParent();
 		// Check whether agent files need to be inserted.
-		for (AgentFile agentFile : newAgentFiles) {
-			if (agentFile.getAgentFile() == null) {
+		for (File agentFile : newFiles) {
+			if (!agentFile.exists()) {
 				// doesn't exist. Suggest to create
 				String path = agentFile.getPath();
 				File newFile = new File(path);
@@ -662,32 +655,31 @@ public class FilePanel extends JPanel {
 				try {
 					proposeToCreate(this, newFile, Extension.GOAL);
 					this.platform.parseGOALFile(newFile,
-							agentFile.getKRLang());
+							mas.getKRInterface(newFile));
 				} catch (GOALUserError ignore) {
 					// this file does not really exist. #2692
 					// We want to continue here to handle all other GOAL files,
 					// even if user cancelled creation of one of these or IO
 					// error happened.
-				} catch (GOALParseException e) {
+				} catch (ParserException e) {
 					// Even in case of serious parse errors we simply skip
 					// the current agent file and continue with the next.
 					// We want to process as many agent files as we can.
 					continue;
 				}
 			}
-
-			if (agentFile.getAgentFile() != null
-					&& !currentFiles.contains(agentFile.getAgentFile())) {
-				GOALNode newNode = new GOALNode(agentFile.getAgentFile());
+			if (!currentFiles.contains(agentFile)) {
+				GOALNode newNode = new GOALNode(agentFile);
 				this.allFiles.add(newNode);
 				// GOALNode newNode = insertGOALfile(agentFile.getAgentFile());
 				appendNode(masNode, newNode);
 				// also let the tree scroll to the newly added node
-				fileTree.scrollPathToVisible(new TreePath(masNode.getPath()));
+				this.fileTree.scrollPathToVisible(new TreePath(masNode
+						.getPath()));
 			}
 		}
 
-		this.refreshSpuriousList();
+		refreshSpuriousList();
 
 	}
 
@@ -696,11 +688,11 @@ public class FilePanel extends JPanel {
 	 * the given GOALNode in the hierarchy.<br>
 	 * For example, the node was spurious but now a MAS file has been opened
 	 * that is using the .goal file.
-	 * 
+	 *
 	 * <p>
 	 * This function also calls {@link EditManager#updateBreakpoints(File)},
-	 * 
-	 * 
+	 *
+	 *
 	 * @param goalNode
 	 *            is the node to be checked.
 	 * @param askForNonExistentFiles
@@ -716,7 +708,8 @@ public class FilePanel extends JPanel {
 			return;
 		}
 
-		GOALProgram goal = this.platform.getGOALProgram(goalNode.getBaseFile());
+		AgentProgram goal = this.platform.getAgentProgram(goalNode
+				.getBaseFile());
 		if (goal == null) {
 			return;
 		}
@@ -726,7 +719,7 @@ public class FilePanel extends JPanel {
 		 * #2944. but we can always try to show children (imports)
 		 */
 		try {
-			Set<File> childFiles = null;
+			List<File> childFiles = null;
 			FileNode parent = (FileNode) goalNode.getParent();
 			// Only create nodes for children of agent (.goal) file if the file
 			// node
@@ -772,11 +765,11 @@ public class FilePanel extends JPanel {
 			for (FileNode oldChild : oldChildren) {
 				if (!(childFiles.contains(oldChild.getBaseFile()))) {
 					// NOTE:append(null,..) REMOVES a node.
-					this.appendNode(null, oldChild);
+					appendNode(null, oldChild);
 				}
 			}
 		} finally {
-			this.refreshSpuriousList();
+			refreshSpuriousList();
 		}
 		EditManager.getInstance().updateBreakpoints(goalNode.getBaseFile());
 	}
@@ -788,7 +781,7 @@ public class FilePanel extends JPanel {
 	 * <p>
 	 * (CHECK is this the right way to generate an exception? Is not wanting to
 	 * create a file really an exception at all at this level?)
-	 * 
+	 *
 	 * @param childFiles
 	 *            the files to be added
 	 * @param goalnode
@@ -834,7 +827,7 @@ public class FilePanel extends JPanel {
 				// that
 				// is already a child
 				if (!goalnode.isNodeChild(newNode)) {
-					this.appendNode(goalnode, newNode);
+					appendNode(goalnode, newNode);
 				}
 			}
 		}
@@ -844,10 +837,10 @@ public class FilePanel extends JPanel {
 	/**
 	 * propose user to create new file as it does not exist now. Throws
 	 * GOALUserError if user cancels the proposal or if creation of file failed.
-	 * 
+	 *
 	 * It's a bit weird to have static function in FilePanel, but also it would
 	 * be weird to put a GUI function in IOManager. CHECK
-	 * 
+	 *
 	 * @param parent
 	 *            is the GUI parent for this panel, used for centering the
 	 *            panel.
@@ -881,30 +874,30 @@ public class FilePanel extends JPanel {
 	 */
 	public void refreshSpuriousList() {
 
-		List<FileNode> nullNodes = this.getChildrenOf(this.nullNode);
+		List<FileNode> nullNodes = getChildrenOf(this.nullNode);
 		for (FileNode nnode : nullNodes) {
 			// remove non-existing children from the null file node
 			if (!nnode.getBaseFile().exists()) {
 				// CHECK: removing the node from the allFiles list
 				// as well seems to have the effect that the node
 				// remains in the tree.
-				this.removeNodeFromTree(nnode);
+				removeNodeFromTree(nnode);
 				continue;
 			}
 			// also remove files also existing somewhere else
 			List<FileNode> nodes = this.allFiles.getAll(nnode.getBaseFile());
 			if (nodes != null && nodes.size() > 1) {
 				this.allFiles.remove(nnode);
-				this.removeNodeFromTree(nnode);
+				removeNodeFromTree(nnode);
 			}
 		}
-		ActionFactory.broadcastStateChange(ideState);
+		ActionFactory.broadcastStateChange(this.ideState);
 	}
 
 	/**
 	 * Gets the {@link FileNode}s that are a child of the given {@link FileNode}
 	 * .
-	 * 
+	 *
 	 * @param fileNode
 	 *            The {@link FileNode} to get the children of.
 	 * @return The list of {@link FileNode}s of which the given {@link FileNode}
@@ -925,7 +918,7 @@ public class FilePanel extends JPanel {
 	 * correspond to the agent files described in the MAS file. Any .goal files
 	 * that are children of the given MAS node but are not referenced in the MAS
 	 * file will be moved to the null file node.
-	 * 
+	 *
 	 * @param masFile
 	 *            The mas file of which the children should be refreshed.
 	 * @param showLoadError
@@ -941,7 +934,7 @@ public class FilePanel extends JPanel {
 		if (nodes != null && nodes.size() > 0) {
 			node = (MASNode) nodes.get(0);
 		}
-		this.refreshMASNode(node);
+		refreshMASNode(node);
 	}
 
 	/**
@@ -949,7 +942,7 @@ public class FilePanel extends JPanel {
 	 * correspond to the files described in the agent file. Any files that are
 	 * children of the agent file but are not referenced in the agent file will
 	 * be moved to the null file node.
-	 * 
+	 *
 	 * @param goalFile
 	 *            The goal/agent file of which the children should be refreshed.
 	 */
@@ -959,7 +952,7 @@ public class FilePanel extends JPanel {
 		}
 		boolean askForNonExistentFiles = true;
 		for (FileNode node : this.allFiles.getAll(goalFile)) {
-			this.refreshGOALNode((GOALNode) node, askForNonExistentFiles);
+			refreshGOALNode((GOALNode) node, askForNonExistentFiles);
 			// only ask the user once if a file should be created.
 			askForNonExistentFiles = false;
 		}
@@ -971,7 +964,7 @@ public class FilePanel extends JPanel {
 	 * described in the agent file. Any files that are children of the agent
 	 * file but are not referenced to in the agent file will be moved to the
 	 * null file node.
-	 * 
+	 *
 	 * @param mod2gFile
 	 *            the file that was changed
 	 */
@@ -984,7 +977,7 @@ public class FilePanel extends JPanel {
 	/**
 	 * A Module node needs refreshing. This is done by refreshing its parent
 	 * GOAL node.
-	 * 
+	 *
 	 * @param node
 	 *            is a {@link ModulesNode} in the Files tree.
 	 */
@@ -1007,7 +1000,7 @@ public class FilePanel extends JPanel {
 	/**
 	 * A Prolog node needs refreshing. This is done by refreshing its parent
 	 * .goal file node.
-	 * 
+	 *
 	 * @param node
 	 *            is a {@link PrologNode} in the Files tree.
 	 */
@@ -1033,7 +1026,7 @@ public class FilePanel extends JPanel {
 	 * described in the agent file. Any files that are children of the agent
 	 * file but are not referenced to in the agent file will be moved to the
 	 * null file node.
-	 * 
+	 *
 	 * @param prologFile
 	 *            the file that was changed
 	 */
@@ -1048,12 +1041,13 @@ public class FilePanel extends JPanel {
 	 * Renames a file to a new name. THe new name will be asked from the user.
 	 * If the selected target file exists we overwrite the existing file with
 	 * the given (after user's confirmation).
-	 * 
+	 *
 	 * @param oldFile
 	 *            is the file to be renamed.
 	 * @throws GOALException
+	 * @throws ParserException
 	 */
-	public void rename(File oldFile) throws GOALException {
+	public void rename(File oldFile) throws GOALException, ParserException {
 		// step 1. ask new filename.
 		// use the general getExtension to support unknown extensions properly.
 		String extension = FilenameUtils.getExtension(oldFile.getName());
@@ -1061,7 +1055,7 @@ public class FilePanel extends JPanel {
 				.getAbsolutePath());
 		File newFile = null;
 		try {
-			newFile = SimpleIDE.askFile(mainpanel, false,
+			newFile = SimpleIDE.askFile(this.mainpanel, false,
 					"Save as", //$NON-NLS-1$
 					JFileChooser.FILES_ONLY, extension, oldfilename,
 					PMPreferences.getAgentBrowsePath(), true);
@@ -1113,15 +1107,15 @@ public class FilePanel extends JPanel {
 		// HACK, #1061
 		switch (ext) {
 		case GOAL:
-			KRlanguage language = this.platform.getGOALProgram(oldFile)
-					.getKRLanguage();
+			KRInterface language = this.platform.getAgentProgram(oldFile)
+					.getKRInterface();
 			this.platform.parseGOALFile(newFile, language);
-			this.platform.removeParsedObject(oldFile);
+			this.platform.removeParsedProgram(oldFile);
 			break;
 		case MAS:
 			// add new file, remove old file
 			this.platform.parseMASFile(newFile);
-			this.platform.removeParsedObject(oldFile);
+			this.platform.removeParsedProgram(oldFile);
 			break;
 		default:
 			// other files are not parsed
@@ -1167,7 +1161,7 @@ public class FilePanel extends JPanel {
 	/**
 	 * Handle the renaming of a file after the file was renamed on the
 	 * filesystem.
-	 * 
+	 *
 	 * @param oldfile
 	 *            The file as it was on the filesystem before it was renamed
 	 * @param newFile
@@ -1222,7 +1216,7 @@ public class FilePanel extends JPanel {
 				this.treeModel.nodeChanged(n);
 				this.allFiles.add(n);
 			}
-			this.refreshSpuriousList();
+			refreshSpuriousList();
 			showRenameWarning(oldfile);
 		}
 		return oldFileStillUsed;
@@ -1231,7 +1225,7 @@ public class FilePanel extends JPanel {
 
 	/**
 	 * show warning after renaming or moving file f
-	 * 
+	 *
 	 * @param f
 	 *            is file that was renamed
 	 */
@@ -1310,7 +1304,7 @@ public class FilePanel extends JPanel {
 	 * Removes a node from this file panel, but only if it actually can be
 	 * removed. All child {@link FileNode} will be removed as well.<br>
 	 * This should only be called as a result of the IDE 'remove' command.
-	 * 
+	 *
 	 * @param fn
 	 *            The file node to remove.
 	 */
@@ -1329,14 +1323,14 @@ public class FilePanel extends JPanel {
 
 		// do not move any of the children (or the node itself) to the
 		// null-node, since the user explicitly wanted to remove them.
-		for (FileNode child : this.getChildrenOf(fn)) {
+		for (FileNode child : getChildrenOf(fn)) {
 			this.allFiles.remove(child);
-			this.removeNodeFromTree(child);
+			removeNodeFromTree(child);
 		}
 		this.allFiles.remove(fn);
-		this.removeNodeFromTree(fn);
+		removeNodeFromTree(fn);
 		// update the list of other files, just to be sure
-		this.refreshSpuriousList();
+		refreshSpuriousList();
 	}
 
 	/**
@@ -1359,12 +1353,12 @@ public class FilePanel extends JPanel {
 
 	/**
 	 * Returns the list of MAS files displayed in this {@link FilePanel}.
-	 * 
+	 *
 	 * @return A list of all MAS files displayed in the panel.
 	 */
 	public List<File> getMASFiles() {
 		List<File> masPaths = new ArrayList<File>();
-		for (FileNode node : this.getChildrenOf(projectsNode)) {
+		for (FileNode node : getChildrenOf(this.projectsNode)) {
 			masPaths.add(node.getBaseFile());
 		}
 		return masPaths;
@@ -1375,7 +1369,7 @@ public class FilePanel extends JPanel {
 	 */
 	public List<File> getOtherPaths() {
 		ArrayList<File> goalPaths = new ArrayList<File>();
-		for (FileNode goalfile : this.getChildrenOf(this.nullNode)) {
+		for (FileNode goalfile : getChildrenOf(this.nullNode)) {
 			goalPaths.add(goalfile.getBaseFile());
 		}
 		return goalPaths;
@@ -1384,7 +1378,7 @@ public class FilePanel extends JPanel {
 	/**
 	 * Deletes the given {@link FileNode}. Will ask the user for permission
 	 * first however.
-	 * 
+	 *
 	 * @param node
 	 *            The node to delete.
 	 * @return {@code true} iff the file was deleted. CHECK nobody cares about
@@ -1428,7 +1422,7 @@ public class FilePanel extends JPanel {
 			List<FileNode> fNodes = new ArrayList<FileNode>(
 					this.allFiles.getAll(node.getBaseFile()));
 			for (FileNode fNode : fNodes) {
-				this.removeNode(fNode);
+				removeNode(fNode);
 			}
 			return true;
 		}
@@ -1443,7 +1437,7 @@ public class FilePanel extends JPanel {
 	 * absolute, but we need to be certain. <br>
 	 * This also groups the methods accessing the actual map in a more logical
 	 * way.
-	 * 
+	 *
 	 * @author N.Kraayenbrink
 	 */
 	private static class FileNodeMap {
@@ -1475,13 +1469,13 @@ public class FilePanel extends JPanel {
 		 * Returns all {@link FileNode}s associated with the given {@link File}.
 		 * Only the nodes directly referring to the file are returned, not the
 		 * MAS files that may indirectly contain the referred file.
-		 * 
+		 *
 		 * @return a copy of the associated files. Returning a copy allows you
 		 *         to iterate through the list and modifying the nodes involved
 		 *         while modification may change the list order.
 		 */
 		public List<FileNode> getAll(File file) {
-			List<FileNode> nodes = nodeMap.get(file.getAbsoluteFile());
+			List<FileNode> nodes = this.nodeMap.get(file.getAbsoluteFile());
 			List<FileNode> list = new ArrayList<FileNode>();
 			if (nodes != null) {
 				list.addAll(nodes);
@@ -1528,7 +1522,7 @@ public class FilePanel extends JPanel {
 
 		/**
 		 * Removes all {@link FileNode}s linked with the given file.
-		 * 
+		 *
 		 * @param file
 		 *            The {@link File} to remove from this map.
 		 * @return The list of {@link FileNode}s previously associated with the

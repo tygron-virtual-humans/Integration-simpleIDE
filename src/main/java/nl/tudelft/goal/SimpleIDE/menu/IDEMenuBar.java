@@ -74,18 +74,22 @@ import nl.tudelft.goal.SimpleIDE.actions.UndoAction;
 
 /**
  * This is the Main IDE menu bar.
- * 
+ *
  */
 @SuppressWarnings("serial")
 public class IDEMenuBar extends JMenuBar {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1004981087920173402L;
 	private static final boolean OSX = System.getProperty("os.name").equals(
 			"Mac OS X");
 
 	/**
 	 * creates the IDE's menubar. This only involves layout, all the actual menu
 	 * items are just {@link goal.core.action} objects.
-	 * 
+	 *
 	 * @param theIDE
 	 * @throws InstantiationException
 	 */
@@ -182,7 +186,7 @@ public class IDEMenuBar extends JMenuBar {
 
 		// Help menu
 		JMenu helpMenu; // help menu on windows/linux CHECK how is help
-						// facilitated on MAC?
+		// facilitated on MAC?
 		helpMenu = new JMenu(OSX ? "GOAL-IDE" : "Help");
 		helpMenu.add(new JMenuItem(ActionFactory
 				.getAction(PreferencesAction.class)));

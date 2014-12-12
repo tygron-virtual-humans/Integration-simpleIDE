@@ -42,11 +42,16 @@ import nl.tudelft.goal.SimpleIDE.SimpleIDE;
 
 /**
  * Create new file. What kind of file depends on the selection in file panel.
- * 
+ *
  * @author W.Pasman 20jun2011
  */
 @SuppressWarnings("serial")
 public class NewFileAction extends GOALAction {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 6259940026095798941L;
 
 	public NewFileAction() {
 		setIcon(IconFactory.NEW_FILE.getIcon());
@@ -59,7 +64,7 @@ public class NewFileAction extends GOALAction {
 	 * {@inheritDoc}
 	 */
 	public void stateChangeEvent() {
-		setActionEnabled(currentState.getViewMode() == IDEMainPanel.EDIT_VIEW);
+		setActionEnabled(this.currentState.getViewMode() == IDEMainPanel.EDIT_VIEW);
 	}
 
 	/**
@@ -107,8 +112,8 @@ public class NewFileAction extends GOALAction {
 		default:
 			throw new GOALBug(
 					this
-							+ "should only be enabled while selection is a FILE node, but found" //$NON-NLS-1$
-							+ selectedNode);
+					+ "should only be enabled while selection is a FILE node, but found" //$NON-NLS-1$
+					+ selectedNode);
 		} // end switch(nodeType)
 
 		if (theFile != null) {
@@ -119,7 +124,7 @@ public class NewFileAction extends GOALAction {
 				File newFile = PlatformManager.createfile(theFile,
 						Extension.getFileExtension(theFile));
 				developmentEnvironment.getMainPanel().getFilePanel()
-						.insertFile(newFile);
+				.insertFile(newFile);
 				// select new file for editing
 				EditManager.getInstance().editFile(newFile);
 			} catch (IOException ex) {
@@ -127,7 +132,7 @@ public class NewFileAction extends GOALAction {
 			} catch (Exception er) {
 				new Warning(
 						Resources
-								.get(WarningStrings.FAILED_IDE_FILENODE_INSERT),
+						.get(WarningStrings.FAILED_IDE_FILENODE_INSERT),
 						er);
 			}
 		}

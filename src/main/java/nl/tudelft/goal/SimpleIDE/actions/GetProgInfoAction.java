@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -37,19 +37,19 @@ import nl.tudelft.goal.SimpleIDE.IDENode;
 /**
  * Show GOAL agent program info and statistics for a GOAL program that is opened
  * in an editor. Silently fails if file to be analysed is not a GOAL agent file.
- * 
+ *
  * TODO: change this so a GOAL agent file (or even better, an entire MAS
  * project) can be handled here, and drop requirement that the file must be
  * opened in editor. Do this by adding Program info option to right-click menu
  * in file panel.
- * 
- * 
+ *
+ *
  * @author W.Pasman 20jun2011
  */
 public class GetProgInfoAction extends GOALAction {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -72,8 +72,8 @@ public class GetProgInfoAction extends GOALAction {
 			} else {
 				File theFile = EditManager.getInstance().getActiveEditor()
 						.getFile();
-				if (PlatformManager.getCurrent().getMASProgramsThatUseFile(theFile)
-						.isEmpty()) {
+				if (PlatformManager.getCurrent()
+						.getMASProgramsThatUseFile(theFile).isEmpty()) {
 					fileIsInMAS = false;
 				}
 			}
@@ -82,7 +82,7 @@ public class GetProgInfoAction extends GOALAction {
 			isUserEditingGoalFile = false;
 		}
 
-		setActionEnabled(currentState.getViewMode() == IDEMainPanel.EDIT_VIEW
+		setActionEnabled(this.currentState.getViewMode() == IDEMainPanel.EDIT_VIEW
 				&& isUserEditingGoalFile && fileIsInMAS);
 	}
 

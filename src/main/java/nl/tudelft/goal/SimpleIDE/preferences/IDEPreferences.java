@@ -26,7 +26,7 @@ import java.util.prefs.Preferences;
 
 /**
  * This is a static interface into the IDE preference settings.
- * 
+ *
  * @author W.Pasman 28may14 pulled this out of the core. Using Java preferences
  *         #3102
  */
@@ -54,7 +54,7 @@ public class IDEPreferences {
 
 	/**
 	 * get total height of IDE window
-	 * 
+	 *
 	 * @returns the total height of the IDE window.
 	 */
 	public static int getWinHeight() {
@@ -67,7 +67,7 @@ public class IDEPreferences {
 
 	/**
 	 * get total width of IDE window
-	 * 
+	 *
 	 * @return total width of IDE window
 	 */
 	public static int getWinWidth() {
@@ -81,7 +81,7 @@ public class IDEPreferences {
 	/**
 	 * get the height of the main area above the console, which is also the
 	 * split position of the jsplitpane.
-	 * 
+	 *
 	 * @returns the height of the main area above the console, which is also the
 	 *          split position of the jsplitpane.
 	 */
@@ -91,7 +91,7 @@ public class IDEPreferences {
 
 	/**
 	 * Get the height of the consol/feedback area
-	 * 
+	 *
 	 * @return the height of the consol/feedback area
 	 */
 	public static int getConsoleAreaHeight() {
@@ -105,7 +105,7 @@ public class IDEPreferences {
 	/**
 	 * check if we should open debug trace tab when agent is launched. Default
 	 * is true (open the tab)
-	 * 
+	 *
 	 * @return true iff we should open debug trace tab when agent is launched
 	 */
 	public static boolean getOpenDebugTraceTabAtAgentLaunch() {
@@ -115,7 +115,7 @@ public class IDEPreferences {
 
 	/**
 	 * Get whether user wants to remember the window size.
-	 * 
+	 *
 	 * @return true when user wants us to remember winsize, else false
 	 */
 	public static boolean getRememberWinSize() {
@@ -124,7 +124,7 @@ public class IDEPreferences {
 
 	/**
 	 * Get whether user wants to remember the window position.
-	 * 
+	 *
 	 * @return true when user wants us to remember window position, else false
 	 */
 	public static boolean getRememberWinPos() {
@@ -133,7 +133,7 @@ public class IDEPreferences {
 
 	/**
 	 * get the remembered last window pos.
-	 * 
+	 *
 	 * @return last window pos
 	 */
 	public static int getWinX() {
@@ -146,7 +146,7 @@ public class IDEPreferences {
 
 	/**
 	 * Get whether user wants us to remember console size
-	 * 
+	 *
 	 * @return true when user wants us to remember console size, else false
 	 */
 	public static boolean getRememberConsoleSize() {
@@ -155,7 +155,7 @@ public class IDEPreferences {
 
 	/**
 	 * get max number of lines that console can show.
-	 * 
+	 *
 	 * @return max number of lines that console can show
 	 */
 	public static int getMaxLines() {
@@ -165,7 +165,7 @@ public class IDEPreferences {
 
 	/**
 	 * get the font size to be used for the console.
-	 * 
+	 *
 	 * @return the font size to be used for the console
 	 */
 	public static int getConsoleFontSize() {
@@ -176,7 +176,7 @@ public class IDEPreferences {
 	/**
 	 * Check whether user wants at start-up of GOAL to re-open MASs that were
 	 * open last time.
-	 * 
+	 *
 	 * @return true if user wants to re-open MASs, else false.
 	 */
 	public static boolean getReopenMASs() {
@@ -186,7 +186,7 @@ public class IDEPreferences {
 	/**
 	 * get whether user wants at start-up to re-open spurious agent files at
 	 * start-up of GOAL
-	 * 
+	 *
 	 * @return true when user wants to re-open, else false.
 	 */
 	public static boolean getReopenSpurious() {
@@ -196,7 +196,7 @@ public class IDEPreferences {
 	/**
 	 * Get whether user wants to switch automatically to agent debug tabs when
 	 * they are spawned
-	 * 
+	 *
 	 * @return true when user wants to switch automatically, false if not.
 	 */
 	public static boolean getAutoSwitchDebugTab() {
@@ -206,7 +206,7 @@ public class IDEPreferences {
 	/**
 	 * Returns selected Look and Feel (LAF). "Nimbus" and "Default" are
 	 * supported. Default is Nimbus on Windows, and Default elsewhere.
-	 * 
+	 *
 	 * @return requested LAF.
 	 */
 	public static String getLAF() {
@@ -217,7 +217,7 @@ public class IDEPreferences {
 
 	/**
 	 * Returns paths to the MAS files that were loaded into the IDE previously.
-	 * 
+	 *
 	 * @return A list of paths to MAS files.
 	 */
 	public static List<String> getMASs() {
@@ -227,7 +227,7 @@ public class IDEPreferences {
 	/**
 	 * Returns paths to the spurious files that were loaded into the IDE
 	 * previously.
-	 * 
+	 *
 	 * @return A list of paths to other files.
 	 */
 	public static List<String> getOtherFiles() {
@@ -237,7 +237,7 @@ public class IDEPreferences {
 	/**
 	 * Internal utility function. Returns list of paths retrieved from given
 	 * string.
-	 * 
+	 *
 	 * @param input
 	 *            String representing one or more paths between double quotes
 	 *            separated by ",".
@@ -342,7 +342,7 @@ public class IDEPreferences {
 	/**
 	 * Saves a list of MAS filenames that are to be reloaded when the IDE is
 	 * restarted. Filenames should not contain commas.
-	 * 
+	 *
 	 * @param masFilenames
 	 *            a list of MAS filenames.
 	 */
@@ -361,7 +361,7 @@ public class IDEPreferences {
 	/**
 	 * Saves a list of .goal filenames that are to be reloaded when the IDE is
 	 * restarted. Filenames should not contain commas.
-	 * 
+	 *
 	 * @param goalFilenames
 	 *            A list of agent filename.
 	 */
@@ -379,7 +379,7 @@ public class IDEPreferences {
 
 	/**
 	 * set the last window pos to remember for next time
-	 * 
+	 *
 	 * @param location
 	 *            is last window location
 	 */
@@ -390,7 +390,7 @@ public class IDEPreferences {
 
 	/**
 	 * set the last window size to remember for next time
-	 * 
+	 *
 	 * @param size
 	 *            is last window size
 	 */

@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -43,8 +43,12 @@ import nl.tudelft.goal.messaging.messagebox.MessageBoxId;
  */
 @SuppressWarnings("serial")
 public abstract class ProcessNode extends DefaultMutableTreeNode implements
-		IDENode, DebugObserver {
+IDENode, DebugObserver {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -8771952616721022263L;
 	/**
 	 * Represents the process state, i.e. either RUNNING, STEPPING, PAUSED, or
 	 * KILLED. The state of a process is derived from its corresponding user
@@ -58,12 +62,12 @@ public abstract class ProcessNode extends DefaultMutableTreeNode implements
 	private boolean isSelectedByScheduler = false;
 
 	private boolean isConnected = false;// set to true when we connect to our
-										// process(agent,env)
+	// process(agent,env)
 
 	/**
 	 * Creates new process node to visualize a process of a running multi-agent
 	 * system.
-	 * 
+	 *
 	 * @param obj
 	 *            the object that is visualized and displayed by the process
 	 *            node. Object should be either an Agent, String (for a remote
@@ -84,25 +88,25 @@ public abstract class ProcessNode extends DefaultMutableTreeNode implements
 	 * In the process panel, we only display process nodes for agents that are
 	 * locally run. Connect to debugger of local agent, if user is interested in
 	 * run mode, and get run mode to display.
-	 * 
+	 *
 	 * @param agent
 	 */
 	private void subscribeToAgentDebugger(Agent<IDEGOALInterpreter> agent) {
 		IDEDebugger debugger = agent.getController().getDebugger();
 
 		// Subscribe to agent's debugger if we're not yet connected.
-		if (!isConnected) {
+		if (!this.isConnected) {
 			setUserObject(agent);
-			processState = debugger.getRunMode();
+			this.processState = debugger.getRunMode();
 			debugger.subscribe(this, Channel.RUNMODE);
-			isConnected = true;
+			this.isConnected = true;
 		}
 	}
 
 	/**
 	 * Returns the label associated with the process node that is displayed in
 	 * the process pane.
-	 * 
+	 *
 	 * @returns label displayed in process pane.
 	 */
 	@Override
@@ -121,8 +125,8 @@ public abstract class ProcessNode extends DefaultMutableTreeNode implements
 	 */
 	@Override
 	public synchronized void notifyBreakpointHit(DebugEvent event) {
-		if (processState != event.getRunMode()) {
-			processState = event.getRunMode();
+		if (this.processState != event.getRunMode()) {
+			this.processState = event.getRunMode();
 			// See #1229. When node changes, parent mode can also change.
 			// See also #1791
 			SwingUtilities.invokeLater(new MyAwtRerenderTrigger(this));
@@ -132,20 +136,20 @@ public abstract class ProcessNode extends DefaultMutableTreeNode implements
 
 	/**
 	 * This runnable forces re-render of a node in the panel. see also #1791
-	 * 
+	 *
 	 * @author W.Pasman 7jun2011
-	 * 
+	 *
 	 */
 	class MyAwtRerenderTrigger implements Runnable {
 		private final ProcessNode theNode; // node to be rerendered.
 
 		public MyAwtRerenderTrigger(ProcessNode node) {
-			theNode = node;
+			this.theNode = node;
 		}
 
 		@Override
 		public void run() {
-			model.nodeStructureChanged(theNode);
+			ProcessNode.this.model.nodeStructureChanged(this.theNode);
 		}
 	}
 
@@ -167,21 +171,21 @@ public abstract class ProcessNode extends DefaultMutableTreeNode implements
 
 	/**
 	 * Changes the run mode to KILLED.
-	 * 
+	 *
 	 * FIXME / DOC why isn't the runmode coming from deeper layers in this case?
 	 * This should be a callback, not a direct call from the ProcessPanel,
 	 * right?
 	 */
 	public void setKilled() {
-		processState = RunMode.KILLED;
-		model.nodeChanged(this);
+		this.processState = RunMode.KILLED;
+		this.model.nodeChanged(this);
 		panelHasChanged();
 	}
 
 	/**
 	 * Returns the type of the process node. A process node can represent a mas
 	 * process, a GOAL agent process, or an environment process.
-	 * 
+	 *
 	 * @return type of process.
 	 */
 	@Override
@@ -215,7 +219,7 @@ public abstract class ProcessNode extends DefaultMutableTreeNode implements
 	 * Returns run mode of process represented by the process node. It is
 	 * updated by debugger and runtime service manager (indirectly by scheduler)
 	 * about the current state of the runtime system.
-	 * 
+	 *
 	 * @return either RUNNING, KILLED, PAUSED, STEPPING, UNKNOWN run mode.
 	 */
 	public RunMode getProcessRunMode() {
@@ -224,11 +228,11 @@ public abstract class ProcessNode extends DefaultMutableTreeNode implements
 
 		switch (getType()) {
 		case AGENT_PROCESS:
-			if (!isSelectedByScheduler
-					&& (processState == RunMode.STEPPING || processState == RunMode.FINESTEPPING)) {
+			if (!this.isSelectedByScheduler
+					&& (this.processState == RunMode.STEPPING || this.processState == RunMode.FINESTEPPING)) {
 				return RunMode.PAUSED;
 			}
-			return processState;
+			return this.processState;
 		case REMOTE_AGENT_PROCESS:
 		case REMOTE_ENVIRONMENT_PROCESS:
 			return RunMode.UNKNOWN;
@@ -245,7 +249,7 @@ public abstract class ProcessNode extends DefaultMutableTreeNode implements
 			return mode;
 		case ENVIRONMENT_PROCESS:
 			EnvironmentState s = ((EnvironmentPort) getUserObject())
-					.getEnvironmentState();
+			.getEnvironmentState();
 			switch (s) {
 			case INITIALIZING:
 				return RunMode.UNKNOWN;
@@ -267,13 +271,13 @@ public abstract class ProcessNode extends DefaultMutableTreeNode implements
 
 	/**
 	 * This should be called whenever the scheduler changes its selection.
-	 * 
+	 *
 	 * @param selected
 	 *            is true if scheduler selected this agent, false if not.
 	 */
 	public void setSelectedByScheduler(boolean selected) {
-		if (selected != isSelectedByScheduler) {
-			isSelectedByScheduler = selected;
+		if (selected != this.isSelectedByScheduler) {
+			this.isSelectedByScheduler = selected;
 			// panelHasChanged(); // expensive, not necessary #2176
 		}
 
@@ -281,7 +285,7 @@ public abstract class ProcessNode extends DefaultMutableTreeNode implements
 
 	/**
 	 * Return icon that corresponds to run mode of process node.
-	 * 
+	 *
 	 * @return paused, running, stepping, or killed icon.
 	 */
 	@Override
@@ -291,7 +295,7 @@ public abstract class ProcessNode extends DefaultMutableTreeNode implements
 			return IconFactory.RUNNING_PROCESS.getIcon();
 		case PAUSED:
 			return IconFactory.PAUSED_PROCESS.getIcon(); // DEBUG. Shows red
-															// icon in
+			// icon in
 			// process overview.
 		case STEPPING:
 		case FINESTEPPING:
@@ -319,7 +323,7 @@ public abstract class ProcessNode extends DefaultMutableTreeNode implements
 	 */
 	@Override
 	public boolean getBoldPrinting() {
-		return boldPrinting;
+		return this.boldPrinting;
 	}
 
 	/**
@@ -327,7 +331,7 @@ public abstract class ProcessNode extends DefaultMutableTreeNode implements
 	 */
 	@Override
 	public void setBoldPrinting(boolean value) {
-		boldPrinting = value;
+		this.boldPrinting = value;
 	}
 
 }

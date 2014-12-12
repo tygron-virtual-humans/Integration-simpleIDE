@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -41,15 +41,20 @@ import javax.swing.JTextArea;
 
 /**
  * Panel offering query possibilities inside an {@link IntrospectorPanel}.
- * 
+ *
  * @author W.Pasman 4aug09: now using TextTrackingScrollPane to add clear
  *         button.
  */
 @SuppressWarnings("serial")
 public class QueryPanel extends JPanel
-		implements
-		FocusListener,
-		Observable<Observer<QueryPanel, DatabaseChangedInfo>, QueryPanel, DatabaseChangedInfo> {
+implements
+FocusListener,
+Observable<Observer<QueryPanel, DatabaseChangedInfo>, QueryPanel, DatabaseChangedInfo> {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 6879799954644956930L;
 
 	private static final String INITIAL_TEXT = "Enter your query here";
 
@@ -61,12 +66,13 @@ public class QueryPanel extends JPanel
 	private final JButton actionbutton = new JButton("Action");
 	private final JTextArea querytext = new JTextArea(QUERY_TEXT_HEIGHT,
 			QUERY_TEXT_WIDTH);
-	private final JScrollPane querytextscrollpane = new JScrollPane(querytext);
+	private final JScrollPane querytextscrollpane = new JScrollPane(
+			this.querytext);
 
 	private final LogTextTrackingScrollPane queryresult = new LogTextTrackingScrollPane(
 			"query results come here");
 	private final JPanel querytop = new JPanel(); // query button and query
-													// input area
+	// input area
 
 	private final Agent<IDEGOALInterpreter> agent;
 
@@ -86,7 +92,7 @@ public class QueryPanel extends JPanel
 		this.agent = agent;
 		this.setLayout(new BorderLayout());
 
-		querytext.setText(INITIAL_TEXT);
+		this.querytext.setText(INITIAL_TEXT);
 		this.querytext.addKeyListener(new java.awt.event.KeyAdapter() {
 			@Override
 			public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -100,7 +106,7 @@ public class QueryPanel extends JPanel
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} // TODO if query is expensive or
-						// even crashes,
+					// even crashes,
 					// this locks up the IDE
 				}
 			}
@@ -150,7 +156,7 @@ public class QueryPanel extends JPanel
 
 	/**
 	 * Performs query when the query button in the panel is pressed.
-	 * 
+	 *
 	 * @throws GOALUserError
 	 */
 	private void doquery() throws GOALUserError {
@@ -160,7 +166,7 @@ public class QueryPanel extends JPanel
 			String resulttext = query.doquery(this.querytext.getText());
 			this.queryresult.setText(resulttext);
 		} catch (GOALUserError e) {
-			queryresult.setText("Query failed: " + e.getMessage());
+			this.queryresult.setText("Query failed: " + e.getMessage());
 			throw e;
 		}
 	}
@@ -172,7 +178,7 @@ public class QueryPanel extends JPanel
 		try {
 			QueryTool action = new QueryTool(this.agent);
 			String message = action.doaction(this.querytext.getText());
-			queryresult.setText(message);
+			this.queryresult.setText(message);
 		} catch (GOALUserError e) {
 			this.queryresult.setText("Action failed: " + e.getMessage());
 			throw e;
@@ -182,8 +188,8 @@ public class QueryPanel extends JPanel
 
 	@Override
 	public void focusGained(FocusEvent arg0) {
-		if (querytext.getText().equals(INITIAL_TEXT)) {
-			querytext.setText("");
+		if (this.querytext.getText().equals(INITIAL_TEXT)) {
+			this.querytext.setText("");
 		}
 	}
 
@@ -200,7 +206,7 @@ public class QueryPanel extends JPanel
 	 */
 	@Override
 	public void addObserver(Observer<QueryPanel, DatabaseChangedInfo> observer) {
-		myObservable.addObserver(observer);
+		this.myObservable.addObserver(observer);
 
 	}
 
@@ -210,7 +216,7 @@ public class QueryPanel extends JPanel
 	@Override
 	public void removeObserver(
 			Observer<QueryPanel, DatabaseChangedInfo> observer) {
-		myObservable.removeObserver(observer);
+		this.myObservable.removeObserver(observer);
 	}
 
 	/**
@@ -218,7 +224,7 @@ public class QueryPanel extends JPanel
 	 */
 	@Override
 	public void notifyObservers(QueryPanel src, DatabaseChangedInfo obj) {
-		myObservable.notifyObservers(this, obj);
+		this.myObservable.notifyObservers(this, obj);
 	}
 
 }

@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -44,8 +44,8 @@ import nl.tudelft.goal.SimpleIDE.IDEfunctionality;
  * General GOAL action. Intended for use inside our package only. The function
  * {@link #setIDEfunctionality(IDEfunctionality)} should be called once to
  * initialize this class for use. <br>
- * 
- * 
+ *
+ *
  * @author W.Pasman 15jun2011
  */
 public abstract class GOALAction extends AbstractAction {
@@ -57,7 +57,7 @@ public abstract class GOALAction extends AbstractAction {
 	 * the IDEFunctionality is set once and shared for all. The IDE should be
 	 * used only to execute actions. For handling state changes the IDEState
 	 * should contain the required info.
-	 * 
+	 *
 	 */
 	protected static IDEfunctionality developmentEnvironment = null;
 
@@ -116,7 +116,7 @@ public abstract class GOALAction extends AbstractAction {
 
 	/**
 	 * Call this once before using this class
-	 * 
+	 *
 	 * @param f
 	 */
 	public static void setIDEfunctionality(IDEfunctionality f) {
@@ -129,12 +129,12 @@ public abstract class GOALAction extends AbstractAction {
 	/**
 	 * This should be called whenever the IDE changes its state. This state is
 	 * saved and then {@link #stateChangeEvent()} is called.
-	 * 
+	 *
 	 * @param newstate
 	 *            is the new IDE state.
 	 */
 	public final void ideStateChangeEvent(IDEState newState) {
-		currentState = newState;
+		this.currentState = newState;
 		stateChangeEvent();
 	}
 
@@ -146,12 +146,12 @@ public abstract class GOALAction extends AbstractAction {
 
 	@Override
 	/**
-	 * This function is called when the action is activated. 
+	 * This function is called when the action is activated.
 	 * We reroute it to {@link #execute} after a few checks.
-	 * Do not overwrite 
+	 * Do not overwrite
 	 */
 	public final void actionPerformed(ActionEvent event) {
-		if (currentState == null) {
+		if (this.currentState == null) {
 			throw new IllegalStateException(
 					"action state has not been set up properly"); //$NON-NLS-1$
 		}
@@ -173,7 +173,7 @@ public abstract class GOALAction extends AbstractAction {
 			// duplicate messages, does not help the user.
 			new Warning(e.getMessage(), e.getCause());
 		} catch (GOALException e) { // catch remaining exceptions. Just hope
-									// it's not too bad.
+			// it's not too bad.
 			new Warning(Resources.get(WarningStrings.GOAL_EXCEPTION), e);
 		} catch (RuntimeException e) {
 			// emergency catch, we should avoid these.
@@ -181,7 +181,7 @@ public abstract class GOALAction extends AbstractAction {
 					Resources.get(WarningStrings.RUNTIME_EXCEPTION),
 					this.toString()), e);
 		}
-		ActionFactory.broadcastStateChange(currentState);
+		ActionFactory.broadcastStateChange(this.currentState);
 	}
 
 	/**
@@ -192,8 +192,8 @@ public abstract class GOALAction extends AbstractAction {
 	 * <p>
 	 * By default all Exceptions are passed straight through, which means that
 	 * any exception will cancel the execute for the remaining nodes.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param event
 	 *            is the UI event that triggered this action
 	 * @throws GOALCommandCancelledException
@@ -203,7 +203,7 @@ public abstract class GOALAction extends AbstractAction {
 	protected void executeAll(ActionEvent event)
 			throws GOALCommandCancelledException,
 			GOALIncompleteGUIUsageException, GOALException {
-		for (IDENode selectedNode : currentState.getSelectedNodes()) {
+		for (IDENode selectedNode : this.currentState.getSelectedNodes()) {
 			execute(selectedNode, event);
 		}
 	}
@@ -211,7 +211,7 @@ public abstract class GOALAction extends AbstractAction {
 	/**
 	 * public version of execute. do not overwrite. It calls the private execute
 	 * and then forces broadcastStateChange after call.
-	 * 
+	 *
 	 * @throws GOALException
 	 * @throws GOALIncompleteGUIUsageException
 	 * @throws GOALCommandCancelledException
@@ -222,7 +222,7 @@ public abstract class GOALAction extends AbstractAction {
 		execute(node, arg);
 		// we know / assume that the state always is current so we don't have to
 		// ask IDE for new state.
-		ActionFactory.broadcastStateChange(currentState);
+		ActionFactory.broadcastStateChange(this.currentState);
 	}
 
 	/**
@@ -233,7 +233,7 @@ public abstract class GOALAction extends AbstractAction {
 	 * properly when this is called. <br>
 	 * If multiple nodes were selected by user, the execute call is done
 	 * multiple times, one node at a time.
-	 * 
+	 *
 	 * @param node
 	 *            is the node that needs treatment with this action.
 	 */
@@ -244,7 +244,7 @@ public abstract class GOALAction extends AbstractAction {
 	/**
 	 * sets the icon for this action. Normal use is to override the constructor
 	 * and call this to set the action's icon.
-	 * 
+	 *
 	 * @param icon
 	 *            the icon to be used.
 	 */
@@ -256,7 +256,7 @@ public abstract class GOALAction extends AbstractAction {
 
 	/**
 	 * Get the current icon of this action
-	 * 
+	 *
 	 * @return ImageIcon of the current icon
 	 */
 	public ImageIcon getIcon() {
@@ -266,7 +266,7 @@ public abstract class GOALAction extends AbstractAction {
 	/**
 	 * Associates pressing keyboard character in combination with Apply key or
 	 * CTLR (Linux, Windows) with the {@link GOALAction}.
-	 * 
+	 *
 	 * @param keyboardshortcut
 	 *            Keyboard character.
 	 */
@@ -284,7 +284,7 @@ public abstract class GOALAction extends AbstractAction {
 	 * be pressed along with the shortcut. <br>
 	 * You can also specify additional masks for the shortcut. The shift key is
 	 * the most common additional mask.
-	 * 
+	 *
 	 * @param keyboardshortcut
 	 *            is the key(s) to press to trigger the action. Should be upper
 	 *            case char, eg 'S'
@@ -292,7 +292,7 @@ public abstract class GOALAction extends AbstractAction {
 	 *            is the modifier key, see {@link InputEvent#SHIFT_DOWN_MASK} eg
 	 *            when you want the shift key to be depressed along with the
 	 *            keyboardshortcut, you use {@link InputEvent#SHIFT_DOWN_MASK}
-	 * 
+	 *
 	 */
 	public void setShortcut(char keyboardshortcut, int mask) {
 		// Set mask for keystroke
@@ -317,7 +317,7 @@ public abstract class GOALAction extends AbstractAction {
 	 * used, the default name (see {@link #GOALAction()} ) is used. If possible,
 	 * try to use the default name to keep code and menu items match as close as
 	 * possible.
-	 * 
+	 *
 	 * @param name
 	 *            is the name of the action
 	 */
@@ -327,7 +327,7 @@ public abstract class GOALAction extends AbstractAction {
 
 	/**
 	 * Set a longer description for the action. Used as tool tip text.
-	 * 
+	 *
 	 * @param descr
 	 */
 	public void setDescription(String descr) {
@@ -349,11 +349,11 @@ public abstract class GOALAction extends AbstractAction {
 	 * The swing enabled bit will switch only after SWING has had CPU time. with
 	 * isActionEnabled you can check the planned state as has been set with the
 	 * last call to setActionEnabled
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isActionEnabled() {
-		return isEnabled;
+		return this.isEnabled;
 	}
 
 	/**
@@ -363,18 +363,18 @@ public abstract class GOALAction extends AbstractAction {
 	 * it private. We can't even override because the implementation of
 	 * setActionEnabled would be a problem (how to call the super class
 	 * setEnabled from the Swing thread if we override it?)
-	 * 
+	 *
 	 * @param isEnabled
 	 *            new value for enablednesss
 	 */
 	public void setActionEnabled(final boolean newEnabled) {
 		final AbstractAction action = this;
-		isEnabled = newEnabled;
+		this.isEnabled = newEnabled;
 
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				action.setEnabled(isEnabled);
+				action.setEnabled(GOALAction.this.isEnabled);
 			}
 		});
 	}

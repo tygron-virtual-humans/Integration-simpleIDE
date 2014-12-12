@@ -65,7 +65,7 @@ import org.apache.commons.io.FilenameUtils;
  * simple text editor or an advanced one (jEdit) and additional tools for agent
  * introspection and e.g. a message sniffer.
  * </p>
- * 
+ *
  * @author W.Pasman June 2008
  * @modified KH July 2008
  * @modified W.Pasman numerous times 2008, 2009
@@ -77,6 +77,10 @@ import org.apache.commons.io.FilenameUtils;
 @SuppressWarnings("serial")
 public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 3769843981337841197L;
 	// GUI elements
 	private final IDEMainPanel mainPanel;
 	private StatusBar statusBar = null;
@@ -91,8 +95,8 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 			JOptionPane.showMessageDialog(
 					null,
 					Resources.get(WarningStrings.FAILED_IDE_LAUNCH)
-							+ e.getMessage() + "\n" //$NON-NLS-1$ 
-							+ e.getStackTrace()[0]);
+					+ e.getMessage() + "\n" //$NON-NLS-1$
+					+ e.getStackTrace()[0]);
 		}
 	}
 
@@ -132,10 +136,10 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 
 		// Add center panel; do this before adding tool bar which depends on it
 		// for initialization of buttons.
-		mainPanel = new IDEMainPanel(this);
-		add(mainPanel, BorderLayout.CENTER);
-		statusBar = new StatusBar();
-		add(statusBar, BorderLayout.SOUTH);
+		this.mainPanel = new IDEMainPanel(this);
+		add(this.mainPanel, BorderLayout.CENTER);
+		this.statusBar = new StatusBar();
+		add(this.statusBar, BorderLayout.SOUTH);
 
 		// Add menu.
 		setJMenuBar(new IDEMenuBar());
@@ -214,12 +218,13 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 
 		for (String path : IDEPreferences.getOtherFiles()) {
 			try {
-				mainPanel.getFilePanel().insertSpuriousFile(new File(path));
+				this.mainPanel.getFilePanel()
+						.insertSpuriousFile(new File(path));
 			} catch (Exception e) {
 				new Warning(
 						String.format(Resources
 								.get(WarningStrings.FAILED_FILE_RELOAD), path),
-						e);
+								e);
 			}
 		}
 	}
@@ -233,7 +238,7 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 
 		for (String mas : IDEPreferences.getMASs()) {
 			try {
-				mainPanel.getFilePanel().insertFile(new File(mas));
+				this.mainPanel.getFilePanel().insertFile(new File(mas));
 			} catch (Exception e) {
 				new Warning(String.format(
 						Resources.get(WarningStrings.FAILED_MAS_RELOAD), mas),
@@ -267,7 +272,7 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 
 	/**
 	 * Opens file browser panel and asks user to select a filename/directory.
-	 * 
+	 *
 	 * @param parentpanel
 	 *            the panel to center this file browser panel on.
 	 * @param openFile
@@ -306,12 +311,12 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 	 *             if user cancels action.
 	 * @throws GOALUserError
 	 *             if user makes incorrect selection.
-	 * 
+	 *
 	 */
 	public static File askFile(Component parentpanel, boolean openFile,
 			String title, int mode, String exten, String defaultName,
 			String startdir, boolean enforceExtension)
-			throws GOALCommandCancelledException, GOALUserError {
+					throws GOALCommandCancelledException, GOALUserError {
 		// insert the leading dot if necessary.
 		String extension = (exten == null || exten.startsWith(".")) ? exten //$NON-NLS-1$
 				: "." + exten; //$NON-NLS-1$
@@ -417,11 +422,11 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 
 	/**
 	 * TRAC #700
-	 * 
+	 *
 	 * @return a filename in given directory that starts with name and has
 	 *         extension, or {@code null} if no such file was found. If dir is a
 	 *         file instead of path, the directory containing dir is used.
-	 * 
+	 *
 	 *         TODO: should be reimplemented using, e.g., listFiles(File
 	 *         directory, IOFileFilter fileFilter, IOFileFilter dirFilter) from
 	 *         Apache Commons IO.
@@ -446,7 +451,7 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 
 	/**
 	 * TRAC #700
-	 * 
+	 *
 	 * @return a filename that starts with name and has extension, and does not
 	 *         exist in given directory. If dir is a file instead of path, the
 	 *         directory containing dir is used.
@@ -468,13 +473,13 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 		if (!children.contains(name + ext)) {
 			return (name + ext);
 		} else { // Search for a number that, when added to the file name,
-					// yields
-					// a non-existing file name
+			// yields
+			// a non-existing file name
 			int n = 1;
 			do {
 				newname = name + n + ext;
 				n++; // assumes less than 2,147,483,647 file names of form
-						// "name + n + ext"
+				// "name + n + ext"
 			} while (children.contains(newname));
 			return newname;
 		}
@@ -485,7 +490,7 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 	 */
 	@Override
 	public IDEMainPanel getMainPanel() {
-		return mainPanel;
+		return this.mainPanel;
 	}
 
 	/**
@@ -493,7 +498,7 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 	 */
 	@Override
 	public List<? extends IDENode> getSelectedNodes() {
-		return mainPanel.getSelectedNodes();
+		return this.mainPanel.getSelectedNodes();
 	}
 
 	/**
@@ -501,7 +506,7 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 	 */
 	@Override
 	public CaretListener getStatusBar() {
-		return statusBar;
+		return this.statusBar;
 	}
 
 	@Override
@@ -527,7 +532,7 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 
 	@Override
 	public int getViewMode() {
-		return mainPanel.getView();
+		return this.mainPanel.getView();
 	}
 
 	@Override
@@ -540,7 +545,7 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 /**
  * Stub for IDEState, because at initialization the SimpleIDE is not yet ready
  * to provide an IDEState.
- * 
+ *
  * @author W.Pasman 22jun2011
  */
 

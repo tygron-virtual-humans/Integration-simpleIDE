@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -78,7 +78,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
 public class ButtonTabComponent extends JPanel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 7268698042170164205L;
 	// Êthe parent panel to call back when close button is pressed.
@@ -87,8 +87,8 @@ public class ButtonTabComponent extends JPanel {
 	public ButtonTabComponent(CloseTabbedPane parent) {
 		// unset default FlowLayout' gaps
 		super(new FlowLayout(FlowLayout.LEFT, 0, 0));
-		pane = parent;
-		if (pane == null) {
+		this.pane = parent;
+		if (this.pane == null) {
 			throw new GOALBug("TabbedPane is null");
 		}
 		setOpaque(false);
@@ -96,14 +96,16 @@ public class ButtonTabComponent extends JPanel {
 		// make JLabel read titles from JTabbedPane
 		JLabel label = new JLabel() {
 			/**
-			 * 
+			 *
 			 */
 			private static final long serialVersionUID = 1400452742983381398L;
 
+			@Override
 			public String getText() {
-				int i = pane.indexOfTabComponent(ButtonTabComponent.this);
+				int i = ButtonTabComponent.this.pane
+						.indexOfTabComponent(ButtonTabComponent.this);
 				if (i != -1) {
-					return pane.getTitleAt(i);
+					return ButtonTabComponent.this.pane.getTitleAt(i);
 				}
 				return null;
 			}
@@ -121,7 +123,7 @@ public class ButtonTabComponent extends JPanel {
 
 	private class TabButton extends JButton implements ActionListener {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = -4968320380847067030L;
 
@@ -145,20 +147,24 @@ public class ButtonTabComponent extends JPanel {
 			addActionListener(this);
 		}
 
+		@Override
 		public void actionPerformed(ActionEvent e) {
-			int i = pane.indexOfTabComponent(ButtonTabComponent.this);
+			int i = ButtonTabComponent.this.pane
+					.indexOfTabComponent(ButtonTabComponent.this);
 			if (i == -1) {
 				throw new GOALBug(
 						"internal GUI problem: unknown close button was hit");
 			}
-			pane.tabCloseClicked(e, i);
+			ButtonTabComponent.this.pane.tabCloseClicked(e, i);
 		}
 
 		// we don't want to update UI for this button
+		@Override
 		public void updateUI() {
 		}
 
 		// paint the cross
+		@Override
 		protected void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			Graphics2D g2 = (Graphics2D) g.create();
@@ -181,6 +187,7 @@ public class ButtonTabComponent extends JPanel {
 	}
 
 	private static final MouseListener BUTTON_MOUSE_LISTENER = new MouseAdapter() {
+		@Override
 		public void mouseEntered(MouseEvent e) {
 			Component component = e.getComponent();
 			if (component instanceof AbstractButton) {
@@ -189,6 +196,7 @@ public class ButtonTabComponent extends JPanel {
 			}
 		}
 
+		@Override
 		public void mouseExited(MouseEvent e) {
 			Component component = e.getComponent();
 			if (component instanceof AbstractButton) {

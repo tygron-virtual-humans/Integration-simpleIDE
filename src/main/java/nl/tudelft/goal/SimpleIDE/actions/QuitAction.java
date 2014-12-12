@@ -28,15 +28,20 @@ import nl.tudelft.goal.SimpleIDE.preferences.IDEPreferences;
 
 /**
  * Quits the IDE. Executing this action does NOT return.
- * 
+ *
  * @author W.Pasman 20jun2011
  */
 @SuppressWarnings("serial")
 public class QuitAction extends GOALAction {
 
 	/**
+	 *
+	 */
+	private static final long serialVersionUID = 8576516187961874379L;
+
+	/**
 	 * Creates a short cut for this action.
-	 * 
+	 *
 	 * @see: {@link #setShortcut(char, int)}.
 	 */
 	public QuitAction() {

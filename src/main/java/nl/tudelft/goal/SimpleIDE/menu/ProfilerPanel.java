@@ -1,27 +1,25 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package nl.tudelft.goal.SimpleIDE.menu;
 
-import goal.core.agent.AgentId;
 import goal.tools.IDEDebugger;
 import goal.tools.LaunchManager;
-import goal.tools.PlatformManager;
 import goal.tools.debugger.Channel;
 import goal.tools.debugger.DebugEvent;
 import goal.tools.debugger.DebugObserver;
@@ -29,10 +27,11 @@ import goal.tools.debugger.Debugger;
 
 import java.util.Arrays;
 
+import languageTools.program.agent.AgentId;
 import nl.tudelft.goal.SimpleIDE.LogTextTrackingScrollPane;
 
 /**
- * 
+ *
  * TODO Complete this partial implementation.
  * <p>
  * Suggestion for ProfilerPanel. See TRAC 797. shows Agent profile information.
@@ -42,24 +41,29 @@ import nl.tudelft.goal.SimpleIDE.LogTextTrackingScrollPane;
  * 2. separate calls to a function are often profiled separately, 3. Once you
  * start logging everything the system performance drops dramatically.
  * <p/>
- * 
+ *
  * @author W.Pasman
  * */
 @SuppressWarnings("serial")
 public class ProfilerPanel extends LogTextTrackingScrollPane implements
 		DebugObserver {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -4889390449246949855L;
 	private final IDEDebugger agentdebugger;
 	private String agentname = null;
 
 	public ProfilerPanel(String agt) {
 		super("");
-		agentname = agt;
+		this.agentname = agt;
 
 		// subscribe to all channels
 		Arrays.asList(Channel.values());
 
-		agentdebugger = LaunchManager.getCurrent().getRuntimeManager()
-				.getAgent(new AgentId(agentname)).getController().getDebugger();
+		this.agentdebugger = LaunchManager.getCurrent().getRuntimeManager()
+				.getAgent(new AgentId(this.agentname)).getController()
+				.getDebugger();
 	}
 
 	/**
@@ -75,7 +79,7 @@ public class ProfilerPanel extends LogTextTrackingScrollPane implements
 	}
 
 	public Debugger getDebugger() {
-		return agentdebugger;
+		return this.agentdebugger;
 	}
 
 	/**
@@ -83,7 +87,7 @@ public class ProfilerPanel extends LogTextTrackingScrollPane implements
 	 */
 	public void close() {
 		super.append("Panel closedown requested\n");
-		agentdebugger.unsubscribe(this);
+		this.agentdebugger.unsubscribe(this);
 	}
 
 	@Override

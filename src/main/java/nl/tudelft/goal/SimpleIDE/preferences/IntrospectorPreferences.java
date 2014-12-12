@@ -21,7 +21,7 @@ import java.util.prefs.Preferences;
 
 /**
  * This is a static interface into the Introspector preference settings.
- * 
+ *
  * @author W.Pasman 28may14 pulled this out of the core. Using Java preferences
  *         #3102
  */
@@ -43,7 +43,7 @@ public class IntrospectorPreferences {
 
 	/**
 	 * Get max number of lines for the debug trace output panel
-	 * 
+	 *
 	 * @return max number of lines for the debug trace output panel
 	 */
 	public static int getMaxLines() {
@@ -52,9 +52,9 @@ public class IntrospectorPreferences {
 
 	/**
 	 * get the size of the database area.
-	 * 
+	 *
 	 * CHECK dbsize seems not used anymore. Is this obsolete?
-	 * 
+	 *
 	 * @return height of database area size, which is also the position of the
 	 *         split of the Jsplitpane
 	 */
@@ -69,7 +69,7 @@ public class IntrospectorPreferences {
 	/**
 	 * remember the introspector size on the screen CHECK this seems not used
 	 * anymore. Is that a bug?
-	 * 
+	 *
 	 * @return true when we need to remember the introspector size on the screen
 	 */
 	public static boolean getRememberDBSize() {
@@ -79,7 +79,7 @@ public class IntrospectorPreferences {
 	/**
 	 * Check if query sizes of all introspector panels should be equal and
 	 * coupled. If the user then drags one of them, the others follow.
-	 * 
+	 *
 	 * @return true if panels are coupled
 	 */
 	public static boolean getCoupleQuerySize() {
@@ -95,7 +95,7 @@ public class IntrospectorPreferences {
 
 	/**
 	 * the size of the database area.
-	 * 
+	 *
 	 * CHECK dbsize seems not used anymore. Is this obsolete?
 	 */
 	public static void setDBContentSize(int dbsize) {

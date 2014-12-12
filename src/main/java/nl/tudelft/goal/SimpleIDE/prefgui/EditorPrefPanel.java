@@ -46,19 +46,23 @@ import nl.tudelft.goal.SimpleIDE.preferences.EditorPreferences;
  * dependencies on GOAL, e.g. don't use the Logger, don't use callbacks to the
  * SimpleIDE etc
  * </p>
- * 
+ *
  * @modified V.Koeman 12jun13 refactoring preferences: management separated from
  *           display through new class
  */
 @SuppressWarnings("serial")
 public class EditorPrefPanel extends JPanel implements ChangeListener,
-		ItemListener {
+ItemListener {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -2188359862862839380L;
 	private static final int MIN_FONT_SIZE = 4;
 	private static final int MAX_FONT_SIZE = 30;
 
-	private JComboBox fontName;
-	private JSpinner fontSizeSpinner;
-	private JCheckBox antiAlias;
+	private final JComboBox fontName;
+	private final JSpinner fontSizeSpinner;
+	private final JCheckBox antiAlias;
 
 	public EditorPrefPanel() {
 		JPanel dblevelpanel = new JPanel(new BorderLayout());
@@ -66,53 +70,55 @@ public class EditorPrefPanel extends JPanel implements ChangeListener,
 		SpinnerNumberModel spinnerModel = new SpinnerNumberModel(
 				EditorPreferences.getFontSize(), MIN_FONT_SIZE, MAX_FONT_SIZE,
 				1);
-		fontSizeSpinner = new JSpinner(spinnerModel);
-		dblevelpanel.add(fontSizeSpinner, BorderLayout.WEST);
+		this.fontSizeSpinner = new JSpinner(spinnerModel);
+		dblevelpanel.add(this.fontSizeSpinner, BorderLayout.WEST);
 
-		fontName = new JComboBox(allFontNames().toArray());
+		this.fontName = new JComboBox(allFontNames().toArray());
 
-		antiAlias = new JCheckBox("font anti aliasing");
+		this.antiAlias = new JCheckBox("font anti aliasing");
 
 		initSettings();
 		setLayout(new GridLayout(0, 1));
 
 		add(new JLabel("Editor Font"));
-		add(fontName);
-		fontName.addItemListener(this);
+		add(this.fontName);
+		this.fontName.addItemListener(this);
 		add(dblevelpanel);
-		fontSizeSpinner.addChangeListener(this);
-		add(antiAlias);
-		antiAlias.addChangeListener(this);
+		this.fontSizeSpinner.addChangeListener(this);
+		add(this.antiAlias);
+		this.antiAlias.addChangeListener(this);
 	}
 
 	/**
 	 * Copies settings from preferences to the check boxes.
 	 */
 	private void initSettings() {
-		fontName.setSelectedItem(EditorPreferences.getFontName());
-		fontSizeSpinner.setValue(EditorPreferences.getFontSize());
-		antiAlias.setSelected(EditorPreferences.isAntiAliased());
+		this.fontName.setSelectedItem(EditorPreferences.getFontName());
+		this.fontSizeSpinner.setValue(EditorPreferences.getFontSize());
+		this.antiAlias.setSelected(EditorPreferences.isAntiAliased());
 	}
 
 	/**
 	 * save most recent state to java preferences
-	 * 
+	 *
 	 * @param event
 	 *            is the event that triggered the state change. We don't use
 	 *            this, you can just as well call this function with null
 	 *            argument.
 	 */
+	@Override
 	public void stateChanged(ChangeEvent anyevent) {
-		EditorPreferences.setFontName((String) fontName.getSelectedItem());
-		EditorPreferences.setFontSize((Integer) fontSizeSpinner.getValue());
-		EditorPreferences.isAntiAliased(antiAlias.isSelected());
+		EditorPreferences.setFontName((String) this.fontName.getSelectedItem());
+		EditorPreferences
+				.setFontSize((Integer) this.fontSizeSpinner.getValue());
+		EditorPreferences.isAntiAliased(this.antiAlias.isSelected());
 	}
 
 	/**
 	 * get list of all font names installed on this machine, plus the name of
 	 * the currently selected font (which might not be installed but if it is in
 	 * use it must be listed, right?)
-	 * 
+	 *
 	 * @return set of all font names available on this machine.
 	 */
 	public static Set<String> allFontNames() {

@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -45,7 +45,7 @@ import java.util.EventObject;
  * <p>
  * See http://www.jroller.com/santhosh/date/20050617
  * </p>
- * 
+ *
  * @author W.Pasman 27mar09
  */
 public interface LayoutChangeListener extends EventListener {
@@ -53,7 +53,7 @@ public interface LayoutChangeListener extends EventListener {
 	/**
 	 * This function is called when the split position of a splitpanel changes.
 	 * The listener should override this function and handle appropriately.
-	 * 
+	 *
 	 * @param newsplitposition
 	 *            is the new split position
 	 * @param e

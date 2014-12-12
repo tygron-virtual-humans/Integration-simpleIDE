@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -43,20 +43,24 @@ import javax.swing.WindowConstants;
 
 /**
  * Show current memory usage.
- * 
+ *
  * @author W.Pasman 11feb09
  */
 @SuppressWarnings("serial")
 public class MemInfoBox extends JFrame {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 2281513261935781259L;
 	static final double MM = 1. / (1024. * 1024.); // CHECK using /MM gives
-													// strange
+	// strange
 	private final Component theParent;
 
 	public MemInfoBox(Component parent) {
 
 		// CHECK can we use a JOptionPane.dialog here? Could simplify the code.
-		theParent = parent;
+		this.theParent = parent;
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(parent);
 		setLayout(new BorderLayout());
@@ -102,12 +106,12 @@ public class MemInfoBox extends JFrame {
 	private void showDetailsWindow() {
 		JScrollPane infopane = new JScrollPane(new JTextArea(
 				getMemoryInfoString(), 20, 40));
-		JOptionPane.showMessageDialog(theParent, infopane);
+		JOptionPane.showMessageDialog(this.theParent, infopane);
 	}
 
 	/**
 	 * TODO http://www.informit.com/guides/content.aspx?g=java&seqNum=249&rll=1
-	 * 
+	 *
 	 * @return all the memory details from the memory manager, as a big string
 	 *         with newlines.
 	 */

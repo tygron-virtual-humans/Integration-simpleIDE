@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -33,13 +33,17 @@ import nl.tudelft.goal.SimpleIDE.IDENode;
 
 /**
  * Open user docu in web browser
- * 
+ *
  * @author W.Pasman 3feb2014
- * 
+ *
  */
 @SuppressWarnings("serial")
 public class DocumentationAction extends GOALAction {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -3239708483762528878L;
 	private static String doc = "http://ii.tudelft.nl/trac/goal/wiki//WikiStart#Documentation";
 
 	public DocumentationAction() {
@@ -62,9 +66,9 @@ public class DocumentationAction extends GOALAction {
 
 			Desktop desktop = Desktop.isDesktopSupported() ? Desktop
 					.getDesktop() : null;
-			if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-				desktop.browse(uri);
-			}
+					if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+						desktop.browse(uri);
+					}
 		} catch (URISyntaxException e) {
 			throw new GOALActionFailedException("can't open web page:", e);
 		} catch (IOException e) {

@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -44,11 +44,11 @@ public class FileNode extends DefaultMutableTreeNode implements IDENode {
 	/**
 	 * The type of filenode
 	 */
-	private NodeType type;
+	private final NodeType type;
 
 	/**
 	 * Creates a new {@link FileNode}.
-	 * 
+	 *
 	 * @param type
 	 *            The type of this {@link FileNode}.
 	 * @param baseFile
@@ -63,7 +63,7 @@ public class FileNode extends DefaultMutableTreeNode implements IDENode {
 
 	/**
 	 * Gets the {@link File} represented by this {@link FileNode}.
-	 * 
+	 *
 	 * @return The {@link File} this {@link FileNode} represents. May be
 	 *         <code>null</code> for the root and {@link NullNode}.
 	 */
@@ -73,16 +73,17 @@ public class FileNode extends DefaultMutableTreeNode implements IDENode {
 
 	/**
 	 * Returns name that is displayed with file node in file pane.
-	 * 
+	 *
 	 * @return name displayed in file pane.
 	 */
+	@Override
 	public String getNodeName() {
 		return toString();
 	}
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @return
 	 */
 	public String getFilename() {
@@ -98,20 +99,22 @@ public class FileNode extends DefaultMutableTreeNode implements IDENode {
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @return DOC
 	 */
+	@Override
 	public NodeType getType() {
-		return type;
+		return this.type;
 	}
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @return DOC
 	 */
+	@Override
 	public ImageIcon getIcon() {
-		switch (type) {
+		switch (this.type) {
 		case ROOT:
 			return IconFactory.RUN.getIcon();
 		case GOALFILE:
@@ -128,7 +131,7 @@ public class FileNode extends DefaultMutableTreeNode implements IDENode {
 				return IconFactory.NO_MAS_FILE.getIcon();
 			}
 		case PLFILE:
-			if (baseFile.exists()) {
+			if (this.baseFile.exists()) {
 				return IconFactory.PL_FILE.getIcon();
 			} else {
 				return IconFactory.NO_PL_FILE.getIcon();
@@ -138,13 +141,14 @@ public class FileNode extends DefaultMutableTreeNode implements IDENode {
 			return IconFactory.OTHER_FILE.getIcon();
 		default:
 			throw new RuntimeException(
-					"Internal error, Unknown type of filenode: " + type);
+					"Internal error, Unknown type of filenode: " + this.type);
 		}
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public boolean getBoldPrinting() {
 		return false;
 	}
@@ -152,6 +156,7 @@ public class FileNode extends DefaultMutableTreeNode implements IDENode {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void setBoldPrinting(boolean value) {
 		throw new RuntimeException(
 				"[FileNode] File nodes should not be printed BOLD.");

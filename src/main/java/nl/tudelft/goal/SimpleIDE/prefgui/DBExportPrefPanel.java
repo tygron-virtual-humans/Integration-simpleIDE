@@ -36,111 +36,121 @@ import javax.swing.event.ChangeListener;
 /**
  * A panel for the user to edit Export preferences. We set the preferences
  * through {@link goal.preferences.DBExportPreferences}.
- * 
+ *
  * @author W.Pasman
  * @modified V.Koeman 12jun13 refactoring preferences: management separated from
  *           display through new class
  */
 @SuppressWarnings("serial")
 public class DBExportPrefPanel extends JPanel implements ChangeListener,
-		ActionListener {
-	private JCheckBox exportbeliefs;
-	private JCheckBox exportpercepts;
-	private JCheckBox exportmailbox;
-	private JCheckBox exportgoals;
-	private JRadioButton separatefiles;
-	private JCheckBox openaftersave;
+ActionListener {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 2392505424113267387L;
+	private final JCheckBox exportbeliefs;
+	private final JCheckBox exportpercepts;
+	private final JCheckBox exportmailbox;
+	private final JCheckBox exportgoals;
+	private final JRadioButton separatefiles;
+	private final JCheckBox openaftersave;
 
 	private static final int INSET_LEFT = 30;
 
-	private JLabel exportBrowseDirExplanation = new JLabel(
+	private final JLabel exportBrowseDirExplanation = new JLabel(
 			"Start browsing for export directory at:");
-	private JLabel exportbrowsedir = new JLabel("/"); // not editable directly
-	private JCheckBox rememberUsedExportDir = new JCheckBox(
+	private final JLabel exportbrowsedir = new JLabel("/"); // not editable
+															// directly
+	private final JCheckBox rememberUsedExportDir = new JCheckBox(
 			"Remember last used export directory");
 
 	/**
 	 * Create a DBExportPrefPanel.
 	 */
 	public DBExportPrefPanel() {
-		exportbeliefs = new JCheckBox("Export Beliefbase");
-		exportpercepts = new JCheckBox("include percepts");
-		exportpercepts.setMargin(new Insets(0, INSET_LEFT, 0, 0));
-		exportmailbox = new JCheckBox("include mails");
-		exportmailbox.setMargin(new Insets(0, INSET_LEFT, 0, 0));
-		exportgoals = new JCheckBox("Export Goalbase");
-		separatefiles = new JRadioButton("Export to separate files");
+		this.exportbeliefs = new JCheckBox("Export Beliefbase");
+		this.exportpercepts = new JCheckBox("include percepts");
+		this.exportpercepts.setMargin(new Insets(0, INSET_LEFT, 0, 0));
+		this.exportmailbox = new JCheckBox("include mails");
+		this.exportmailbox.setMargin(new Insets(0, INSET_LEFT, 0, 0));
+		this.exportgoals = new JCheckBox("Export Goalbase");
+		this.separatefiles = new JRadioButton("Export to separate files");
 		// make the button indent a bit
-		separatefiles.setMargin(new Insets(0, INSET_LEFT, 0, 0));
-		openaftersave = new JCheckBox("Open after save");
+		this.separatefiles.setMargin(new Insets(0, INSET_LEFT, 0, 0));
+		this.openaftersave = new JCheckBox("Open after save");
 
 		initSettings();
 		setLayout(new GridLayout(0, 1));
 
-		rememberUsedExportDir.addActionListener(this);
-		exportbeliefs.addChangeListener(this);
-		exportpercepts.addChangeListener(this);
-		exportmailbox.addChangeListener(this);
-		exportgoals.addChangeListener(this);
-		separatefiles.addChangeListener(this);
-		openaftersave.addChangeListener(this);
+		this.rememberUsedExportDir.addActionListener(this);
+		this.exportbeliefs.addChangeListener(this);
+		this.exportpercepts.addChangeListener(this);
+		this.exportmailbox.addChangeListener(this);
+		this.exportgoals.addChangeListener(this);
+		this.separatefiles.addChangeListener(this);
+		this.openaftersave.addChangeListener(this);
 
 		add(new JLabel("Database Export Options"));
-		add(exportbeliefs);
-		add(exportpercepts);
-		add(exportmailbox);
-		add(exportgoals);
-		add(separatefiles);
+		add(this.exportbeliefs);
+		add(this.exportpercepts);
+		add(this.exportmailbox);
+		add(this.exportgoals);
+		add(this.separatefiles);
 		add(new JPopupMenu.Separator());
-		add(openaftersave);
+		add(this.openaftersave);
 		add(new JPopupMenu.Separator());
-		add(exportBrowseDirExplanation);
-		add(exportbrowsedir);
-		add(rememberUsedExportDir);
+		add(this.exportBrowseDirExplanation);
+		add(this.exportbrowsedir);
+		add(this.rememberUsedExportDir);
 	}
 
 	/**
 	 * Copies settings from preferences to the check boxes.
 	 */
 	private void initSettings() {
-		exportbeliefs.setSelected(DBExportPreferences.getExportBeliefs());
-		exportpercepts.setSelected(DBExportPreferences.getExportPercepts());
-		exportmailbox.setSelected(DBExportPreferences.getExportMailbox());
-		exportgoals.setSelected(DBExportPreferences.getExportGoals());
-		separatefiles.setSelected(DBExportPreferences.getExportSeparateFiles());
-		openaftersave.setSelected(DBExportPreferences.getOpenAfterSave());
-		separatefiles.setEnabled(exportbeliefs.isSelected()
-				&& exportgoals.isSelected());
-		exportbrowsedir.setText(DBExportPreferences.getExportBrowsePath());
-		rememberUsedExportDir.setSelected(DBExportPreferences
+		this.exportbeliefs.setSelected(DBExportPreferences.getExportBeliefs());
+		this.exportpercepts
+				.setSelected(DBExportPreferences.getExportPercepts());
+		this.exportmailbox.setSelected(DBExportPreferences.getExportMailbox());
+		this.exportgoals.setSelected(DBExportPreferences.getExportGoals());
+		this.separatefiles.setSelected(DBExportPreferences
+				.getExportSeparateFiles());
+		this.openaftersave.setSelected(DBExportPreferences.getOpenAfterSave());
+		this.separatefiles.setEnabled(this.exportbeliefs.isSelected()
+				&& this.exportgoals.isSelected());
+		this.exportbrowsedir.setText(DBExportPreferences.getExportBrowsePath());
+		this.rememberUsedExportDir.setSelected(DBExportPreferences
 				.getRememberLastUsedExportDir());
 	}
 
 	/**
 	 * save most recent state to java preferences
-	 * 
+	 *
 	 */
 	private void update() {
-		DBExportPreferences.setExportBeliefs(exportbeliefs.isSelected());
-		DBExportPreferences.setExportPercepts(exportpercepts.isSelected());
-		DBExportPreferences.setExportMailbox(exportmailbox.isSelected());
-		DBExportPreferences.setExportGoals(exportgoals.isSelected());
-		DBExportPreferences.setExportSeparateFiles(separatefiles.isSelected());
-		DBExportPreferences.setOpenAfterSave(openaftersave.isSelected());
-		separatefiles.setEnabled(exportbeliefs.isSelected()
-				&& exportgoals.isSelected());
+		DBExportPreferences.setExportBeliefs(this.exportbeliefs.isSelected());
+		DBExportPreferences.setExportPercepts(this.exportpercepts.isSelected());
+		DBExportPreferences.setExportMailbox(this.exportmailbox.isSelected());
+		DBExportPreferences.setExportGoals(this.exportgoals.isSelected());
+		DBExportPreferences.setExportSeparateFiles(this.separatefiles
+				.isSelected());
+		DBExportPreferences.setOpenAfterSave(this.openaftersave.isSelected());
+		this.separatefiles.setEnabled(this.exportbeliefs.isSelected()
+				&& this.exportgoals.isSelected());
 		// you can not change the export browse dir directly here, so no need to
 		// update that here.
-		DBExportPreferences.setRememberLastUsedExportDir(rememberUsedExportDir
-				.isSelected());
+		DBExportPreferences
+				.setRememberLastUsedExportDir(this.rememberUsedExportDir
+						.isSelected());
 	}
 
 	/**
 	 * called when radio box state changes.
-	 * 
+	 *
 	 * @param event
 	 *            is the event that triggered the state change.
 	 */
+	@Override
 	public void stateChanged(ChangeEvent event) {
 		update();
 	}
@@ -148,6 +158,7 @@ public class DBExportPrefPanel extends JPanel implements ChangeListener,
 	/**
 	 * called when checkbox is changed.
 	 */
+	@Override
 	public void actionPerformed(ActionEvent event) {
 		update();
 	}

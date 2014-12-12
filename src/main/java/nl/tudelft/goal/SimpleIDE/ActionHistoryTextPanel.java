@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -31,20 +31,24 @@ import java.util.Map;
 
 /**
  * Shows the actions performed by the agents.
- * 
+ *
  * @author W.Pasman
  * @modified KH now shows actions performed by agents.
  */
 @SuppressWarnings("serial")
 public class ActionHistoryTextPanel extends LogTextTrackingScrollPane implements
-		DebugObserver {
+DebugObserver {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 4971396704382055797L;
 	/**
 	 * Debug observers are identified by their label
 	 */
 	private final String name;
 	/**
-	 * 
+	 *
 	 */
 	private final GOALLogger logger;
 	/**
@@ -54,7 +58,7 @@ public class ActionHistoryTextPanel extends LogTextTrackingScrollPane implements
 
 	/**
 	 * Panel logging the actions performed by actions.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the panel.
 	 */
@@ -70,12 +74,12 @@ public class ActionHistoryTextPanel extends LogTextTrackingScrollPane implements
 
 	@Override
 	public String getObserverName() {
-		return name;
+		return this.name;
 	}
 
 	/**
 	 * Subscribes to debugger of agent. Call when agent is born.
-	 * 
+	 *
 	 * @param debugger
 	 *            The debugger to subscribe to.
 	 */
@@ -123,12 +127,12 @@ public class ActionHistoryTextPanel extends LogTextTrackingScrollPane implements
 			// Store event to prevent printing the round separator for each
 			// agent
 			// when there are no executed actions in the round.
-			lastSepEvents.put(event.getSource(), event);
+			this.lastSepEvents.put(event.getSource(), event);
 			break;
 		case ACTION_EXECUTED_BUILTIN:
 		case ACTION_EXECUTED_USERSPEC:
 			if (event.getSource() != null
-					&& this.lastSepEvents.get(event.getSource()) != null) {
+			&& this.lastSepEvents.get(event.getSource()) != null) {
 				this.logger.log(this.lastSepEvents.get(event.getSource()));
 				this.lastSepEvents.remove(event.getSource());
 			}
@@ -148,9 +152,9 @@ public class ActionHistoryTextPanel extends LogTextTrackingScrollPane implements
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder("Action history panel = ");
-		builder.append(name);
+		builder.append(this.name);
 		builder.append("\nStored separator events:\n");
-		builder.append(lastSepEvents.toString());
+		builder.append(this.lastSepEvents.toString());
 		return builder.toString();
 	}
 

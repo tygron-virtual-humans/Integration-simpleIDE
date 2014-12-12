@@ -21,10 +21,10 @@ import java.util.prefs.Preferences;
 
 /**
  * This is a (static) interface to the editor's preference settings.
- * 
+ *
  * @author W.Pasman 28may14 pulled this out of the core. Using Java preferences
  *         #3102
- * 
+ *
  */
 public class EditorPreferences {
 
@@ -48,7 +48,7 @@ public class EditorPreferences {
 	 * get name of font that the user selected for use with editor. Default
 	 * value is "Courier New", which is the font that we thought acceptable on
 	 * all platforms.
-	 * 
+	 *
 	 * @return name of selected font.
 	 */
 	public static String getFontName() {
@@ -57,7 +57,7 @@ public class EditorPreferences {
 
 	/**
 	 * get selected font size
-	 * 
+	 *
 	 * @return selected font size
 	 */
 	public static int getFontSize() {

@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,7 +19,6 @@
 package nl.tudelft.goal.SimpleIDE;
 
 import goal.core.agent.Agent;
-import goal.core.mentalstate.BASETYPE;
 import goal.tools.IDEDebugger;
 import goal.tools.IDEGOALInterpreter;
 import goal.tools.debugger.Channel;
@@ -38,10 +37,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import mentalState.BASETYPE;
+
 /**
  * Database panel including a query panel. This panel will directly call to the
  * Agent for listings and queries.
- * 
+ *
  * @author W.Pasman
  * @modified N.Kraayenbrink Removed timer, made the panel observe the database
  *           it is showing the contents of.
@@ -54,6 +55,10 @@ import javax.swing.JTextArea;
 public class DatabasePanel extends JPanel implements DebugObserver,
 		Observer<QueryPanel, DatabaseChangedInfo> {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 6973991836787879497L;
 	/**
 	 * The type of database this {@link DatabasePanel} displays.
 	 */
@@ -72,7 +77,7 @@ public class DatabasePanel extends JPanel implements DebugObserver,
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @param mentalState
 	 *            The mental state that contains the database displayed.
 	 * @param datatype
@@ -87,7 +92,7 @@ public class DatabasePanel extends JPanel implements DebugObserver,
 		this.databaseType = datatype;
 
 		// Initialize panel.
-		this.setLayout(new BorderLayout());
+		setLayout(new BorderLayout());
 		this.databaseText = new JTextArea(initialtext);
 		JScrollPane databaseoutput = new JScrollPane(this.databaseText);
 		this.databaseText.setEditable(false);
@@ -130,7 +135,7 @@ public class DatabasePanel extends JPanel implements DebugObserver,
 
 	/**
 	 * Refreshes the panel.
-	 * 
+	 *
 	 * TODO: this is really nasty code, we really should not be manipulating
 	 * agent code from here. First, this is another thread, we risk thread
 	 * safety issues (ConcurrentModificationExceptions) Second, if this is
@@ -141,7 +146,7 @@ public class DatabasePanel extends JPanel implements DebugObserver,
 	private void refreshPanelContent() {
 		try {
 			StringBuffer buffer = new StringBuffer();
-			switch (databaseType) {
+			switch (this.databaseType) {
 			case BELIEFBASE:
 				// ENABLE FOLLOWING TO ALSO GET VIEW OF REAL PROLOG DATABASE
 				// buffer.append("\n----------------------\n");
@@ -154,12 +159,12 @@ public class DatabasePanel extends JPanel implements DebugObserver,
 				// //DEBUG
 			case MAILBOX:
 			case PERCEPTBASE:
-				buffer.append(agent.getController().getRunState()
-						.getMentalState().getOwnBase(databaseType).getTheory()
-						.toString());
+				buffer.append(this.agent.getController().getRunState()
+						.getMentalState().getOwnBase(this.databaseType)
+						.getTheory().toString());
 				break;
 			case GOALBASE:
-				buffer.append(agent.getController().getRunState()
+				buffer.append(this.agent.getController().getRunState()
 						.getMentalState().printAttentionStack());
 				/*
 				 * / ENABLE FOLLOWING TO ALSO GET VIEW OF REAL PROLOG GOALBASE
@@ -181,12 +186,12 @@ public class DatabasePanel extends JPanel implements DebugObserver,
 			}
 
 			// Try to maintain the caret position.
-			int oldCaretPos = databaseText.getCaretPosition();
-			databaseText.setText(buffer.toString());
+			int oldCaretPos = this.databaseText.getCaretPosition();
+			this.databaseText.setText(buffer.toString());
 			if (oldCaretPos > buffer.length()) {
-				databaseText.setCaretPosition(buffer.length());
+				this.databaseText.setCaretPosition(buffer.length());
 			} else {
-				databaseText.setCaretPosition(oldCaretPos);
+				this.databaseText.setCaretPosition(oldCaretPos);
 			}
 		} catch (Exception e) {
 			new Warning(Resources.get(WarningStrings.FAILED_AWT_REFRESH_PANEL),
@@ -196,7 +201,7 @@ public class DatabasePanel extends JPanel implements DebugObserver,
 
 	@Override
 	public String getObserverName() {
-		return "DB_Window_" + databaseType; //$NON-NLS-1$
+		return "DB_Window_" + this.databaseType; //$NON-NLS-1$
 	}
 
 	@Override
@@ -206,7 +211,7 @@ public class DatabasePanel extends JPanel implements DebugObserver,
 
 	@Override
 	public void removeNotify() {
-		debugger.unsubscribe(this);
+		this.debugger.unsubscribe(this);
 
 		System.out.println("unsubscribed " + getObserverName()); //$NON-NLS-1$
 	}

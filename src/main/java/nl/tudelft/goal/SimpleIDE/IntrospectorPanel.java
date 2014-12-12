@@ -19,9 +19,6 @@
 package nl.tudelft.goal.SimpleIDE;
 
 import goal.core.agent.Agent;
-import goal.core.agent.AgentId;
-import goal.core.kr.language.DatabaseFormula;
-import goal.core.mentalstate.BASETYPE;
 import goal.tools.IDEDebugger;
 import goal.tools.IDEGOALInterpreter;
 import goal.tools.debugger.Channel;
@@ -39,6 +36,9 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
+import krTools.language.DatabaseFormula;
+import languageTools.program.agent.AgentId;
+import mentalState.BASETYPE;
 import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
 
 /**
@@ -46,7 +46,7 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
  * contents of the mental state of an agent. Includes a query area for
  * evaluating mental state conditions on this mental state and for performing
  * built-in actions.
- * 
+ *
  * @author W.Pasman
  * @modified K.Hindriks
  */
@@ -54,7 +54,10 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
 @SuppressWarnings("serial")
 public class IntrospectorPanel extends JPanel implements
 		PropertyChangeListener, DebugObserver {
-
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -196241958360230968L;
 	/**
 	 * The id and the debugger of the agent that is introspected through this
 	 * panel.
@@ -69,7 +72,7 @@ public class IntrospectorPanel extends JPanel implements
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @param agent
 	 *            The agent associated with this introspector window.
 	 * @param listener
@@ -79,7 +82,7 @@ public class IntrospectorPanel extends JPanel implements
 			LayoutChangeListener listener) {
 		this.layoutlistener = listener;
 
-		this.setLayout(new BorderLayout());
+		setLayout(new BorderLayout());
 
 		// add first agent panel
 		MentalComponentsPanel tabs = new MentalComponentsPanel(agent);
@@ -126,17 +129,17 @@ public class IntrospectorPanel extends JPanel implements
 
 	/**
 	 * Returns the id of the agent whose mental state is displayed here.
-	 * 
+	 *
 	 * @return The agent's id.
 	 */
 	public AgentId getAgentId() {
-		return id;
+		return this.id;
 	}
 
 	/**
 	 * DOC Important: Only set the location if it differs from the current one,
 	 * to prevent infinite recursion of change events.
-	 * 
+	 *
 	 * @param loc
 	 */
 	public void setDividerLocation(int loc) {
@@ -147,7 +150,7 @@ public class IntrospectorPanel extends JPanel implements
 
 	@Override
 	public String getObserverName() {
-		return "IntroPanel_" + id;
+		return "IntroPanel_" + this.id;
 	}
 
 	@Override
@@ -172,13 +175,18 @@ public class IntrospectorPanel extends JPanel implements
 @SuppressWarnings("serial")
 class MentalComponentsPanel extends JTabbedPane {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1725662313063232914L;
+
 	private static final String INITTEXT = "Database contents will appear here...";
 
 	private final DatabasePanel beliefs, goals, mails, percepts, knowledge;
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @param agent
 	 *            The agent associated with the panel.
 	 */
@@ -194,29 +202,29 @@ class MentalComponentsPanel extends JTabbedPane {
 		}
 
 		// The database panels.
-		beliefs = new DatabasePanel(agent, BASETYPE.BELIEFBASE, INITTEXT);
-		goals = new DatabasePanel(agent, BASETYPE.GOALBASE, INITTEXT);
-		mails = new DatabasePanel(agent, BASETYPE.MAILBOX, INITTEXT);
-		percepts = new DatabasePanel(agent, BASETYPE.PERCEPTBASE, INITTEXT);
-		knowledge = new DatabasePanel(agent, BASETYPE.KNOWLEDGEBASE,
+		this.beliefs = new DatabasePanel(agent, BASETYPE.BELIEFBASE, INITTEXT);
+		this.goals = new DatabasePanel(agent, BASETYPE.GOALBASE, INITTEXT);
+		this.mails = new DatabasePanel(agent, BASETYPE.MAILBOX, INITTEXT);
+		this.percepts = new DatabasePanel(agent, BASETYPE.PERCEPTBASE, INITTEXT);
+		this.knowledge = new DatabasePanel(agent, BASETYPE.KNOWLEDGEBASE,
 				kbtext.toString());
 
-		this.add("Beliefs", beliefs);
-		this.add("Goals", goals);
-		this.add("Mails", mails);
-		this.add("Percepts", percepts);
-		this.add("Knowledge", knowledge);
+		this.add("Beliefs", this.beliefs);
+		this.add("Goals", this.goals);
+		this.add("Mails", this.mails);
+		this.add("Percepts", this.percepts);
+		this.add("Knowledge", this.knowledge);
 	}
 
 	/**
 	 * called from above, if there is a query panel attached that may tell the
 	 * panels to refresh.
-	 * 
+	 *
 	 * @param changenotifier
 	 */
 	public void informAbout(
 			Observable<Observer<QueryPanel, DatabaseChangedInfo>, QueryPanel, DatabaseChangedInfo> changenotifier) {
-		changenotifier.addObserver(beliefs);
+		changenotifier.addObserver(this.beliefs);
 	}
 
 }

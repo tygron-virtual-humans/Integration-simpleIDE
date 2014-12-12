@@ -1,24 +1,23 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package nl.tudelft.goal.SimpleIDE.actions;
 
-import goal.core.agent.AgentId;
 import goal.core.runtime.RuntimeManager;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 import goal.tools.IDEDebugger;
@@ -36,6 +35,7 @@ import java.util.List;
 
 import javax.swing.SwingWorker;
 
+import languageTools.program.agent.AgentId;
 import nl.tudelft.goal.SimpleIDE.EditManager;
 import nl.tudelft.goal.SimpleIDE.IDEMainPanel;
 import nl.tudelft.goal.SimpleIDE.IDENode;
@@ -46,12 +46,17 @@ import nl.tudelft.goal.SimpleIDE.TextEditorInterface;
 
 /**
  * kill selected process node.
- * 
+ *
  * @author W.Pasman
  * @modified W.Pasman 20jun2011 into action
  */
 @SuppressWarnings("serial")
 public class KillAction extends GOALAction {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 7697754986672271636L;
 
 	public KillAction() {
 		setIcon(IconFactory.KILL_PROCESS.getIcon());
@@ -63,7 +68,8 @@ public class KillAction extends GOALAction {
 	 * {@inheritDoc}
 	 */
 	public void stateChangeEvent() {
-		List<? extends IDENode> selection = currentState.getSelectedNodes();
+		List<? extends IDENode> selection = this.currentState
+				.getSelectedNodes();
 		if (selection.isEmpty()) {
 			setActionEnabled(false);
 			return;
@@ -114,7 +120,7 @@ public class KillAction extends GOALAction {
 
 	/**
 	 * kill selected process node.
-	 * 
+	 *
 	 * @param node
 	 *            is node to be killed
 	 * @throws GOALException
@@ -133,8 +139,8 @@ public class KillAction extends GOALAction {
 			// introspectors will notice the kill and close panels if
 			// necessasry.
 			try {
-				RuntimeManager<IDEDebugger, IDEGOALInterpreter> manager = LaunchManager.getCurrent()
-						.getRuntimeManager();
+				RuntimeManager<IDEDebugger, IDEGOALInterpreter> manager = LaunchManager
+						.getCurrent().getRuntimeManager();
 				manager.stopAgent(new AgentId(agentName));
 			} catch (Exception e) {
 				new Warning(String.format(
@@ -203,8 +209,8 @@ public class KillAction extends GOALAction {
 		}
 
 		// update view and switch to edit view if needed
-		if ((currentState.getViewMode() == IDEMainPanel.DEBUG_VIEW)
-				&& (!currentState.isRuntimeEnvironmentAvailable())) {
+		if ((this.currentState.getViewMode() == IDEMainPanel.DEBUG_VIEW)
+				&& (!this.currentState.isRuntimeEnvironmentAvailable())) {
 			developmentEnvironment.getMainPanel().switchView();
 		}
 	}

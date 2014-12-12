@@ -31,6 +31,7 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 
+import krTools.errors.exceptions.ParserException;
 import nl.tudelft.goal.SimpleIDE.IDEMainPanel;
 import nl.tudelft.goal.SimpleIDE.IDENode;
 import nl.tudelft.goal.SimpleIDE.IconFactory;
@@ -38,11 +39,16 @@ import nl.tudelft.goal.SimpleIDE.SimpleIDE;
 
 /**
  * Create new file. What kind of file depends on the selection in file panel.
- * 
+ *
  * @author W.Pasman 20jun2011
  */
 @SuppressWarnings("serial")
 public class OpenFileAction extends GOALAction {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -6668635580606609633L;
 
 	public OpenFileAction() {
 		setIcon(IconFactory.OPEN_FILE.getIcon());
@@ -55,7 +61,7 @@ public class OpenFileAction extends GOALAction {
 	 * {@inheritDoc}
 	 */
 	public void stateChangeEvent() {
-		setActionEnabled(currentState.getViewMode() == IDEMainPanel.EDIT_VIEW);
+		setActionEnabled(this.currentState.getViewMode() == IDEMainPanel.EDIT_VIEW);
 	}
 
 	/**
@@ -89,6 +95,9 @@ public class OpenFileAction extends GOALAction {
 				e1.printStackTrace();
 			} catch (InstantiationException e1) {
 				// TODO Change these exception types...
+				e1.printStackTrace();
+			} catch (ParserException e1) {
+				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}

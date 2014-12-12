@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -41,20 +41,26 @@ import nl.tudelft.goal.SimpleIDE.files.FileNode;
 
 /**
  * Create new file. What kind of file depends on the selection in file panel.
- * 
+ *
  * @author W.Pasman 20jun2011
  */
 @SuppressWarnings("serial")
 public class ReloadFileAction extends GOALAction {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 5265595952067304125L;
+
 	@Override
 	public void stateChangeEvent() {
-		if (currentState.getViewMode() == IDEMainPanel.DEBUG_VIEW) {
+		if (this.currentState.getViewMode() == IDEMainPanel.DEBUG_VIEW) {
 			// We're in debug view. Process nodes can't be saved.
 			setActionEnabled(false);
 		} else {
 			// We're in edit view.
-			List<? extends IDENode> selection = currentState.getSelectedNodes();
+			List<? extends IDENode> selection = this.currentState
+					.getSelectedNodes();
 			if (selection.isEmpty()) {
 				setActionEnabled(false);
 				return;
@@ -76,8 +82,8 @@ public class ReloadFileAction extends GOALAction {
 	 * requester whether user is sure to reload.
 	 */
 	public void executeAll(ActionEvent e) throws GOALCommandCancelledException,
-			GOALIncompleteGUIUsageException, GOALException {
-		List<? extends IDENode> sel = currentState.getSelectedNodes();
+	GOALIncompleteGUIUsageException, GOALException {
+		List<? extends IDENode> sel = this.currentState.getSelectedNodes();
 		if (sel.isEmpty()) {
 			throw new GOALBug(
 					"Reload should not be enabled if nothing is selected"); //$NON-NLS-1$
@@ -85,7 +91,7 @@ public class ReloadFileAction extends GOALAction {
 		// CANCEL = NO in this case.
 		int choice = JOptionPane
 				.showConfirmDialog(
-						currentState.getRootComponent(),
+						this.currentState.getRootComponent(),
 						"Do you want to reload the selected files? All unsaved changes will be lost.", //$NON-NLS-1$
 						"Reload?", JOptionPane.YES_NO_CANCEL_OPTION); //$NON-NLS-1$
 
@@ -114,7 +120,7 @@ public class ReloadFileAction extends GOALAction {
 			if (EditManager.getInstance().isOpenEditor(fileNode.getBaseFile())) {
 				try {
 					EditManager.getInstance().getEditor(fileNode.getBaseFile())
-							.reload();
+					.reload();
 				} catch (IOException er) {
 					new Warning(String.format(
 							Resources.get(WarningStrings.FAILED_FILE_RELOAD),
@@ -125,7 +131,7 @@ public class ReloadFileAction extends GOALAction {
 		default:
 			new Warning(
 					Resources
-							.get(WarningStrings.FAILED_FILE_RELOAD_NO_SELECTION));
+					.get(WarningStrings.FAILED_FILE_RELOAD_NO_SELECTION));
 			break;
 		}
 	}

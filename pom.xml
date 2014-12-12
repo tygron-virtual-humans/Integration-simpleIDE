@@ -62,7 +62,7 @@
 		<dependency>
 			<groupId>org.gjt.sp.jedit</groupId>
 			<artifactId>jedit</artifactId>
-			<version>1.0.0</version>
+			<version>1.0</version>
 		</dependency>
 	</dependencies>
 

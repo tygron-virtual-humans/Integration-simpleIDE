@@ -19,7 +19,6 @@
 package nl.tudelft.goal.SimpleIDE;
 
 import goal.core.agent.Agent;
-import goal.core.agent.AgentId;
 import goal.tools.IDEGOALInterpreter;
 import goal.tools.LaunchManager;
 import goal.tools.errorhandling.Resources;
@@ -36,6 +35,7 @@ import java.util.EventObject;
 
 import javax.swing.JPanel;
 
+import languageTools.program.agent.AgentId;
 import nl.tudelft.goal.SimpleIDE.CloseTabbedPane.CloseTabbedPane;
 import nl.tudelft.goal.SimpleIDE.CloseTabbedPane.TabCloseListener;
 import nl.tudelft.goal.SimpleIDE.actions.CloseIntrospectorAction;
@@ -45,22 +45,26 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
 /**
  * The debug panel shows tabs with introspectors for agents that have been
  * launched.
- * 
+ *
  */
 @SuppressWarnings("serial")
 public class DebugPanel extends CloseTabbedPane implements
 		LayoutChangeListener, TabCloseListener {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 3825712573125052729L;
 	private final GOALAction closeIntroAction;
 
 	/**
 	 * Creates a debug panel.
-	 * 
+	 *
 	 * @param theIDE
 	 *            is the central IDE functionality
 	 */
 	public DebugPanel() throws IllegalAccessException, InstantiationException {
-		closeIntroAction = ActionFactory
+		this.closeIntroAction = ActionFactory
 				.getAction(CloseIntrospectorAction.class);
 		setCloseListener(this);
 	}
@@ -91,9 +95,9 @@ public class DebugPanel extends CloseTabbedPane implements
 			// otherwise we could just call ide.close().
 			Component c = getComponentAt(tabIndex);
 			if (c instanceof IntrospectorPanel) {
-				closeIntroAction.actionPerformed(new ActionEvent(e.getSource(),
-						e.getID(), ((IntrospectorPanel) c).getAgentId()
-								.getName()));
+				this.closeIntroAction.actionPerformed(new ActionEvent(e
+						.getSource(), e.getID(), ((IntrospectorPanel) c)
+						.getAgentId().getName()));
 			}
 		} catch (Exception er) {
 			new Warning(Resources.get(WarningStrings.FAILED_PANEL_CLOSE), er);
@@ -103,7 +107,7 @@ public class DebugPanel extends CloseTabbedPane implements
 	/**
 	 * Shows introspector panel if available, otherwise creates one and shows
 	 * it.
-	 * 
+	 *
 	 * @param agentName
 	 *            DOC
 	 */
@@ -112,9 +116,14 @@ public class DebugPanel extends CloseTabbedPane implements
 		int index = indexOfTab(agentName);
 
 		if (index == -1) { // create new introspector panel
-			Agent<IDEGOALInterpreter> agent = LaunchManager.getCurrent().getRuntimeManager()
-					.getAgent(new AgentId(agentName));
+			Agent<IDEGOALInterpreter> agent = LaunchManager.getCurrent()
+					.getRuntimeManager().getAgent(new AgentId(agentName));
 			introspectorPanel = new IntrospectorPanel(agent, this) {
+				/**
+				 *
+				 */
+				private static final long serialVersionUID = 2164856045676365243L;
+
 				@Override
 				public void close() {
 					closeIntrospector(this);
@@ -130,7 +139,7 @@ public class DebugPanel extends CloseTabbedPane implements
 
 	/**
 	 * Closes the tab. Returns silently if introspector does not exist.
-	 * 
+	 *
 	 * @param DOC
 	 */
 	public void closeIntrospector(String name) {
@@ -144,7 +153,7 @@ public class DebugPanel extends CloseTabbedPane implements
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @param ip
 	 */
 	private void closeIntrospector(IntrospectorPanel ip) {
@@ -156,13 +165,13 @@ public class DebugPanel extends CloseTabbedPane implements
 	 * Closes the current tab, generic close command. Call needs to be re-routed
 	 * through the IDE, because closing the tab may require deleting the debug
 	 * observer.
-	 * 
+	 *
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 * @throws GOALException
 	 * @throws GOALIncompleteGUIUsageException
 	 * @throws GOALCommandCancelledException
-	 * 
+	 *
 	 */
 	public void close() throws GOALCommandCancelledException,
 			GOALIncompleteGUIUsageException, GOALException,
@@ -172,14 +181,14 @@ public class DebugPanel extends CloseTabbedPane implements
 			return;
 		}
 		if (c instanceof IntrospectorPanel) {
-			closeIntroAction.actionPerformed(new ActionEvent(this, 1,
+			this.closeIntroAction.actionPerformed(new ActionEvent(this, 1,
 					((IntrospectorPanel) c).getAgentId().getName()));
 		}
 	}
 
 	/**
 	 * Closes all debug panels and prepares for IDE shutdown.
-	 * 
+	 *
 	 * @throws DOC
 	 */
 	public void closeAll() throws GOALException {
@@ -192,7 +201,7 @@ public class DebugPanel extends CloseTabbedPane implements
 
 	/**
 	 * Adds a given sniffer panel and makes it visible.
-	 * 
+	 *
 	 * @param snifferPanel
 	 */
 	public void addSnifferPanel(JPanel snifferPanel) {
@@ -202,7 +211,7 @@ public class DebugPanel extends CloseTabbedPane implements
 
 	/**
 	 * Removes the sniffer panel.
-	 * 
+	 *
 	 * @param snifferPanel
 	 */
 	public void removeSnifferPanel(JPanel snifferPanel) {

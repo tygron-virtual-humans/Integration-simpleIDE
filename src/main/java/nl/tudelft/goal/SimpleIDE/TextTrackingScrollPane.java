@@ -47,14 +47,14 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
  * Creates a text area that supports scrolling. This may be very CPU intensive.
  * Therefore, if you need to print a lot of text, we recommend to use a
  * LogTextTrackingScrollPane.
- * 
+ *
  * * appends text to the text area. We scroll the pane such that
  * <ul>
  * <li>The caret/scroll bar keeps at bottom, if it was already at bottom.</li>
  * <li>The caret scrolls up with the text, if it is somewhere halfway</li>
  * <li>The caret keeps at the top, if it is at the top</li>
  * </ul>
- * 
+ *
  * @modified W.Pasman 27apr10, supported mouse wheel, added scrolling with mouse
  *           wheel even while text is scrolling. You can now hold the scrollbar
  *           also halfway to see text scroll by at that place. You can now drop
@@ -66,13 +66,17 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
  */
 @SuppressWarnings("serial")
 public class TextTrackingScrollPane extends JScrollPane implements
-		ActionListener, MouseWheelListener, AdjustmentListener, MarkedReadable {
+ActionListener, MouseWheelListener, AdjustmentListener, MarkedReadable {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -865628312651851555L;
 	private final JTextArea textarea;
 	private final JScrollBar vscrollbar;
 	private final JPopupMenu popup;
 	private Integer wheelrotation = 0; // mouse wheel rotation. Updated via
-										// mousewheellistener.
+	// mousewheellistener.
 	private boolean atEnd = true; // true if we lock view at the end.
 
 	private int maxNrOfLines;
@@ -93,7 +97,7 @@ public class TextTrackingScrollPane extends JScrollPane implements
 	 * Sets up scrolling pane with text with a maximum number of lines of text
 	 * that are stored. Retrieves the maximum number of lines from the user
 	 * preference settings stored by the Introspector preference panel.
-	 * 
+	 *
 	 * @param initialText
 	 *            initial text added to the text area when the panel is created.
 	 */
@@ -105,7 +109,7 @@ public class TextTrackingScrollPane extends JScrollPane implements
 	 * Sets up scrolling pane with text with a maximum number of lines of text
 	 * that are stored. Uses second parameter to set the maximum number of lines
 	 * stored by the panel.
-	 * 
+	 *
 	 * @param initialText
 	 *            initial text added to the text area when the panel is created.
 	 * @param maxlines
@@ -120,55 +124,57 @@ public class TextTrackingScrollPane extends JScrollPane implements
 		}
 		this.isUnread = false;
 
-		maxNrOfLines = maxlines;
-		textarea = new JTextArea(initialText);
-		textarea.setEditable(false);
+		this.maxNrOfLines = maxlines;
+		this.textarea = new JTextArea(initialText);
+		this.textarea.setEditable(false);
 		// textarea.getCaret().setVisible(true);
-		this.setViewportView(textarea);
-		vscrollbar = getVerticalScrollBar();
+		this.setViewportView(this.textarea);
+		this.vscrollbar = getVerticalScrollBar();
 
 		// set up pop up menu
-		popup = new JPopupMenu();
+		this.popup = new JPopupMenu();
 		JMenuItem menuItem = new JMenuItem("Clear"); //$NON-NLS-1$
 		menuItem.setActionCommand(UserCmd.CLEARTXT.toString());
 		menuItem.addActionListener(this);
-		popup.add(menuItem);
+		this.popup.add(menuItem);
 
-		vscrollbar.addAdjustmentListener(this);
+		this.vscrollbar.addAdjustmentListener(this);
 
-		textarea.addMouseListener(new MouseAdapter() {
+		this.textarea.addMouseListener(new MouseAdapter() {
 			/**
 			 * Handles right-mouse clicks to show the pop up menu.
-			 * 
+			 *
 			 * @param event
 			 */
 			@Override
 			public void mousePressed(MouseEvent event) {
 				if (event.isPopupTrigger()) {
-					popup.show(event.getComponent(), event.getX(), event.getY());
+					TextTrackingScrollPane.this.popup.show(
+							event.getComponent(), event.getX(), event.getY());
 				}
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent event) {
 				if (event.isPopupTrigger()) {
-					popup.show(event.getComponent(), event.getX(), event.getY());
+					TextTrackingScrollPane.this.popup.show(
+							event.getComponent(), event.getX(), event.getY());
 				}
 			}
 		});
 
-		textarea.addMouseWheelListener(this);
+		this.textarea.addMouseWheelListener(this);
 
 	}
 
 	/** handle scroll wheel events */
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		synchronized (wheelrotation) {
+		synchronized (this.wheelrotation) {
 			if (e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
-				wheelrotation = wheelrotation + e.getUnitsToScroll();
+				this.wheelrotation = this.wheelrotation + e.getUnitsToScroll();
 			} else {
-				wheelrotation += e.getScrollAmount();
+				this.wheelrotation += e.getScrollAmount();
 			}
 		}
 		updateCaret();
@@ -182,12 +188,12 @@ public class TextTrackingScrollPane extends JScrollPane implements
 	/**
 	 * Sets maximum number of lines stored by panel. Additional lines added on
 	 * top of this maximum means that lines printed earlier are removed again.
-	 * 
+	 *
 	 * @param max
 	 *            maximum number of lines to be stored by panel.
 	 */
 	public void setMaxLines(int max) {
-		maxNrOfLines = max;
+		this.maxNrOfLines = max;
 	}
 
 	/**
@@ -245,7 +251,7 @@ public class TextTrackingScrollPane extends JScrollPane implements
 
 	/**
 	 * Sets text in the text area. Thread safe.
-	 * 
+	 *
 	 * @param text
 	 *            string to be displayed in text area.
 	 */
@@ -253,7 +259,7 @@ public class TextTrackingScrollPane extends JScrollPane implements
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				textarea.setText(text);
+				TextTrackingScrollPane.this.textarea.setText(text);
 			}
 		});
 	}
@@ -261,7 +267,7 @@ public class TextTrackingScrollPane extends JScrollPane implements
 	/**
 	 * Appends text to text in text area in panel. Erases lines at beginning
 	 * whenever line count exceeds maximum number of lines allowed.
-	 * 
+	 *
 	 * @param text
 	 *            text to be appended to text area in panel.
 	 */
@@ -276,7 +282,7 @@ public class TextTrackingScrollPane extends JScrollPane implements
 	 * <li>The caret scrolls up with the text, if it is somewhere halfway</li>
 	 * <li>The caret keeps at the top, if it is at the top</li>
 	 * </ul>
-	 * 
+	 *
 	 * For efficiency, it's better to join strings first and then call append 1
 	 * time only instead of multiple times.
 	 */
@@ -292,23 +298,24 @@ public class TextTrackingScrollPane extends JScrollPane implements
 	/**
 	 * Internal function doing the real append. Does Swing calls and therefore
 	 * should always be called through #app.
-	 * 
+	 *
 	 * @param text
 	 */
 	private void append1(String text) {
 		// preferably, we'd not append everything if the text has too many
 		// lines, but the speedup is probably small (if at all noticeable).
-		textarea.append(text);
+		this.textarea.append(text);
 
 		// check if there are too many lines visible
-		int superfluousLineCount = textarea.getLineCount() - maxNrOfLines;
+		int superfluousLineCount = this.textarea.getLineCount()
+				- this.maxNrOfLines;
 
 		if (superfluousLineCount > 0) {
 			// get the index of the first character on the first
 			// line that should be visible
 			int firstVisibleLineStart;
 			try {
-				firstVisibleLineStart = textarea
+				firstVisibleLineStart = this.textarea
 						.getLineStartOffset(superfluousLineCount);
 			} catch (BadLocationException e) {
 				// we can't throw RuntimeException because inside Swing
@@ -319,7 +326,7 @@ public class TextTrackingScrollPane extends JScrollPane implements
 			}
 			// replace everything before the obtained index with null,
 			// thus removing everything before that index
-			textarea.replaceRange(null, 0, firstVisibleLineStart);
+			this.textarea.replaceRange(null, 0, firstVisibleLineStart);
 		}
 
 		updateCaret1();
@@ -333,7 +340,7 @@ public class TextTrackingScrollPane extends JScrollPane implements
 	 * end. When not dragging, keep caret at end of text when at_end is set.
 	 * when at_end is not set, scroll the caret up with the text. When user hits
 	 * scroll wheel, scroll caret in wheel direction accordingly.
-	 * 
+	 *
 	 * Thread safe: we call {@link SwingUtilities#invokeLater(Runnable)}.
 	 */
 	private void updateCaret() {
@@ -351,38 +358,38 @@ public class TextTrackingScrollPane extends JScrollPane implements
 	 */
 	private void updateCaret1() {
 		// scrollbar position
-		double relPos = ((double) vscrollbar.getValue() / (double) (vscrollbar
-				.getMaximum() - vscrollbar.getVisibleAmount()));
-		int maxLineNr = textarea.getLineCount() - 1;
-		int caretLine = textarea.getDocument().getDefaultRootElement()
-				.getElementIndex(textarea.getCaretPosition());
+		double relPos = ((double) this.vscrollbar.getValue() / (double) (this.vscrollbar
+				.getMaximum() - this.vscrollbar.getVisibleAmount()));
+		int maxLineNr = this.textarea.getLineCount() - 1;
+		int caretLine = this.textarea.getDocument().getDefaultRootElement()
+				.getElementIndex(this.textarea.getCaretPosition());
 
 		/***** after here no cutting/pasting - relocating the caret *****/
 
-		synchronized (wheelrotation) {
-			if (wheelrotation != 0) {
-				caretLine += wheelrotation;
-				wheelrotation = 0;
-				atEnd = false; // scroll wheel unlocks the caret.
+		synchronized (this.wheelrotation) {
+			if (this.wheelrotation != 0) {
+				caretLine += this.wheelrotation;
+				this.wheelrotation = 0;
+				this.atEnd = false; // scroll wheel unlocks the caret.
 			}
 		}
 
 		// check if user is dragging the scrollbar. If so, we manipulate the
 		// caret position.
-		if (vscrollbar.getValueIsAdjusting()) {
+		if (this.vscrollbar.getValueIsAdjusting()) {
 			if (relPos > END_SNAP_POSITION) {
-				atEnd = true; // snap to end.
+				this.atEnd = true; // snap to end.
 			} else {
 				caretLine = (int) (relPos * maxLineNr);
-				atEnd = false;
+				this.atEnd = false;
 			}
 		}
 
 		if (caretLine >= maxLineNr) {
-			atEnd = true;
+			this.atEnd = true;
 		}
 
-		if (atEnd) {
+		if (this.atEnd) {
 			caretLine = maxLineNr;
 		}
 
@@ -391,7 +398,8 @@ public class TextTrackingScrollPane extends JScrollPane implements
 		}
 
 		try {
-			textarea.setCaretPosition(textarea.getLineStartOffset(caretLine));
+			this.textarea.setCaretPosition(this.textarea
+					.getLineStartOffset(caretLine));
 		} catch (BadLocationException e) {
 			// CHECK technically you indeed want to throw here,
 			// but the exception just will end up in Swing
@@ -406,7 +414,7 @@ public class TextTrackingScrollPane extends JScrollPane implements
 	/**
 	 * Handles events generated by selecting items in pop up menu. Clears text
 	 * area if Clear has been selected.
-	 * 
+	 *
 	 * @param event
 	 *            event generated by pop up menu.
 	 */

@@ -27,11 +27,16 @@ import nl.tudelft.goal.SimpleIDE.IDENode;
 
 /**
  * Use local middleware when asked to run.
- * 
+ *
  * @author W.Pasman 20jun2011
  */
 @SuppressWarnings("serial")
 public class RunLocalAction extends GOALAction {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 6642562931582554894L;
 
 	@Override
 	/**
@@ -39,7 +44,7 @@ public class RunLocalAction extends GOALAction {
 	 */
 	public void stateChangeEvent() {
 		// only allowed to switch when not running.
-		setActionEnabled(!currentState.isRuntimeEnvironmentAvailable());
+		setActionEnabled(!this.currentState.isRuntimeEnvironmentAvailable());
 	}
 
 	/**

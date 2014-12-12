@@ -19,7 +19,6 @@
 package nl.tudelft.goal.SimpleIDE;
 
 import goal.core.agent.Agent;
-import goal.core.agent.AgentId;
 import goal.core.runtime.RuntimeEvent;
 import goal.core.runtime.RuntimeEventObserver;
 import goal.core.runtime.RuntimeManager;
@@ -44,6 +43,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import languageTools.program.agent.AgentId;
 import nl.tudelft.goal.SimpleIDE.CloseTabbedPane.CloseTabbedPane;
 import nl.tudelft.goal.SimpleIDE.CloseTabbedPane.TabCloseListener;
 import nl.tudelft.goal.SimpleIDE.preferences.IDEPreferences;
@@ -52,13 +52,17 @@ import nl.tudelft.goal.SimpleIDE.preferences.IDEPreferences;
  * Shows the console, action, and other user feedback panels. The FeedbackPanel
  * is the lower area of the IDE panel holding. Subscribes to the Platform
  * Manager in order to show the messages sent by agents.
- * 
+ *
  */
 @SuppressWarnings("serial")
 public class FeedbackPanel extends CloseTabbedPane implements
 		RuntimeEventObserver, TabCloseListener, PropertyChangeListener,
 		ChangeListener {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 8369272852845355060L;
 	/**
 	 * Main console panel for platform, logging, and error output.
 	 */
@@ -85,9 +89,9 @@ public class FeedbackPanel extends CloseTabbedPane implements
 	public FeedbackPanel() {
 
 		// Add fixed panes.
-		add("Console", console); //$NON-NLS-1$
-		add("Parse Info", parseTab); //$NON-NLS-1$
-		add("Action log", actionLog); //$NON-NLS-1$
+		add("Console", this.console); //$NON-NLS-1$
+		add("Parse Info", this.parseTab); //$NON-NLS-1$
+		add("Action log", this.actionLog); //$NON-NLS-1$
 
 		this.parseTab.subscribeTo(Loggers.getParserLogger());
 		// Parsing is not done at runtime, so we can immediately print
@@ -95,7 +99,7 @@ public class FeedbackPanel extends CloseTabbedPane implements
 		this.parseTab.setPushLevel(Level.ALL);
 
 		// Listen to our own change events (when selected tab changes).
-		this.addChangeListener(this);
+		addChangeListener(this);
 
 		// Listen to close button.
 		setCloseListener(this);
@@ -106,19 +110,19 @@ public class FeedbackPanel extends CloseTabbedPane implements
 
 	/**
 	 * Creates debug tracer tab for an agent.
-	 * 
+	 *
 	 * @param agent
 	 *            The agent to be traced in the debug tab.
 	 */
 	public void openDebugTracer(final Agent<IDEGOALInterpreter> agent) {
-		if (tracers.containsKey(agent.getId())) {
+		if (this.tracers.containsKey(agent.getId())) {
 			// nothing to do; silently return.
 			return;
 		}
 
 		// Create new tab.
 		final DebugTextPanel tracer = new DebugTextPanel(agent);
-		tracers.put(agent.getId(), tracer);
+		this.tracers.put(agent.getId(), tracer);
 
 		// Add it to this feedback panel.
 		SwingUtilities.invokeLater(new Runnable() {
@@ -133,7 +137,7 @@ public class FeedbackPanel extends CloseTabbedPane implements
 
 	/**
 	 * Handles events from {@link RuntimeManager}.
-	 * 
+	 *
 	 * @param observable
 	 *            The {@link MonitoringService}.
 	 * @param argument
@@ -146,7 +150,7 @@ public class FeedbackPanel extends CloseTabbedPane implements
 
 		switch (event.getType()) {
 		case MAS_BORN:
-			actionLog.setText(""); //$NON-NLS-1$
+			this.actionLog.setText(""); //$NON-NLS-1$
 			break;
 		case AGENT_IS_LOCAL_AND_READY:
 			agent = (Agent<IDEGOALInterpreter>) source;
@@ -156,10 +160,11 @@ public class FeedbackPanel extends CloseTabbedPane implements
 			}
 			// Subscribe the actionLog panel (only if user wants to see
 			// actions).
-			actionLog.subscribeToDebugger(agent.getController().getDebugger());
+			this.actionLog.subscribeToDebugger(agent.getController()
+					.getDebugger());
 			break;
 		case MAS_DIED:
-			Set<AgentId> agentIds = tracers.keySet();
+			Set<AgentId> agentIds = this.tracers.keySet();
 			for (AgentId id : agentIds) {
 				int i = indexOfTab(id.getName());
 				closeTab(i);
@@ -201,21 +206,21 @@ public class FeedbackPanel extends CloseTabbedPane implements
 			return;
 		}
 
-		this.handleChannelViewUpdateEvent(channel, DebugPreferences
-				.getChannelState(channel).canView());
+		handleChannelViewUpdateEvent(channel,
+				DebugPreferences.getChannelState(channel).canView());
 	}
 
 	/**
 	 * Handles view update event from user related to debug output preferences.
 	 * See DebugPreferencePane.
-	 * 
+	 *
 	 * @param channel
 	 *            channel for which user has updated viewing preference.
 	 * @param value
 	 *            true if user wants to view channel, false otherwise.
 	 */
 	private void handleChannelViewUpdateEvent(Channel channel, boolean value) {
-		for (DebugTextPanel tracer : tracers.values()) {
+		for (DebugTextPanel tracer : this.tracers.values()) {
 			if (value) {
 				tracer.addViewChannel(channel);
 			} else {
@@ -234,7 +239,7 @@ public class FeedbackPanel extends CloseTabbedPane implements
 
 	/**
 	 * Closes a given tab, but only if it is a debug tracer tab.
-	 * 
+	 *
 	 * @param tabIndex
 	 *            Index to find the tab.
 	 */
@@ -246,7 +251,7 @@ public class FeedbackPanel extends CloseTabbedPane implements
 		 */
 		final Component c = getComponentAt(tabIndex);
 		if (c instanceof DebugTextPanel) {
-			tracers.values().remove(c);
+			this.tracers.values().remove(c);
 
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
@@ -269,7 +274,7 @@ public class FeedbackPanel extends CloseTabbedPane implements
 		// that is, whenever another tab is selected, and just before
 		// this panel is (re)painted.
 
-		JComponent tab = (JComponent) this.getSelectedComponent();
+		JComponent tab = (JComponent) getSelectedComponent();
 		if (tab instanceof MarkedReadable) {
 			((MarkedReadable) tab).markRead();
 		}

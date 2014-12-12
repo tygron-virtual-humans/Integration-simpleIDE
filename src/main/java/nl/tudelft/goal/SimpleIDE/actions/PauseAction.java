@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -40,7 +40,7 @@ import nl.tudelft.goal.SimpleIDE.ProcessNode;
 
 /**
  * Puts the selected MAS in pause mode.
- * 
+ *
  * More specifically, based on the selection the following happens:
  * <ul>
  * <li> <em>mas has been selected</em> (or no process has been selected):<br>
@@ -52,7 +52,7 @@ import nl.tudelft.goal.SimpleIDE.ProcessNode;
  * <li> <em>environment has been selected:</em><br>
  * pauses environment.</li>
  * </ul>
- * 
+ *
  * @param node
  *            process node to be put into PAUSE mode.
  * @author W.Pasman
@@ -60,6 +60,11 @@ import nl.tudelft.goal.SimpleIDE.ProcessNode;
  */
 @SuppressWarnings("serial")
 public class PauseAction extends GOALAction {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -1797650112011964406L;
 
 	public PauseAction() {
 		setIcon(IconFactory.PAUSE.getIcon());
@@ -70,7 +75,8 @@ public class PauseAction extends GOALAction {
 	 * {@inheritDoc}
 	 */
 	public void stateChangeEvent() {
-		List<? extends IDENode> selection = currentState.getSelectedNodes();
+		List<? extends IDENode> selection = this.currentState
+				.getSelectedNodes();
 		if (selection.isEmpty()) {
 			setActionEnabled(false);
 			return;
@@ -105,8 +111,9 @@ public class PauseAction extends GOALAction {
 		case ENVIRONMENT_PROCESS:
 			setDescription("Pause environment"); //$NON-NLS-1$
 			mode = ((ProcessNode) node).getProcessRunMode();
-			boolean connected = (currentState.isRuntimeEnvironmentAvailable() && LaunchManager.getCurrent()
-					.getRuntimeManager().getEnvironmentPorts() != null);
+			boolean connected = (this.currentState
+					.isRuntimeEnvironmentAvailable() && LaunchManager
+					.getCurrent().getRuntimeManager().getEnvironmentPorts() != null);
 			setActionEnabled(connected && mode != RunMode.KILLED);
 			break;
 		default:
@@ -125,7 +132,7 @@ public class PauseAction extends GOALAction {
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @param node
 	 */
 	@SuppressWarnings("unchecked")
@@ -149,7 +156,7 @@ public class PauseAction extends GOALAction {
 			case PAUSED:
 			case RUNNING:
 				Agent<IDEGOALInterpreter> agent = (Agent<IDEGOALInterpreter>) node
-						.getUserObject();
+				.getUserObject();
 				agent.getController().getDebugger().finestep();
 				break;
 			case REMOTEPROCESS:
@@ -178,8 +185,8 @@ public class PauseAction extends GOALAction {
 		default: // FIXME redundant check, if we make node types more accurate.
 			throw new GOALBug(
 					this
-							+ " should only be enabled while selection is a PROCESS node, but found node of " //$NON-NLS-1$
-							+ node.getType() + " named " + node.getNodeName()); //$NON-NLS-1$
+					+ " should only be enabled while selection is a PROCESS node, but found node of " //$NON-NLS-1$
+					+ node.getType() + " named " + node.getNodeName()); //$NON-NLS-1$
 		}
 	}
 

@@ -41,12 +41,16 @@ import nl.tudelft.goal.SimpleIDE.preferences.IDEPreferences;
  * Note that printf() calls from C are not rerouted but still appear in the
  * "boot shell" window.
  * </p>
- * 
+ *
  * @author W.Pasman
  */
 @SuppressWarnings("serial")
 public final class ConsoleTextPanel extends JPanel implements MarkedReadable {
-	private LogTextTrackingScrollPane consoleoutput = new LogTextTrackingScrollPane(
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -2876615767667757598L;
+	private final LogTextTrackingScrollPane consoleoutput = new LogTextTrackingScrollPane(
 			"", IDEPreferences.getMaxLines());
 
 	/**
@@ -54,7 +58,7 @@ public final class ConsoleTextPanel extends JPanel implements MarkedReadable {
 	 */
 	public ConsoleTextPanel() {
 		setLayout(new BorderLayout());
-		add(consoleoutput, BorderLayout.CENTER);
+		add(this.consoleoutput, BorderLayout.CENTER);
 
 		refreshOutputRedirection();
 		// for now, subscribe to everything that used to go to System.out or
@@ -77,8 +81,8 @@ public final class ConsoleTextPanel extends JPanel implements MarkedReadable {
 		 * turn on redirection. re-route stdio and stderr make the PrintStream
 		 * call flush() when a newline is printed
 		 */
-		PrintStream out = new PrintStream(new MyOutputStream(consoleoutput),
-				true);
+		PrintStream out = new PrintStream(
+				new MyOutputStream(this.consoleoutput), true);
 		System.setOut(out);
 		System.setErr(out);
 
@@ -116,15 +120,15 @@ public final class ConsoleTextPanel extends JPanel implements MarkedReadable {
  * only appear once something else (with line-end) is printed.
  */
 final class MyOutputStream extends OutputStream {
-	private LogTextTrackingScrollPane consoleoutput;
+	private final LogTextTrackingScrollPane consoleoutput;
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @param output
 	 */
 	public MyOutputStream(LogTextTrackingScrollPane output) {
-		consoleoutput = output;
+		this.consoleoutput = output;
 	}
 
 	// maybe messy if two threads print parallel.
@@ -145,10 +149,11 @@ final class MyOutputStream extends OutputStream {
 		}
 
 		SwingUtilities.invokeLater(new Runnable() {
-			private String toprint = linecache.toString();
+			private final String toprint = linecache.toString();
 
+			@Override
 			public void run() {
-				consoleoutput.append(toprint);
+				MyOutputStream.this.consoleoutput.append(this.toprint);
 			}
 		});
 		linecache = new StringBuffer();

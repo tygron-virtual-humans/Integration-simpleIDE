@@ -1,24 +1,23 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package nl.tudelft.goal.SimpleIDE.actions;
 
-import goal.core.mas.MASProgram;
 import goal.core.runtime.RuntimeManager;
 import goal.tools.IDEDebugger;
 import goal.tools.IDEGOALInterpreter;
@@ -36,6 +35,8 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import krTools.errors.exceptions.ParserException;
+import languageTools.program.mas.MASProgram;
 import nl.tudelft.goal.SimpleIDE.EditManager;
 import nl.tudelft.goal.SimpleIDE.IDEMainPanel;
 import nl.tudelft.goal.SimpleIDE.IDENode;
@@ -48,14 +49,19 @@ import nl.tudelft.goal.SimpleIDE.files.FileNode;
 /**
  * Run a process or mas file. IDE figures out whether run or pause action is
  * appropriate
- * 
+ *
  * @author W.Pasman 20jun2011
  */
 @SuppressWarnings("serial")
 public class RunAction extends GOALAction {
 
 	/**
-	 * 
+	 *
+	 */
+	private static final long serialVersionUID = 6688356104736143198L;
+
+	/**
+	 *
 	 */
 	public RunAction() {
 		setIcon(IconFactory.RUN.getIcon());
@@ -65,7 +71,8 @@ public class RunAction extends GOALAction {
 
 	@Override
 	public void stateChangeEvent() {
-		List<? extends IDENode> selection = currentState.getSelectedNodes();
+		List<? extends IDENode> selection = this.currentState
+				.getSelectedNodes();
 		if (selection.isEmpty()) {
 			setActionEnabled(false);
 			return;
@@ -88,7 +95,7 @@ public class RunAction extends GOALAction {
 		case MODFILE:
 		case PLFILE:
 			setDescription("Launch multi-agent system"); //$NON-NLS-1$
-			setActionEnabled(!currentState.isRuntimeEnvironmentAvailable());
+			setActionEnabled(!this.currentState.isRuntimeEnvironmentAvailable());
 			break;
 		case MAS_PROCESS:
 			setDescription("Run all agents"); //$NON-NLS-1$
@@ -115,7 +122,7 @@ public class RunAction extends GOALAction {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param node
 	 * @throws GOALException
 	 */
@@ -124,13 +131,13 @@ public class RunAction extends GOALAction {
 
 		// Check first whether we're in edit view and a MAS is already running.
 		// In that case, simply switch view to debug view.
-		if (currentState.getViewMode() == IDEMainPanel.EDIT_VIEW
+		if (this.currentState.getViewMode() == IDEMainPanel.EDIT_VIEW
 				&& LaunchManager.getCurrent().isRuntimeEnvironmentAvailable()) {
 			developmentEnvironment.getMainPanel().switchView();
 			return;
 		}
 
-		switch (currentState.getViewMode()) {
+		switch (this.currentState.getViewMode()) {
 		case IDEMainPanel.EDIT_VIEW:
 			// Do nothing if the user canceled the save all action.
 			// TODO: only require to save all used files.
@@ -160,17 +167,22 @@ public class RunAction extends GOALAction {
 
 			// Parse MAS file. Ensures latest version is ran.
 			final PlatformManager platform = PlatformManager.getCurrent();
-			MASProgram mas = platform.parseMASFile(fileNode.getBaseFile());
+			MASProgram mas = null;
+			try {
+				mas = platform.parseMASFile(fileNode.getBaseFile());
+			} catch (ParserException e1) {
+			}
 
 			// check before proceeding, to avoid locking non-existant files.
-			if (mas == null || !mas.isValidated()) {
+			if (mas == null || !mas.isValid()) {
 				new Warning(Resources.get(WarningStrings.FAILED_RUN_MAS_ERRORS));
 				return;
 			}
 
 			// We're going to launch a MAS, disable editing of all involved
 			// files.
-			for (File file : platform.getMASProgram(fileNode.getBaseFile()).getAgentPaths()) {
+			for (File file : platform.getMASProgram(fileNode.getBaseFile())
+					.getAgentFiles()) {
 				TextEditorInterface editor = EditManager.getInstance()
 						.getEditorPane(file.toString());
 				// TODO: QUICK HACK. #1717. We need to lock ALL files, not
@@ -182,7 +194,8 @@ public class RunAction extends GOALAction {
 
 			// Launch the MAS.
 			try {
-				List<File> involvedFiles = platform.getMASProgram(fileNode.getBaseFile()).getAgentPaths();
+				List<File> involvedFiles = platform.getMASProgram(
+						fileNode.getBaseFile()).getAgentFiles();
 
 				// TODO: code does not belong here, needs to be moved...
 				// make sure the breakpoints are up-to-date for all
@@ -191,8 +204,10 @@ public class RunAction extends GOALAction {
 					EditManager.getInstance().updateBreakpoints(agentFile);
 				}
 
-				RuntimeManager<IDEDebugger, IDEGOALInterpreter> runtime = LaunchManager.createNew()
-						.launchMAS(platform.getMASProgram(fileNode.getBaseFile()));
+				RuntimeManager<IDEDebugger, IDEGOALInterpreter> runtime = LaunchManager
+						.createNew().launchMAS(
+								platform.getMASProgram(fileNode.getBaseFile()),
+								platform.getParsedAgentPrograms());
 
 				// Update view.
 				developmentEnvironment.getMainPanel().getProcessPanel().init();
@@ -202,8 +217,8 @@ public class RunAction extends GOALAction {
 						.getFeedbackPanel());
 				runtime.addObserver(developmentEnvironment.getMainPanel()
 						.getProcessPanel());
-			} catch (GOALException e) { // TODO: distinguish between types of
-										// exceptions...
+			} catch (Exception e) { // TODO: distinguish between types of
+				// exceptions...
 				new Warning(Resources.get(WarningStrings.FAILED_RUN_MAS), e);
 				for (TextEditorInterface editor : EditManager.getInstance()
 						.getEditors()) {
@@ -220,13 +235,13 @@ public class RunAction extends GOALAction {
 
 	/**
 	 * Save all files.
-	 * 
+	 *
 	 * @return {@code false} if user cancelled or a problem while saving
 	 *         occurred; {@code true} otherwise.
 	 */
 	private boolean checkAllSaved() {
 		if (EditManager.getInstance().isDirty()) { // content has been
-													// edited
+			// edited
 			int selection = JOptionPane.showConfirmDialog(
 					developmentEnvironment.getMainPanel(), "Save all files?\n" //$NON-NLS-1$
 							+ "Some files were edited but are not yet saved. " //$NON-NLS-1$

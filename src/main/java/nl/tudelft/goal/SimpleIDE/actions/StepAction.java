@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -43,7 +43,7 @@ import nl.tudelft.goal.SimpleIDE.ProcessNode;
 /**
  * Puts the selected process into STEPPING mode. Basically this means "PAUSED"
  * mode but with a delayed effect.
- * 
+ *
  * More specifically, based on the selection the following happens:
  * <ul>
  * <li> <em>mas has been selected</em> (or no process has been selected):<br>
@@ -55,15 +55,20 @@ import nl.tudelft.goal.SimpleIDE.ProcessNode;
  * GUI should not enable this. The call step(environment) will RUN the
  * environment.</li>
  * </ul>
- * 
+ *
  * @param node
  *            process node to be put into STEPPING mode.
- * 
+ *
  * @author W.Pasman
  * @modified W.Pasman 20jun2011 into action
  */
 @SuppressWarnings("serial")
 public class StepAction extends GOALAction {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -7678141425812077047L;
 
 	public StepAction() {
 		setIcon(IconFactory.STEP_PROCESS.getIcon());
@@ -75,7 +80,8 @@ public class StepAction extends GOALAction {
 	 * {@inheritDoc}
 	 */
 	public synchronized void stateChangeEvent() {
-		List<? extends IDENode> selection = currentState.getSelectedNodes();
+		List<? extends IDENode> selection = this.currentState
+				.getSelectedNodes();
 		if (selection.isEmpty()) {
 			setActionEnabled(false);
 			return;
@@ -102,8 +108,9 @@ public class StepAction extends GOALAction {
 			setActionEnabled(mode == RunMode.RUNNING || mode == RunMode.PAUSED);
 			break;
 		case ENVIRONMENT_PROCESS:
-			boolean connected = (currentState.isRuntimeEnvironmentAvailable() && LaunchManager.getCurrent()
-					.getRuntimeManager().getEnvironmentPorts() != null);
+			boolean connected = (this.currentState
+					.isRuntimeEnvironmentAvailable() && LaunchManager
+					.getCurrent().getRuntimeManager().getEnvironmentPorts() != null);
 
 			mode = ((ProcessNode) node).getProcessRunMode();
 			setActionEnabled(connected && mode != RunMode.KILLED);
@@ -122,13 +129,13 @@ public class StepAction extends GOALAction {
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @param node
 	 * @throws GOALException
 	 */
 	private void step(ProcessNode node) throws GOALException {
-		final RuntimeManager<IDEDebugger, IDEGOALInterpreter> runtime = LaunchManager.getCurrent()
-				.getRuntimeManager();
+		final RuntimeManager<IDEDebugger, IDEGOALInterpreter> runtime = LaunchManager
+				.getCurrent().getRuntimeManager();
 
 		switch (node.getType()) {
 		case MAS_PROCESS:
@@ -139,7 +146,7 @@ public class StepAction extends GOALAction {
 				if (childNode.getType() == NodeType.ENVIRONMENT_PROCESS
 						&& childNode.getProcessRunMode() != RunMode.RUNNING) {
 					developmentEnvironment.getMainPanel().getProcessPanel()
-							.runProcessNode(childNode);
+					.runProcessNode(childNode);
 				}
 			}
 
@@ -158,11 +165,11 @@ public class StepAction extends GOALAction {
 			case RUNNING:
 				@SuppressWarnings("unchecked")
 				Agent<IDEGOALInterpreter> agent = (Agent<IDEGOALInterpreter>) node
-						.getUserObject();
+				.getUserObject();
 				agent.getController().getDebugger().step();
 				break;
 			default: // FIXME should throw GOALBug but that's not possible
-						// here...
+				// here...
 				throw new RuntimeException("[SimpleIDE] Unknown status " //$NON-NLS-1$
 						+ node.getProcessRunMode() + " process node."); //$NON-NLS-1$
 			}
@@ -182,8 +189,8 @@ public class StepAction extends GOALAction {
 		default: // Redundant check, if we make NodeType more specific
 			throw new GOALBug(
 					this
-							+ "should only be enabled while selection is a PROCESS node, but found" //$NON-NLS-1$
-							+ node);
+					+ "should only be enabled while selection is a PROCESS node, but found" //$NON-NLS-1$
+					+ node);
 		}
 	}
 

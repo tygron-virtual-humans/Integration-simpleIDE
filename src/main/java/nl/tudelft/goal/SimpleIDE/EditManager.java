@@ -1,26 +1,23 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package nl.tudelft.goal.SimpleIDE;
 
-import goal.core.mas.MASProgram;
-import goal.core.program.actions.ActionCombo;
-import goal.parser.IParsedObject;
 import goal.tools.BreakpointManager;
 import goal.tools.PlatformManager;
 import goal.tools.debugger.BreakPoint;
@@ -49,6 +46,9 @@ import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import krTools.parser.SourceInfo;
+import languageTools.program.agent.actions.ActionCombo;
+import languageTools.program.mas.MASProgram;
 import nl.tudelft.goal.SimpleIDE.CloseTabbedPane.CloseTabbedPane;
 import nl.tudelft.goal.SimpleIDE.CloseTabbedPane.TabCloseListener;
 import nl.tudelft.goal.SimpleIDE.actions.CloseEditorAction;
@@ -63,7 +63,7 @@ import nl.tudelft.goal.SimpleIDE.actions.CloseEditorAction;
  * <p>
  * FIXME I think we should remove the "extends JPanel" from EditManager. Maybe
  * there should be a getPanel() function giving that panel.
- * 
+ *
  * @author W.Pasman 2008
  * @modified 27jun2011 to get singleton pattern.
  * @modified W.Pasman 19apr2012 #2108 conditional breakpoints
@@ -71,6 +71,10 @@ import nl.tudelft.goal.SimpleIDE.actions.CloseEditorAction;
 @SuppressWarnings("serial")
 public class EditManager extends JPanel {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -4124275359634604528L;
 	private final CloseTabbedPane tabbedPane;
 	private static IDEfunctionality myIDE;
 	private boolean textEditorsAreEditable = true;
@@ -86,18 +90,18 @@ public class EditManager extends JPanel {
 
 	/**
 	 * creates the singleton. Get it with getInstance().
-	 * 
+	 *
 	 * @param theIDE
 	 */
 	private EditManager() {
 		setLayout(new BorderLayout());
 
-		tabbedPane = new CloseTabbedPane();
-		tabbedPane.setCloseListener(new TabCloseListener() {
+		this.tabbedPane = new CloseTabbedPane();
+		this.tabbedPane.setCloseListener(new TabCloseListener() {
 			@Override
 			public void closeOperation(AWTEvent e, int overTabIndex) {
 				try {
-					String filename = ((TextEditorInterface) tabbedPane
+					String filename = ((TextEditorInterface) EditManager.this.tabbedPane
 							.getComponentAt(overTabIndex)).getFilename();
 					ActionFactory.getAction(CloseEditorAction.class).Execute(
 							null, new ActionEvent(this, 1, filename));
@@ -107,13 +111,13 @@ public class EditManager extends JPanel {
 				}
 			}
 		});
-		add(tabbedPane, BorderLayout.CENTER);
+		add(this.tabbedPane, BorderLayout.CENTER);
 	}
 
 	/**
 	 * get an instance of the EditPanel singleton. You must call {@link #init}
 	 * before calling this.
-	 * 
+	 *
 	 * @return instance of EditPanel singleton.
 	 * @throws GOALBug
 	 *             when init was not called properly.
@@ -132,13 +136,13 @@ public class EditManager extends JPanel {
 	/**
 	 * Returns the currently selected text editor. throws if there is no
 	 * currently selected editor.
-	 * 
+	 *
 	 * @return the component corresponding to the selected tab
 	 * @throws GOALUserError
 	 *             if there is no currently selected editor
 	 */
 	public TextEditorInterface getActiveEditor() throws GOALUserError {
-		Component editor = tabbedPane.getSelectedComponent();
+		Component editor = this.tabbedPane.getSelectedComponent();
 		if (editor == null) {
 			throw new GOALUserError("there is no open editor"); //$NON-NLS-1$
 		}
@@ -147,26 +151,26 @@ public class EditManager extends JPanel {
 
 	/**
 	 * Check if there is any file being edited right now
-	 * 
+	 *
 	 * @return true if there is file under edit right now.
 	 */
 	public boolean hasActiveEditor() {
-		return tabbedPane.getSelectedComponent() != null;
+		return this.tabbedPane.getSelectedComponent() != null;
 	}
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @return TextEditorInterface for given node.
 	 * @throws GOALUserError
 	 *             if file is not being edited.
 	 */
 	public TextEditorInterface getEditor(File file) throws GOALUserError {
-		for (int i = 0; i < tabbedPane.getTabCount(); i++) {
-			TextEditorInterface editor = ((TextEditorInterface) tabbedPane
+		for (int i = 0; i < this.tabbedPane.getTabCount(); i++) {
+			TextEditorInterface editor = ((TextEditorInterface) this.tabbedPane
 					.getComponentAt(i));
 
-			if (tabbedPane.getTitleAt(i).equals(file.getName())) {
+			if (this.tabbedPane.getTitleAt(i).equals(file.getName())) {
 				return editor;
 			}
 		}
@@ -175,13 +179,13 @@ public class EditManager extends JPanel {
 
 	/**
 	 * check if there is open editor for given node.
-	 * 
+	 *
 	 * @param node
 	 * @return true if there is editor, else false.
 	 */
 	public boolean isOpenEditor(File node) {
-		for (int i = 0; i < tabbedPane.getTabCount(); i++) {
-			if (tabbedPane.getTitleAt(i).equals(node.getName())) {
+		for (int i = 0; i < this.tabbedPane.getTabCount(); i++) {
+			if (this.tabbedPane.getTitleAt(i).equals(node.getName())) {
 				return true;
 			}
 		}
@@ -190,7 +194,7 @@ public class EditManager extends JPanel {
 
 	/**
 	 * Save file open in this editor.
-	 * 
+	 *
 	 * @throws GOALUserError
 	 *             DOC
 	 */
@@ -212,14 +216,15 @@ public class EditManager extends JPanel {
 	 * save ALL files in the edit panel. errors are fatal, we immediately throw
 	 * when problem occurs so that user regains control (assuming IDE handles it
 	 * gracely)
-	 * 
+	 *
 	 * @throws IOException
 	 *             if save fails for some reason.
 	 */
 	public void saveAll() throws GOALException {
 		try {
-			for (int i = 0; i < tabbedPane.getTabCount(); i++) {
-				((TextEditorInterface) tabbedPane.getComponentAt(i)).save();
+			for (int i = 0; i < this.tabbedPane.getTabCount(); i++) {
+				((TextEditorInterface) this.tabbedPane.getComponentAt(i))
+						.save();
 			}
 			new InfoLog("All files saved."); //$NON-NLS-1$
 		} catch (IOException e) {
@@ -230,16 +235,16 @@ public class EditManager extends JPanel {
 	/**
 	 * Returns whether one of the open editor panels contains content that has
 	 * been changed but not has been saved yet.
-	 * 
+	 *
 	 * @return true if file content has been edited, but not yet saved.
 	 */
 	public boolean isDirty() {
 		boolean dirty = false;
 
-		for (int i = 0; i < tabbedPane.getTabCount(); i++) {
+		for (int i = 0; i < this.tabbedPane.getTabCount(); i++) {
 			dirty = dirty
-					| ((TextEditorInterface) tabbedPane.getComponentAt(i))
-							.isDirty();
+					| ((TextEditorInterface) this.tabbedPane.getComponentAt(i))
+					.isDirty();
 		}
 
 		return dirty;
@@ -247,21 +252,21 @@ public class EditManager extends JPanel {
 
 	/**
 	 * Sets editability of the text areas of the text editors.
-	 * 
+	 *
 	 * @param editable
 	 *            If the text areas should be editable or not.
 	 */
 	public void setEditable(boolean editable) {
 		this.textEditorsAreEditable = editable;
-		for (int i = 0; i < tabbedPane.getTabCount(); i++) {
-			((TextEditorInterface) tabbedPane.getComponentAt(i))
-					.setEditable(editable);
+		for (int i = 0; i < this.tabbedPane.getTabCount(); i++) {
+			((TextEditorInterface) this.tabbedPane.getComponentAt(i))
+			.setEditable(editable);
 		}
 	}
 
 	/**
 	 * DOC will do nothing if given node not open in edit panel
-	 * 
+	 *
 	 * @param node
 	 */
 	public void close(File node) throws GOALException {
@@ -273,7 +278,7 @@ public class EditManager extends JPanel {
 
 	/**
 	 * more distant interfaces (CloseEditorAction) can pass only strings.
-	 * 
+	 *
 	 * @param filename
 	 * @throws GOALException
 	 */
@@ -284,19 +289,19 @@ public class EditManager extends JPanel {
 	/**
 	 * close the given editor This will close the files and maybe the editor but
 	 * not the tab.
-	 * 
+	 *
 	 * @param editor
 	 * @throws GOALCommandCancelledException
 	 *             if user cancels the close.
 	 */
 	public void close(TextEditorInterface editor) throws GOALException {
 		editor.close();
-		tabbedPane.remove(editor);
+		this.tabbedPane.remove(editor);
 	}
 
 	/**
 	 * close the currently active editor
-	 * 
+	 *
 	 * @throws GOALCommandCancelledException
 	 *             if user cancels the close.
 	 */
@@ -306,15 +311,15 @@ public class EditManager extends JPanel {
 
 	/**
 	 * close all edit panels.
-	 * 
+	 *
 	 * @throws GOALCommandCancelledException
 	 *             if user cancels the close.
 	 */
 	public void closeAll() throws GOALException {
-		while (tabbedPane.getTabCount() > 0) {
-			TextEditorInterface editor = ((TextEditorInterface) tabbedPane
+		while (this.tabbedPane.getTabCount() > 0) {
+			TextEditorInterface editor = ((TextEditorInterface) this.tabbedPane
 					.getComponentAt(0));
-			tabbedPane.setSelectedComponent(editor);
+			this.tabbedPane.setSelectedComponent(editor);
 			close(editor);
 		}
 	}
@@ -327,7 +332,7 @@ public class EditManager extends JPanel {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void pageSetup() throws GOALUserError {
 		getActiveEditor().pageSetup();
@@ -335,7 +340,7 @@ public class EditManager extends JPanel {
 
 	/**
 	 * Opens a new tab in the editor, with last part of given filename.
-	 * 
+	 *
 	 * @param filename
 	 *            full path to file (should not be null), with '/' as
 	 *            separators.
@@ -344,7 +349,7 @@ public class EditManager extends JPanel {
 		// check if file with same label is already being edited
 		TextEditorInterface editor = getEditorPane(theFile.getAbsolutePath());
 		if (editor != null) { // select existing editor for viewing
-			tabbedPane.setSelectedComponent(editor);
+			this.tabbedPane.setSelectedComponent(editor);
 			return;
 		}
 
@@ -361,8 +366,8 @@ public class EditManager extends JPanel {
 			}
 			TextEditorInterface newEditor = new JEditTextEditor(
 					theFile.getAbsolutePath());
-			tabbedPane.add(theFile.getName(), newEditor);
-			tabbedPane.setSelectedComponent(newEditor);
+			this.tabbedPane.add(theFile.getName(), newEditor);
+			this.tabbedPane.setSelectedComponent(newEditor);
 			// connect the status bar to the text area of the editor to display
 			// cursor position
 			newEditor.getTextArea().addCaretListener(myIDE.getStatusBar());
@@ -381,14 +386,14 @@ public class EditManager extends JPanel {
 
 	/**
 	 * get the editor pane that contains an editor for the given file.
-	 * 
+	 *
 	 * @return TextEditorInterface holding editor for given file, or null if no
 	 *         such editor
 	 */
 	public TextEditorInterface getEditorPane(String filename) {
 		// check if already being edited.
-		for (int i = 0; i < tabbedPane.getTabCount(); i++) {
-			TextEditorInterface c = (TextEditorInterface) (tabbedPane
+		for (int i = 0; i < this.tabbedPane.getTabCount(); i++) {
+			TextEditorInterface c = (TextEditorInterface) (this.tabbedPane
 					.getComponentAt(i));
 			if (filename.equals(c.getFilename())) {
 				return c;
@@ -399,15 +404,16 @@ public class EditManager extends JPanel {
 
 	/**
 	 * Get list with all active editors
-	 * 
+	 *
 	 * @return list with all active editors.
 	 */
 	public List<TextEditorInterface> getEditors() {
 		List<TextEditorInterface> editors = new ArrayList<TextEditorInterface>();
 		// tabbedPane.getComponents[] returns more than just the tabedpane
 		// components...
-		for (int i = 0; i < tabbedPane.getTabCount(); i++) {
-			editors.add((TextEditorInterface) (tabbedPane.getComponentAt(i)));
+		for (int i = 0; i < this.tabbedPane.getTabCount(); i++) {
+			editors.add((TextEditorInterface) (this.tabbedPane
+					.getComponentAt(i)));
 		}
 		return editors;
 	}
@@ -428,7 +434,7 @@ public class EditManager extends JPanel {
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @see goal.tools.SimpleIDE.TextEditorInterface#cut()
 	 */
 	public void cut() throws GOALUserError {
@@ -437,7 +443,7 @@ public class EditManager extends JPanel {
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @see goal.tools.SimpleIDE.TextEditorInterface#copy()
 	 */
 	public void copy() throws GOALUserError {
@@ -467,7 +473,7 @@ public class EditManager extends JPanel {
 
 	/**
 	 * pop up the search/replace dialog.
-	 * 
+	 *
 	 * @see goal.tools.SimpleIDE.TextEditorInterface#searchReplace()
 	 */
 	public void searchReplace() throws GOALUserError {
@@ -476,7 +482,7 @@ public class EditManager extends JPanel {
 
 	/**
 	 * repeat last find action
-	 * 
+	 *
 	 * @see goal.tools.SimpleIDE.TextEditorInterface#findNext()
 	 */
 	public void findNext() throws GOALUserError {
@@ -485,7 +491,7 @@ public class EditManager extends JPanel {
 
 	/**
 	 * aks user which line to go to and jump to that line.
-	 * 
+	 *
 	 * @see goal.tools.SimpleIDE.TextEditorInterface#goToLine(int) see also
 	 *      org.gjt.sp.jedit.GUIUtilities.input and
 	 *      org.gjt.sp.jedit.textarea.JEditTextArea.
@@ -502,7 +508,7 @@ public class EditManager extends JPanel {
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @see goal.tools.SimpleIDE.TextEditorInterface#autoComplete()
 	 */
 	public void autoComplete() throws GOALUserError {
@@ -518,8 +524,7 @@ public class EditManager extends JPanel {
 		final PlatformManager platform = PlatformManager.getCurrent();
 		for (MASProgram reg : platform.getMASProgramsThatUseFile(goalfile)) {
 			// first get the files used by the agent file
-			Set<File> childFiles = null;
-			childFiles = platform.getImportedFiles(goalfile);
+			List<File> childFiles = platform.getImportedFiles(goalfile);
 			// the list isn't shared, so we can add other files. add the
 			// agent file such that all files to be updated are in the list
 			childFiles.add(goalfile);
@@ -536,7 +541,7 @@ public class EditManager extends JPanel {
 	 * to the MAS registry, which will find out the real line numbers for each
 	 * breakpoint. Then the real line numbers are used to fix the breakpoint
 	 * positions in the editor.
-	 * 
+	 *
 	 * @param reg
 	 *            is file registry
 	 * @param file
@@ -556,14 +561,15 @@ public class EditManager extends JPanel {
 		} else {
 			breakpoints = editor.getBreakpoints();
 		}
-		
-		final BreakpointManager breaks = PlatformManager.getCurrent().getBreakpointManager();
+
+		final BreakpointManager breaks = PlatformManager.getCurrent()
+				.getBreakpointManager();
 		// set the breakpoints in the registry. this sets them to
 		// the proper locations.
 		breaks.setBreakpoints(file, breakpoints);
 
 		// get the actual breakpoints back
-		Set<IParsedObject> realBreakpoints = breaks.getBreakpoints(file);
+		Set<SourceInfo> realBreakpoints = breaks.getBreakpoints(file);
 
 		// don't bother updating the breakpoints if there aren't any
 		if (breakpoints.isEmpty() || realBreakpoints == null) {
@@ -580,16 +586,15 @@ public class EditManager extends JPanel {
 			editor.removeBreakpoint(oldBP);
 		}
 		// then add all new ones, but only if there are any
-		for (IParsedObject newBP : realBreakpoints) {
+		for (SourceInfo newBP : realBreakpoints) {
 			// make sure to convert between 1-based and 0-based indices
 			// HACK. We need to keep the type intact!!
-			editor.setBreakpoint(new BreakPoint(file, newBP.getSource()
-					.getLineNumber() - 1,
+			editor.setBreakpoint(new BreakPoint(file,
+					newBP.getLineNumber() - 1,
 					newBP instanceof ActionCombo ? Type.CONDITIONAL
 							: Type.ALWAYS));
 		}
 		// make sure to visually update the breakpoints as well
 		editor.repaint();
 	}
-
 }

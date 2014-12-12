@@ -48,13 +48,13 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
 
 /**
  * Stores the IDE preferences and provides a GUI to edit them.
- * 
+ *
  * <p>
  * This functionality is needed also in uninstaller. Therefore avoid general
  * dependencies on GOAL, e.g. don't use the Logger, don't use callbacks to the
  * SimpleIDE etc.
  * </p>
- * 
+ *
  * @author W.Pasman 24mar09
  * @modified V.Koeman 12jun13 refactoring preferences: management separated from
  *           display through new class
@@ -62,8 +62,12 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
  */
 @SuppressWarnings("serial")
 public class GUIandFilePreferencePanel extends JPanel implements
-		ChangeListener, ActionListener {
+ChangeListener, ActionListener {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -6947782993162803478L;
 	// File handling items.
 	private final JTextField agentsbrowsedir = new JTextField("/");
 	private final JLabel agentsBrowseDirExplanation = new JLabel(
@@ -73,9 +77,9 @@ public class GUIandFilePreferencePanel extends JPanel implements
 	private final JCheckBox rememberUsedAgentDir = new JCheckBox(
 			"Remember last used agent directory");
 	private final JCheckBox reopenMASs; // re-open MASs that were open last
-										// time?
+	// time?
 	private final JCheckBox reopenGOALs; // re-open spurious GOAL files that
-											// were open
+	// were open
 	// last time?
 
 	// Look and Feel
@@ -117,10 +121,10 @@ public class GUIandFilePreferencePanel extends JPanel implements
 
 		// Look and feel.
 		String[] lafs = { "Default", "Nimbus" };
-		lookAndFeel = new JComboBox(lafs);
+		this.lookAndFeel = new JComboBox(lafs);
 
 		// Button to start browsing for path.
-		agentBrowseButton.addActionListener(new ActionListener() {
+		this.agentBrowseButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				try {
@@ -132,7 +136,8 @@ public class GUIandFilePreferencePanel extends JPanel implements
 									JFileChooser.DIRECTORIES_ONLY, null, null,
 									PMPreferences.getAgentBrowsePath(), true);
 					if (newFile != null) {
-						agentsbrowsedir.setText(newFile.getAbsolutePath());
+						GUIandFilePreferencePanel.this.agentsbrowsedir
+								.setText(newFile.getAbsolutePath());
 						thispanel.actionPerformed(null);
 					}
 
@@ -148,19 +153,19 @@ public class GUIandFilePreferencePanel extends JPanel implements
 
 		// Panel fragment for path to browse for agent files
 		JPanel agentbrowsepanel = new JPanel(new BorderLayout());
-		agentbrowsepanel.add(agentsbrowsedir, BorderLayout.CENTER);
-		agentbrowsepanel.add(agentBrowseButton, BorderLayout.EAST);
+		agentbrowsepanel.add(this.agentsbrowsedir, BorderLayout.CENTER);
+		agentbrowsepanel.add(this.agentBrowseButton, BorderLayout.EAST);
 
 		// Main IDE window size
-		rememberIDEWindowSize = new JCheckBox("Remember IDE window size");
-		rememberIDEWindowPosition = new JCheckBox(
+		this.rememberIDEWindowSize = new JCheckBox("Remember IDE window size");
+		this.rememberIDEWindowPosition = new JCheckBox(
 				"Remember IDE window position");
 		winsize = new JTextArea("      width=" + IDEPreferences.getWinWidth()
 				+ " height=" + IDEPreferences.getWinHeight());
 		winsize.setEditable(false);
 
 		// Feedback area size gets 30%, 70% for the main window.
-		rememberFeedbackAreaSize = new JCheckBox(
+		this.rememberFeedbackAreaSize = new JCheckBox(
 				"Remember size of CONSOLE area");
 		feedbackAreaSize = new JTextArea("      current pos:"
 				+ IDEPreferences.getConsoleAreaHeight());
@@ -176,15 +181,15 @@ public class GUIandFilePreferencePanel extends JPanel implements
 				MAX_LINES_IN_TEXTFIELDS, SPINNER_LINE_COUNT_STEP);
 		maxlinespanel.add(new JLabel("Maximum number of lines in CONSOLE area "
 				+ "(changes take effect after restart)"), BorderLayout.CENTER);
-		maxlinesspinner = new JSpinner(sm);
-		maxlinespanel.add(maxlinesspinner, BorderLayout.WEST);
+		this.maxlinesspinner = new JSpinner(sm);
+		maxlinespanel.add(this.maxlinesspinner, BorderLayout.WEST);
 
 		// Introspector window sizing.
-		rememberdbsize = new JCheckBox(
+		this.rememberdbsize = new JCheckBox(
 				"Remember the size of the database view area in INTROSPECTOR");
 		JTextArea dbsize = new JTextArea("      current size:"
 				+ IntrospectorPreferences.getDBContentSize());
-		couplequerysize = new JCheckBox(
+		this.couplequerysize = new JCheckBox(
 				"Single size of query area in INTROSPECTOR");
 
 		JPanel maxlinesIntrospectorPanel = new JPanel(new BorderLayout());
@@ -192,27 +197,27 @@ public class GUIandFilePreferencePanel extends JPanel implements
 				DEFAULT_OUTPUT_LINES, MIN_OUTPUT_LINES, MAX_OUTPUT_LINES,
 				OUTPUT_LINES_STEPSIZE);
 		maxlinesIntrospectorPanel
-				.add(new JLabel(
-						"Maximum number of lines in query output area in INTROSPECTOR"),
-						BorderLayout.CENTER);
-		spinner = new JSpinner(smIntrospector);
-		maxlinesIntrospectorPanel.add(spinner, BorderLayout.WEST);
+		.add(new JLabel(
+				"Maximum number of lines in query output area in INTROSPECTOR"),
+				BorderLayout.CENTER);
+		this.spinner = new JSpinner(smIntrospector);
+		maxlinesIntrospectorPanel.add(this.spinner, BorderLayout.WEST);
 
 		// Font size
 		JPanel fontsizepanel = new JPanel(new BorderLayout());
 		SpinnerNumberModel fontsm = new SpinnerNumberModel(
 				IDEPreferences.getConsoleFontSize(), FONT_MIN_SIZE,
 				FONT_MAX_SIZE, 1);
-		fontsizespinner = new JSpinner(fontsm);
+		this.fontsizespinner = new JSpinner(fontsm);
 		fontsizepanel
-				.add(new JLabel(
-						"Font size in CONSOLE area (changes take effect after restart)"),
-						BorderLayout.CENTER);
-		fontsizepanel.add(fontsizespinner, BorderLayout.WEST);
+		.add(new JLabel(
+				"Font size in CONSOLE area (changes take effect after restart)"),
+				BorderLayout.CENTER);
+		fontsizepanel.add(this.fontsizespinner, BorderLayout.WEST);
 
 		// Re-opening of files at start-up
-		reopenMASs = new JCheckBox("Re-open MAS Projects at start-up");
-		reopenGOALs = new JCheckBox("Re-open Other files at start-up.");
+		this.reopenMASs = new JCheckBox("Re-open MAS Projects at start-up");
+		this.reopenGOALs = new JCheckBox("Re-open Other files at start-up.");
 
 		// Initialize
 		initSettings();
@@ -222,104 +227,109 @@ public class GUIandFilePreferencePanel extends JPanel implements
 
 		// File handling section.
 		add(PreferencesPanel.getBoldFontJLabel("File Handling"));
-		add(agentsBrowseDirExplanation);
+		add(this.agentsBrowseDirExplanation);
 		add(agentbrowsepanel);
-		add(rememberUsedAgentDir);
-		rememberUsedAgentDir.addActionListener(this);
+		add(this.rememberUsedAgentDir);
+		this.rememberUsedAgentDir.addActionListener(this);
 
-		add(reopenMASs);
-		reopenMASs.addChangeListener(this);
-		add(reopenGOALs);
-		reopenGOALs.addChangeListener(this);
+		add(this.reopenMASs);
+		this.reopenMASs.addChangeListener(this);
+		add(this.reopenGOALs);
+		this.reopenGOALs.addChangeListener(this);
 
 		add(new JPopupMenu.Separator());
 
 		// Java look and feel.
 		add(PreferencesPanel
 				.getBoldFontJLabel("Java Look and Feel (changes take effect after restart): "));
-		add(lookAndFeel);
-		lookAndFeel.addActionListener(this);
+		add(this.lookAndFeel);
+		this.lookAndFeel.addActionListener(this);
 
 		add(new JPopupMenu.Separator());
 
 		// Window sizes section.
 		add(PreferencesPanel.getBoldFontJLabel("Window Sizing and Settings"));
-		add(rememberIDEWindowSize);
-		add(rememberIDEWindowPosition);
-		rememberIDEWindowSize.addChangeListener(this);
-		rememberIDEWindowPosition.addChangeListener(this);
+		add(this.rememberIDEWindowSize);
+		add(this.rememberIDEWindowPosition);
+		this.rememberIDEWindowSize.addChangeListener(this);
+		this.rememberIDEWindowPosition.addChangeListener(this);
 
 		add(fontsizepanel);
-		fontsizespinner.addChangeListener(this);
-		add(rememberFeedbackAreaSize);
-		rememberFeedbackAreaSize.addChangeListener(this);
+		this.fontsizespinner.addChangeListener(this);
+		add(this.rememberFeedbackAreaSize);
+		this.rememberFeedbackAreaSize.addChangeListener(this);
 		// add(feedbackAreaSize);
 		add(maxlinespanel);
-		maxlinesspinner.addChangeListener(this);
+		this.maxlinesspinner.addChangeListener(this);
 
-		add(rememberdbsize);
-		rememberdbsize.addChangeListener(this);
+		add(this.rememberdbsize);
+		this.rememberdbsize.addChangeListener(this);
 		// add(dbsize);
-		add(couplequerysize);
-		couplequerysize.addChangeListener(this);
+		add(this.couplequerysize);
+		this.couplequerysize.addChangeListener(this);
 		add(maxlinesIntrospectorPanel);
-		spinner.addChangeListener(this);
+		this.spinner.addChangeListener(this);
 	}
 
 	/**
 	 * Copies settings from preferences to the check boxes.
 	 */
 	private void initSettings() {
-		agentsbrowsedir.setText(PMPreferences.getAgentBrowsePath());
-		rememberUsedAgentDir.setSelected(PMPreferences
+		this.agentsbrowsedir.setText(PMPreferences.getAgentBrowsePath());
+		this.rememberUsedAgentDir.setSelected(PMPreferences
 				.getRememberLastUsedAgentDir());
-		rememberIDEWindowSize.setSelected(IDEPreferences.getRememberWinSize());
-		rememberIDEWindowPosition.setSelected(IDEPreferences
+		this.rememberIDEWindowSize.setSelected(IDEPreferences
+				.getRememberWinSize());
+		this.rememberIDEWindowPosition.setSelected(IDEPreferences
 				.getRememberWinPos());
-		rememberFeedbackAreaSize.setSelected(IDEPreferences
+		this.rememberFeedbackAreaSize.setSelected(IDEPreferences
 				.getRememberConsoleSize());
-		reopenMASs.setSelected(IDEPreferences.getReopenMASs());
-		reopenGOALs.setSelected(IDEPreferences.getReopenSpurious());
-		lookAndFeel.setSelectedItem(IDEPreferences.getLAF());
-		rememberdbsize.setSelected(IntrospectorPreferences.getRememberDBSize());
-		couplequerysize.setSelected(IntrospectorPreferences
+		this.reopenMASs.setSelected(IDEPreferences.getReopenMASs());
+		this.reopenGOALs.setSelected(IDEPreferences.getReopenSpurious());
+		this.lookAndFeel.setSelectedItem(IDEPreferences.getLAF());
+		this.rememberdbsize.setSelected(IntrospectorPreferences
+				.getRememberDBSize());
+		this.couplequerysize.setSelected(IntrospectorPreferences
 				.getCoupleQuerySize());
-		spinner.setValue(IntrospectorPreferences.getMaxLines());
+		this.spinner.setValue(IntrospectorPreferences.getMaxLines());
 	}
 
 	/**
 	 * Called after user manipulated the preference settings with the GUI.
 	 * change most recent state. Called also from actionPerformed
-	 * 
+	 *
 	 * @param e
 	 *            is not used.
 	 */
 	@Override
 	public void stateChanged(ChangeEvent e) {
-		PMPreferences.setAgentBrowsePath(agentsbrowsedir.getText());
-		PMPreferences.setRememberLastUsedAgentDir(rememberUsedAgentDir
+		PMPreferences.setAgentBrowsePath(this.agentsbrowsedir.getText());
+		PMPreferences.setRememberLastUsedAgentDir(this.rememberUsedAgentDir
 				.isSelected());
-		IDEPreferences.setRememberWinSize(rememberIDEWindowSize.isSelected());
-		IDEPreferences
-				.setRememberWinPos(rememberIDEWindowPosition.isSelected());
-		IDEPreferences.setRememberConsoleSize(rememberFeedbackAreaSize
+		IDEPreferences.setRememberWinSize(this.rememberIDEWindowSize
 				.isSelected());
-		IDEPreferences.setConsoleAreaHeight((Integer) maxlinesspinner
+		IDEPreferences.setRememberWinPos(this.rememberIDEWindowPosition
+				.isSelected());
+		IDEPreferences.setRememberConsoleSize(this.rememberFeedbackAreaSize
+				.isSelected());
+		IDEPreferences.setConsoleAreaHeight((Integer) this.maxlinesspinner
 				.getValue());
-		IDEPreferences.setReopenMASs(reopenMASs.isSelected());
-		IDEPreferences.setReopenSpurious(reopenGOALs.isSelected());
-		IDEPreferences.setLAF((String) lookAndFeel.getSelectedItem());
-		IDEPreferences.setConsoleFontSize((Integer) fontsizespinner.getValue());
+		IDEPreferences.setReopenMASs(this.reopenMASs.isSelected());
+		IDEPreferences.setReopenSpurious(this.reopenGOALs.isSelected());
+		IDEPreferences.setLAF((String) this.lookAndFeel.getSelectedItem());
+		IDEPreferences.setConsoleFontSize((Integer) this.fontsizespinner
+				.getValue());
 
-		IntrospectorPreferences.setRememberDBSize(rememberdbsize.isSelected());
-		IntrospectorPreferences
-				.setCoupleQuerySize(couplequerysize.isSelected());
-		IntrospectorPreferences.setMaxLines((Integer) spinner.getValue());
+		IntrospectorPreferences.setRememberDBSize(this.rememberdbsize
+				.isSelected());
+		IntrospectorPreferences.setCoupleQuerySize(this.couplequerysize
+				.isSelected());
+		IntrospectorPreferences.setMaxLines((Integer) this.spinner.getValue());
 	}
 
 	/**
 	 * When user manipulates combo box, we get an actionPerformed event.
-	 * 
+	 *
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {

@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -47,10 +47,10 @@ import nl.tudelft.goal.SimpleIDE.actions.UndoAction;
  * Defines the tool bar of the GOAL IDE. It introduces buttons for most of the
  * available user commands defined in the enum class UserCmd. Event handling is
  * taken care of by the class SimpleIDE.
- * 
+ *
  * See also:
  * http://java.sun.com/docs/books/tutorial/uiswing/components/toolbar.html.
- * 
+ *
  * @author KH
  * @author W.Pasman 23jun2011 now using actions.
  */
@@ -58,9 +58,14 @@ import nl.tudelft.goal.SimpleIDE.actions.UndoAction;
 public class ToolBar extends JToolBar {
 
 	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1725404513343044477L;
+
+	/**
 	 * Initializes the tool bar in the IDE. Sets layout and adds buttons to the
 	 * tool bar.
-	 * 
+	 *
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
@@ -73,7 +78,7 @@ public class ToolBar extends JToolBar {
 
 	/**
 	 * Add button for given action
-	 * 
+	 *
 	 * @param action
 	 *            is action class to be added.
 	 * @throws IllegalAccessException
@@ -88,12 +93,12 @@ public class ToolBar extends JToolBar {
 
 	/**
 	 * add the buttons to the toolbar.
-	 * 
+	 *
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
 	private void addButtons() throws IllegalAccessException,
-			InstantiationException {
+	InstantiationException {
 		// File buttons
 		addButton(NewFileAction.class);
 		addButton(OpenFileAction.class);

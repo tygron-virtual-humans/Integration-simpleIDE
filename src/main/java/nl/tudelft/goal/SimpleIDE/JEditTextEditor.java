@@ -62,19 +62,23 @@ import org.gjt.sp.jedit.textarea.StandaloneTextArea;
 /**
  * DOC This is some glue code to comply a jEdit pane with a TextEditorInterface.
  * see also org/gjt/sp/jedit/actions.xml in the jEdit code.
- * 
+ *
  * This builds on a edited and recompiled version of jEdit v4.3.pre16
  * <p>
  * This class is final because it calls 'public' functions during construction,
  * to load the file, set the cursor etc. If these were overridden, the
  * constructor behaviour would become puzzling.
- * 
+ *
  * @author W.Pasman
  * @modified W.Pasman 19apr2012 #2108 conditional breakpoints
  */
 @SuppressWarnings("serial")
 public final class JEditTextEditor extends TextEditorInterface {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -6002920516792609116L;
 	private ViewSubstitute view;
 	private static final String FILE_KEY = "file";
 	private static final int UNDO_LIMIT = 100;
@@ -86,14 +90,16 @@ public final class JEditTextEditor extends TextEditorInterface {
 	public JEditTextEditor(String filename) throws IOException {
 		super(filename);
 
-		view = new ViewSubstitute();
+		this.view = new ViewSubstitute();
 
 		jEdit.initSystemProperties();
 
-		setTextArea(StandaloneTextArea.createTextArea(view)); // this creates
-																// stand-alone
-																// text area.
-		view.setTextArea(getTextArea());
+		setTextArea(StandaloneTextArea.createTextArea(this.view)); // this
+																	// creates
+																	// stand-alone
+																	// text
+																	// area.
+		this.view.setTextArea(getTextArea());
 
 		Mode mode; // the mode of this file
 		// TODO use the catalog to guess the file type.
@@ -132,17 +138,17 @@ public final class JEditTextEditor extends TextEditorInterface {
 		}
 
 		getTextArea().getBuffer().setUndoLimit(0); // HACK, see trac 630.
-													// disable Undo of
-													// load-file.
+		// disable Undo of
+		// load-file.
 		getTextArea().getBuffer().insert(0, readFile(filename));
 		getTextArea().getBuffer().setUndoLimit(UNDO_LIMIT); // trac 630. default
-															// seems
+		// seems
 		// 100.
 		getTextArea().getBuffer().setDirty(false); // not dirty, we now match
-													// the file.
+		// the file.
 		getTextArea().getBuffer().setMode(mode);
 		goToLine(0); // otherwise we would get at the last line (TRAC 523), as
-						// result of the insert.
+		// result of the insert.
 
 		setLayout(new BorderLayout());
 		add(getTextArea(), BorderLayout.CENTER);
@@ -157,15 +163,15 @@ public final class JEditTextEditor extends TextEditorInterface {
 
 	@Override
 	public void saveAs(String filename) throws IOException {
-		JEditBuffer buffer = view.getBuffer();
+		JEditBuffer buffer = this.view.getBuffer();
 		writeFile(filename, buffer.getText(0, buffer.getLength()));
-		view.getBuffer().setDirty(false);
+		this.view.getBuffer().setDirty(false);
 		setFileName(filename);
 	}
 
 	@Override
 	public boolean isDirty() {
-		return view.getBuffer().isDirty();
+		return this.view.getBuffer().isDirty();
 	}
 
 	@Override
@@ -175,54 +181,54 @@ public final class JEditTextEditor extends TextEditorInterface {
 
 	@Override
 	public void undo() {
-		view.getBuffer().undo(view.getTextArea());
+		this.view.getBuffer().undo(this.view.getTextArea());
 	}
 
 	@Override
 	public void redo() {
-		view.getBuffer().redo(view.getTextArea());
+		this.view.getBuffer().redo(this.view.getTextArea());
 	}
 
 	@Override
 	public void cut() {
-		Registers.cut(view.getTextArea(), '$');
+		Registers.cut(this.view.getTextArea(), '$');
 	}
 
 	@Override
 	public void copy() {
-		Registers.copy(view.getTextArea(), '$');
+		Registers.copy(this.view.getTextArea(), '$');
 	}
 
 	@Override
 	public void paste() {
-		Registers.paste(view.getTextArea(), '$', false);
+		Registers.paste(this.view.getTextArea(), '$', false);
 	}
 
 	@Override
 	public void searchReplace() {
-		SearchDialog.showSearchDialog(view, view.getTextArea()
+		SearchDialog.showSearchDialog(this.view, this.view.getTextArea()
 				.getSelectedText(), SearchDialog.CURRENT_BUFFER);
 	}
 
 	@Override
 	public void findNext() {
-		SearchAndReplace.find(view);
+		SearchAndReplace.find(this.view);
 	}
 
 	@Override
 	public void goToLine(int lineNumber) {
-		view.getTextArea().setCaretPosition(
-				view.getBuffer().getLineStartOffset(lineNumber));
+		this.view.getTextArea().setCaretPosition(
+				this.view.getBuffer().getLineStartOffset(lineNumber));
 	}
 
 	@Override
 	public void autoComplete() {
-		CompleteWord.completeWord(view);
+		CompleteWord.completeWord(this.view);
 	}
 
 	@Override
 	public void close() throws GOALException {
-		if (view.getBuffer().isDirty()) {
+		if (this.view.getBuffer().isDirty()) {
 			int choice = JOptionPane.showConfirmDialog(this,
 					"Save changes before closing?", "Save File Before Close?",
 					JOptionPane.YES_NO_CANCEL_OPTION);
@@ -252,15 +258,16 @@ public final class JEditTextEditor extends TextEditorInterface {
 
 		// OK, confirmation received. reload.
 		// No need to check time etc, just reload.
-		view.getBuffer().insert(0, readFile(getFilename()));
-		view.getBuffer().setDirty(false); // not dirty, we now match the file.
+		this.view.getBuffer().insert(0, readFile(getFilename()));
+		this.view.getBuffer().setDirty(false); // not dirty, we now match the
+												// file.
 		goToLine(0); // otherwise we would get at the last line (TRAC 523), as
-						// result of the insert.
+		// result of the insert.
 	}
 
 	@Override
 	public void print() {
-		ModifiedBufferPrinter1_4.print(view, view.getBuffer(), false);
+		ModifiedBufferPrinter1_4.print(this.view, this.view.getBuffer(), false);
 	}
 
 	@Override
@@ -285,7 +292,7 @@ public final class JEditTextEditor extends TextEditorInterface {
 
 	/**
 	 * convenience function to create all the style objects.
-	 * 
+	 *
 	 * @param type
 	 *            is {@link Font#BOLD}, {@link Font#PLAIN} etc.
 	 * @return SyntaxStyle with given colors and style.
@@ -296,7 +303,7 @@ public final class JEditTextEditor extends TextEditorInterface {
 
 	/**
 	 * style with background white.
-	 * 
+	 *
 	 * @param font
 	 * @param fg
 	 * @return
@@ -311,6 +318,7 @@ public final class JEditTextEditor extends TextEditorInterface {
 	 */
 	public void setStyles() {
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				Font bold = new Font(EditorPreferences.getFontName(),
 						Font.BOLD, EditorPreferences.getFontSize());
@@ -344,7 +352,7 @@ public final class JEditTextEditor extends TextEditorInterface {
 				 * jedit.props file in jedit project. cc=.8 ff=1 84=80==.5 66=.4
 				 */
 				SyntaxStyle[] styles = { /* see jedit.props also */
-				style(plain, black), // NONE
+						style(plain, black), // NONE
 						style(plain, red), // view.style.comment1=color:#cc0000
 						style(plain, orange),// view.style.comment2=color:#ff8400
 						style(plain, purple),// view.style.comment3=color:#6600cc
@@ -355,11 +363,11 @@ public final class JEditTextEditor extends TextEditorInterface {
 						style(plain, red, brightyellow),// view.style.invalid=color:#ff0066
 						// bgColor:#ffffcc
 						style(bold, black),// view.style.keyword1=color:#000000
-											// style:b
+						// style:b
 						style(plain, darkblue),// view.style.keyword2=color:#000090
 						style(plain, blue),// view.style.keyword3=color:#0000ff
 						style(bold, blue),// view.style.keyword4=color:#0000ff
-											// style:b
+						// style:b
 						style(plain, green),// view.style.label=color:#02b902
 						style(plain, cyan),// view.style.literal1=color:#ff00cc
 						style(plain, darkcyan),// view.style.literal2=color:#cc00cc
@@ -369,20 +377,20 @@ public final class JEditTextEditor extends TextEditorInterface {
 						style(bold, black), // view.style.operator=color:#000000
 						// style:b
 						style(bold, black, brightlime),// view.style.foldLine.0=color:#000000
-														// bgColor:#dafeda
+						// bgColor:#dafeda
 						// style:b
 						style(bold, black, brightyellow),// view.style.foldLine.1=color:#000000
-															// bgColor:#fff0cc
+						// bgColor:#fff0cc
 						// style:b
 						style(bold, black, brightpurple),// view.style.foldLine.2=color:#000000
-															// bgColor:#e7e7ff
+						// bgColor:#e7e7ff
 						// style:b
 						style(bold, black, brightpink) /*
-														 * view.style.foldLine.3=
-														 * color:#000000
-														 * bgColor:#ffe0f0
-														 * style:b
-														 */
+						 * view.style.foldLine.3=
+						 * color:#000000
+						 * bgColor:#ffe0f0
+						 * style:b
+						 */
 				};
 
 				getTextArea().getPainter().setStyles(styles);
@@ -399,7 +407,8 @@ public final class JEditTextEditor extends TextEditorInterface {
 	public Set<BreakPoint> getBreakpoints() {
 		// translate jEdit to GOAL breakpoints
 		Set<BreakPoint> breakpoints = new HashSet<BreakPoint>();
-		for (Breakpoint bp : view.getBuffer().getBreakpoints().getBreakpoints()) {
+		for (Breakpoint bp : this.view.getBuffer().getBreakpoints()
+				.getBreakpoints()) {
 			BreakPoint.Type bptype;
 			switch (bp.getType()) {
 			case ALWAYS:
@@ -434,15 +443,16 @@ public final class JEditTextEditor extends TextEditorInterface {
 			throw new IllegalArgumentException("unknown breakpoint type "
 					+ breakpoint.getType());
 		}
-		int line = view.getBuffer().getLineStartOffset(breakpoint.getLine());
-		view.getBuffer().getBreakpoints().addBreakpoint(line, type);
+		int line = this.view.getBuffer().getLineStartOffset(
+				breakpoint.getLine());
+		this.view.getBuffer().getBreakpoints().addBreakpoint(line, type);
 	}
 
 	@Override
 	public void removeBreakpoint(BreakPoint breakpoint)
 			throws ArrayIndexOutOfBoundsException {
-		view.getBuffer().getBreakpoints()
-				.removeBreakpoint(breakpoint.getLine());
+		this.view.getBuffer().getBreakpoints()
+		.removeBreakpoint(breakpoint.getLine());
 	}
 
 	@Override
@@ -466,10 +476,11 @@ class ApplyActionListener implements ActionListener {
 	TextAreaOptionPane theprefpane;
 
 	ApplyActionListener(TextAreaOptionPane prefpane) {
-		theprefpane = prefpane;
+		this.theprefpane = prefpane;
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		theprefpane._save();
+		this.theprefpane._save();
 	}
 }

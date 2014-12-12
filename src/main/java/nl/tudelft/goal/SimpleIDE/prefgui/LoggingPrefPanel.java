@@ -47,11 +47,11 @@ import nl.tudelft.goal.SimpleIDE.SimpleIDE;
 /**
  * Provides a JPanel allowing modification of the settings. We set the
  * preferences through {@link goal.preferences.LoggingPreferences}.
- * 
+ *
  * <p>
  * See {@link GOALLogger} for more details on logging to file.
  * </p>
- * 
+ *
  * @author W.Pasman
  * @modified W.Pasman 15sep10 code cleanup trac #1084
  * @modified V.Koeman 12jun13 refactoring preferences: management separated from
@@ -59,6 +59,10 @@ import nl.tudelft.goal.SimpleIDE.SimpleIDE;
  */
 @SuppressWarnings("serial")
 public class LoggingPrefPanel extends JPanel implements ChangeListener {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 6174355713831545780L;
 	private final JCheckBox javaDetailsCheckBox = new JCheckBox(
 			"Show Java details with warning messages");
 	private final JCheckBox stackTraceCheckBox = new JCheckBox(
@@ -83,11 +87,11 @@ public class LoggingPrefPanel extends JPanel implements ChangeListener {
 	 */
 	public LoggingPrefPanel() {
 
-		overwritefile.setMargin(new Insets(0, INSET_LEFT, 0, 0));
-		logconsoles.setMargin(new Insets(0, INSET_LEFT, 0, 0));
-		logdirpanel.add(logDirExplanation, BorderLayout.WEST);
-		logdirpanel.add(logdirectory, BorderLayout.CENTER);
-		logdirpanel.add(logDirBrowseButton, BorderLayout.EAST);
+		this.overwritefile.setMargin(new Insets(0, INSET_LEFT, 0, 0));
+		this.logconsoles.setMargin(new Insets(0, INSET_LEFT, 0, 0));
+		this.logdirpanel.add(this.logDirExplanation, BorderLayout.WEST);
+		this.logdirpanel.add(this.logdirectory, BorderLayout.CENTER);
+		this.logdirpanel.add(this.logDirBrowseButton, BorderLayout.EAST);
 
 		initSettings(); // here since it initializes spinner model
 
@@ -95,29 +99,31 @@ public class LoggingPrefPanel extends JPanel implements ChangeListener {
 		dblevelpanel.add(new JLabel(
 				"Maximum number that same warning message is shown"),
 				BorderLayout.CENTER);
-		maxNrOfWarningMessagesSpinner = new JSpinner(spinnerModel);
-		dblevelpanel.add(maxNrOfWarningMessagesSpinner, BorderLayout.WEST);
+		this.maxNrOfWarningMessagesSpinner = new JSpinner(this.spinnerModel);
+		dblevelpanel.add(this.maxNrOfWarningMessagesSpinner, BorderLayout.WEST);
 
 		setLayout(new GridLayout(0, 1));
 
 		// fix listener
-		javaDetailsCheckBox.addChangeListener(this);
-		stackTraceCheckBox.addChangeListener(this);
-		logtofile.addChangeListener(this);
-		logconsoles.addChangeListener(this);
-		overwritefile.addChangeListener(this);
-		showLogTime.addChangeListener(this);
+		this.javaDetailsCheckBox.addChangeListener(this);
+		this.stackTraceCheckBox.addChangeListener(this);
+		this.logtofile.addChangeListener(this);
+		this.logconsoles.addChangeListener(this);
+		this.overwritefile.addChangeListener(this);
+		this.showLogTime.addChangeListener(this);
 
-		logDirBrowseButton.addActionListener(new ActionListener() {
+		this.logDirBrowseButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				try {
-					File newFile = SimpleIDE.askFile(logdirpanel, true,
+					File newFile = SimpleIDE.askFile(
+							LoggingPrefPanel.this.logdirpanel, true,
 							"Select browse start path for goal agents",
 							JFileChooser.DIRECTORIES_ONLY, null, null,
 							LoggingPreferences.getLogDirectory(), true);
 					if (newFile != null) {
-						logdirectory.setText(newFile.getAbsolutePath());
+						LoggingPrefPanel.this.logdirectory.setText(newFile
+								.getAbsolutePath());
 						actionPerformed(null);
 					}
 
@@ -133,53 +139,56 @@ public class LoggingPrefPanel extends JPanel implements ChangeListener {
 
 		// add components
 		add(PreferencesPanel.getBoldFontJLabel("Log Handling"));
-		add(showLogTime);
-		add(logtofile);
-		add(logconsoles);
-		add(overwritefile);
-		add(logdirpanel);
+		add(this.showLogTime);
+		add(this.logtofile);
+		add(this.logconsoles);
+		add(this.overwritefile);
+		add(this.logdirpanel);
 		add(new JPopupMenu.Separator());
 		add(PreferencesPanel.getBoldFontJLabel("Display of Warnings"));
 		add(dblevelpanel);
-		maxNrOfWarningMessagesSpinner.addChangeListener(this);
-		add(javaDetailsCheckBox);
-		add(stackTraceCheckBox);
+		this.maxNrOfWarningMessagesSpinner.addChangeListener(this);
+		add(this.javaDetailsCheckBox);
+		add(this.stackTraceCheckBox);
 	}
 
 	/**
 	 * Copies settings from preferences to the check boxes and spinner model.
 	 */
 	private void initSettings() {
-		logdirectory.setText(LoggingPreferences.getLogDirectory());
-		logtofile.setSelected(LoggingPreferences.getLogToFile());
-		logconsoles.setSelected(LoggingPreferences.getLogConsolesToFile());
-		overwritefile.setSelected(LoggingPreferences.getOverwriteFile());
-		javaDetailsCheckBox
-				.setSelected(LoggingPreferences.getShowJavaDetails());
-		stackTraceCheckBox.setSelected(LoggingPreferences.getShowStackdump());
-		spinnerModel = new SpinnerNumberModel(
+		this.logdirectory.setText(LoggingPreferences.getLogDirectory());
+		this.logtofile.setSelected(LoggingPreferences.getLogToFile());
+		this.logconsoles.setSelected(LoggingPreferences.getLogConsolesToFile());
+		this.overwritefile.setSelected(LoggingPreferences.getOverwriteFile());
+		this.javaDetailsCheckBox.setSelected(LoggingPreferences
+				.getShowJavaDetails());
+		this.stackTraceCheckBox.setSelected(LoggingPreferences
+				.getShowStackdump());
+		this.spinnerModel = new SpinnerNumberModel(
 				LoggingPreferences.getSuppressLevel(), 1,
 				MAX_NUMBER_OF_WARNING_REPEATS, 1);
-		showLogTime.setSelected(LoggingPreferences.getShowTime());
+		this.showLogTime.setSelected(LoggingPreferences.getShowTime());
 	}
 
 	/**
 	 * Handles change event, when user changed a setting in the GUI.
-	 * 
+	 *
 	 * @param event
 	 *            is the GUI event
 	 */
 	@Override
 	public void stateChanged(ChangeEvent event) {
-		LoggingPreferences.setLogToFile(logtofile.isSelected());
-		LoggingPreferences.setLogConsolesToFile(logconsoles.isSelected());
-		LoggingPreferences.setShowTime(showLogTime.isSelected());
-		LoggingPreferences.setOverwriteFile(overwritefile.isSelected());
-		LoggingPreferences.setShowJavaDetails(javaDetailsCheckBox.isSelected());
-		LoggingPreferences.setShowStackdump(stackTraceCheckBox.isSelected());
+		LoggingPreferences.setLogToFile(this.logtofile.isSelected());
+		LoggingPreferences.setLogConsolesToFile(this.logconsoles.isSelected());
+		LoggingPreferences.setShowTime(this.showLogTime.isSelected());
+		LoggingPreferences.setOverwriteFile(this.overwritefile.isSelected());
+		LoggingPreferences.setShowJavaDetails(this.javaDetailsCheckBox
+				.isSelected());
+		LoggingPreferences.setShowStackdump(this.stackTraceCheckBox
+				.isSelected());
 		LoggingPreferences
-				.setSuppressLevel((Integer) maxNrOfWarningMessagesSpinner
-						.getValue());
-		LoggingPreferences.setLogDirectory(logdirectory.getText());
+		.setSuppressLevel((Integer) this.maxNrOfWarningMessagesSpinner
+				.getValue());
+		LoggingPreferences.setLogDirectory(this.logdirectory.getText());
 	}
 }

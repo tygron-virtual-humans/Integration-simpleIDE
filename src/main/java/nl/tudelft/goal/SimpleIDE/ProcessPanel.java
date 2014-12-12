@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -19,7 +19,6 @@
 package nl.tudelft.goal.SimpleIDE;
 
 import goal.core.agent.Agent;
-import goal.core.agent.AgentId;
 import goal.core.runtime.RuntimeEvent;
 import goal.core.runtime.RuntimeEventObserver;
 import goal.core.runtime.RuntimeManager;
@@ -51,6 +50,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+import languageTools.program.agent.AgentId;
 import nl.tudelft.goal.SimpleIDE.actions.IntrospectorAction;
 import nl.tudelft.goal.messaging.messagebox.MessageBoxId;
 
@@ -58,12 +58,16 @@ import nl.tudelft.goal.messaging.messagebox.MessageBoxId;
  * Shows the processes of a running multi-agent system in a process tree. Each
  * node in the tree represents a process (MAS, GOAL, or ENVIRONMENT). The root
  * node is the MAS process.
- * 
+ *
  * @author K.Hindriks
  */
 @SuppressWarnings("serial")
 public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -6408794831099444206L;
 	private final IDEfunctionality myIDE;
 	private final IDEState myIDEState;
 
@@ -81,19 +85,19 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 
 	/**
 	 * Creates process panel that shows process tree representing a running MAS.
-	 * 
+	 *
 	 * @param theIDE
 	 *            IDE object that provides user logic.
 	 */
 	public ProcessPanel(IDEfunctionality theIDE, IDEState state) {
-		myIDE = theIDE;
-		myIDEState = state;
+		this.myIDE = theIDE;
+		this.myIDEState = state;
 	}
 
 	/**
 	 * Initializes the panel. To be called after the runtime is created, so that
 	 * the panel can properly subscribe with it.
-	 * 
+	 *
 	 * @param runtime
 	 *            The latest runtime to be shown by the panel.
 	 */
@@ -103,47 +107,47 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 		removeAll();
 
 		// Create a new tree model.
-		processTreeModel = new DefaultTreeModel(null);
-		processTree = new JTree(processTreeModel);
+		this.processTreeModel = new DefaultTreeModel(null);
+		this.processTree = new JTree(this.processTreeModel);
 
 		// add listeners
 		addListeners();
 
 		// see TRAC 303
-		processTree.setToggleClickCount(IMPOSSIBLE_CLICK_COUNT);
+		this.processTree.setToggleClickCount(IMPOSSIBLE_CLICK_COUNT);
 
 		// define layout
 		setLayout(new BorderLayout());
 		// process nodes cannot be edited
-		processTree.setEditable(false);
-		processTree.setRootVisible(true);
-		processTree.setShowsRootHandles(false);
-		processTree.setCellRenderer(new IDENodeRenderer());
+		this.processTree.setEditable(false);
+		this.processTree.setRootVisible(true);
+		this.processTree.setShowsRootHandles(false);
+		this.processTree.setCellRenderer(new IDENodeRenderer());
 
 		// add pop up menu to tree
 		TreePopupMenu menu;
 		try {
 			menu = new TreePopupMenu();
-			processTree.setComponentPopupMenu(menu);
+			this.processTree.setComponentPopupMenu(menu);
 		} catch (Exception e) {
 			new Warning(
 					Resources.get(WarningStrings.FAILED_POPUP_WINDOW_CREATE), e);
 		}
 
 		// include tree view in pane
-		JScrollPane processTreeView = new JScrollPane(processTree);
+		JScrollPane processTreeView = new JScrollPane(this.processTree);
 		add(new JLabel("Process Overview"), BorderLayout.NORTH); //$NON-NLS-1$
 		add(processTreeView, BorderLayout.CENTER);
 	}
 
 	/**
 	 * Handles events from RuntimeManager.
-	 * 
+	 *
 	 * @param observable
 	 *            The {@link MonitoringService}.
 	 * @param argument
 	 *            A {@link RuntimeEvent} event.
-	 * 
+	 *
 	 *            FIXME: for which events is this still used? Appears that, for
 	 *            example, AGENT_DIED is never handled here...
 	 */
@@ -167,8 +171,10 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 					break;
 				case MAS_DIED: // clean up tree and tree model
 					removeAll();
-					processTreeModel = new DefaultTreeModel(null);
-					processTree.setModel(processTreeModel);
+					ProcessPanel.this.processTreeModel = new DefaultTreeModel(
+							null);
+					ProcessPanel.this.processTree
+					.setModel(ProcessPanel.this.processTreeModel);
 					break;
 				case AGENT_BORN:
 				case AGENT_IS_LOCAL_AND_READY:
@@ -202,7 +208,7 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 
 	/**
 	 * Remove process node for environment.
-	 * 
+	 *
 	 * @param source
 	 *            either EIS or messagebox source
 	 */
@@ -213,12 +219,12 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 			return;
 		}
 		// can we restart? should we restart? remote vs local?
-		processTreeModel.removeNodeFromParent(node);
+		this.processTreeModel.removeNodeFromParent(node);
 	}
 
 	/**
 	 * Updates the sources for the environment process node.
-	 * 
+	 *
 	 * @param source
 	 */
 
@@ -243,14 +249,14 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 				treenode.setUserObject(port);
 			}
 		}
-		processTreeModel.nodeChanged(treenode);
-		ActionFactory.broadcastStateChange(myIDEState);
+		this.processTreeModel.nodeChanged(treenode);
+		ActionFactory.broadcastStateChange(this.myIDEState);
 
 	}
 
 	/**
 	 * Agent died. change mode to KILLED.
-	 * 
+	 *
 	 * @param agentname
 	 */
 	private void handleAgentDied(String agentname) {
@@ -261,30 +267,30 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 		if (node != null) {
 			if (node.getType() == NodeType.REMOTE_AGENT_PROCESS) {
 				// remote agent. Just remove the node.
-				processTreeModel.removeNodeFromParent(node);
+				this.processTreeModel.removeNodeFromParent(node);
 			} else {
 				// local agent
 				node.setKilled();
-				processTreeModel.nodeChanged(node);
+				this.processTreeModel.nodeChanged(node);
 			}
 		}
 	}
 
 	/**
 	 * Agent has been removed from system. Remove it from the panel.
-	 * 
+	 *
 	 * @param source
 	 */
 	private synchronized void handleAgentRemoved(String agentname) {
 		final ProcessNode node = findNode(agentname);
 		if (node != null) {
-			processTreeModel.removeNodeFromParent(node);
+			this.processTreeModel.removeNodeFromParent(node);
 		}
 	}
 
 	/**
 	 * handle a new environment, by creating a new node representing it
-	 * 
+	 *
 	 * @param source
 	 *            is the event source. This is either a {@link MessageBoxId} if
 	 *            the environment is remote, or a {@link EnvironmentPort} if
@@ -292,36 +298,49 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 	 *            {@link RuntimeManager}
 	 */
 	private synchronized void handleEnvBorn(Object source) {
-		ProcessNode node = new ProcessNode(source, processTreeModel) {
+		ProcessNode node = new ProcessNode(source, this.processTreeModel) {
+			/**
+			 *
+			 */
+			private static final long serialVersionUID = 1405245480774729309L;
+
 			@Override
 			public void panelHasChanged() {
-				ActionFactory.broadcastStateChange(myIDEState);
+				ActionFactory
+				.broadcastStateChange(ProcessPanel.this.myIDEState);
 			}
 		};
-		processTreeModel.insertNodeInto(node, masNode, masNode.getChildCount());
-		processTree.scrollPathToVisible(new TreePath(node.getPath()));
+		this.processTreeModel.insertNodeInto(node, this.masNode,
+				this.masNode.getChildCount());
+		this.processTree.scrollPathToVisible(new TreePath(node.getPath()));
 	}
 
 	/**
 	 * handle a new MAS, by creating a new node representing it
-	 * 
+	 *
 	 * @param source
 	 *            is the RuntimeServiceManager
 	 */
 	private synchronized void handleMasBorn(Object source) {
-		masNode = new ProcessNode(source, processTreeModel) {
+		this.masNode = new ProcessNode(source, this.processTreeModel) {
+			/**
+			 *
+			 */
+			private static final long serialVersionUID = -3976206418465524654L;
+
 			@Override
 			public void panelHasChanged() {
-				ActionFactory.broadcastStateChange(myIDEState);
+				ActionFactory
+				.broadcastStateChange(ProcessPanel.this.myIDEState);
 			}
 		};
-		processTreeModel.setRoot(masNode);
+		this.processTreeModel.setRoot(this.masNode);
 	}
 
 	/**
 	 * New agent was born. Insert the new agent in the panel and update buttons.
 	 * Synchronized because IDE is not threadsafe. #2402
-	 * 
+	 *
 	 * @param source
 	 *            is name (string) of the agent.
 	 */
@@ -336,37 +355,43 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 
 		// only take action if we don't have the node already.
 		if (findNode(agentname) == null) {
-			ProcessNode node = new ProcessNode(source, processTreeModel) {
+			ProcessNode node = new ProcessNode(source, this.processTreeModel) {
+				/**
+				 *
+				 */
+				private static final long serialVersionUID = 6888454348133887002L;
+
 				@Override
 				public void panelHasChanged() {
-					ActionFactory.broadcastStateChange(myIDEState);
+					ActionFactory
+					.broadcastStateChange(ProcessPanel.this.myIDEState);
 				}
 			};
 
 			// Determine where to insert the node; lexicographic ordering.
 			int j = 0;
-			if (masNode.getChildCount() > 0) {
-				for (int i = 0; i < masNode.getChildCount(); i++) {
+			if (this.masNode.getChildCount() > 0) {
+				for (int i = 0; i < this.masNode.getChildCount(); i++) {
 					j = i;
-					if (node.getNodeName()
-							.compareTo(
-									((ProcessNode) masNode.getChildAt(i))
-											.getNodeName()) <= 0) {
+					if (node.getNodeName().compareTo(
+							((ProcessNode) this.masNode.getChildAt(i))
+							.getNodeName()) <= 0) {
 						break;
 					}
 				}
 				if (node.getNodeName().compareTo(
-						((ProcessNode) masNode.getChildAt(j)).getNodeName()) > 0) {
+						((ProcessNode) this.masNode.getChildAt(j))
+						.getNodeName()) > 0) {
 					j++;
 				}
 			}
 
 			// Insert node.
-			processTreeModel.insertNodeInto(node, masNode, j);
-			processTree.scrollPathToVisible(new TreePath(node.getPath()));
+			this.processTreeModel.insertNodeInto(node, this.masNode, j);
+			this.processTree.scrollPathToVisible(new TreePath(node.getPath()));
 
 			// DOC
-			ActionFactory.broadcastStateChange(myIDEState);
+			ActionFactory.broadcastStateChange(this.myIDEState);
 		}
 	}
 
@@ -374,7 +399,7 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 	 * A new agent has been selected by scheduler. This means we have to update
 	 * the panel, because non-selected agents in STEPPING mode are shown as
 	 * being in PAUSE.
-	 * 
+	 *
 	 * @param selectedAgents
 	 *            are the agents that were selected by scheduler
 	 */
@@ -392,20 +417,20 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 		// so the masNode may still be null. just ignore this call in that case.
 		// (used to be synchronized with #update, but then #update sometimes got
 		// into a deadlock with itself.
-		if (masNode == null) {
+		if (this.masNode == null) {
 			return;
 		}
 
 		// check selection-state
-		for (int i = 0; i < masNode.getChildCount(); i++) {
-			node = (ProcessNode) masNode.getChildAt(i);
+		for (int i = 0; i < this.masNode.getChildCount(); i++) {
+			node = (ProcessNode) this.masNode.getChildAt(i);
 			boolean selected = selectedNames.contains(node.getNodeName());
 			node.setSelectedByScheduler(selected);
 		}
 
-		for (int i = 0; i < masNode.getChildCount(); i++) {
+		for (int i = 0; i < this.masNode.getChildCount(); i++) {
 			setBold = false;
-			node = (ProcessNode) masNode.getChildAt(i);
+			node = (ProcessNode) this.masNode.getChildAt(i);
 			name = node.getNodeName();
 			for (Agent<IDEGOALInterpreter> agent : selectedAgents) {
 				if (agent.getId().equals(name)) {
@@ -418,7 +443,7 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 				// only render node if not in running mode to avoid
 				// 'flickering'
 				if (node.getRunMode() != RunMode.RUNNING) {
-					processTreeModel.nodeChanged(node);
+					this.processTreeModel.nodeChanged(node);
 				}
 			}
 		}
@@ -427,13 +452,13 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 	/**
 	 * Returns the selected {@link ProcessNode}s the process panel. If no node
 	 * has been selected, the MAS root node is returned.
-	 * 
+	 *
 	 * @return the selected process node, or the MAS root node if nothing has
 	 *         been selected.
 	 * @see goal.tools.SimpleIDE.IDEfunctionality#getSelectedNode()
 	 */
 	public synchronized List<IDENode> getSelectedNodes() {
-		TreePath[] paths = processTree.getSelectionPaths();
+		TreePath[] paths = this.processTree.getSelectionPaths();
 		List<IDENode> nodes = new ArrayList<IDENode>();
 		if (paths == null) {
 			if (this.masNode != null) {
@@ -450,23 +475,23 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 	/**
 	 * Returns the node with the given name, i.e. the name of the associated
 	 * user object. Performs a walk-through of the tree.
-	 * 
+	 *
 	 * @param name
 	 *            name to be searched for.
 	 * @return node in process panel with given name, or null if node not found.
 	 */
 	public synchronized ProcessNode findNode(String name) {
-		if (processTreeModel.getRoot() == null) { // empty tree
+		if (this.processTreeModel.getRoot() == null) { // empty tree
 			return null;
 		}
 		// start at root node
-		return findNode(name, (ProcessNode) processTreeModel.getRoot());
+		return findNode(name, (ProcessNode) this.processTreeModel.getRoot());
 	}
 
 	/**
 	 * Performs a walk-through of the tree below given node, searching for a
 	 * node with given name.
-	 * 
+	 *
 	 * @param name
 	 *            name to be searched for.
 	 * @param node
@@ -497,32 +522,35 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 
 	/**
 	 * Adds all relevant listeners.
-	 * 
+	 *
 	 * @param tree
 	 *            tree to which tree listeners need to be added.
 	 */
 	public void addListeners() {
 		// add mouse listener
-		processTree.addMouseListener(new MyMouseAdapter());
+		this.processTree.addMouseListener(new MyMouseAdapter());
 
 		// add tree selection listener
-		processTree.addTreeSelectionListener(new TreeSelectionListener() {
+		this.processTree.addTreeSelectionListener(new TreeSelectionListener() {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
-				ActionFactory.broadcastStateChange(myIDEState);
+				ActionFactory
+				.broadcastStateChange(ProcessPanel.this.myIDEState);
 			}
 		});
 
 		// tree expansion listener
-		processTree.addTreeExpansionListener(new TreeExpansionListener() {
+		this.processTree.addTreeExpansionListener(new TreeExpansionListener() {
 			@Override
 			public void treeExpanded(TreeExpansionEvent event) {
-				ActionFactory.broadcastStateChange(myIDEState);
+				ActionFactory
+				.broadcastStateChange(ProcessPanel.this.myIDEState);
 			}
 
 			@Override
 			public void treeCollapsed(TreeExpansionEvent event) {
-				ActionFactory.broadcastStateChange(myIDEState);
+				ActionFactory
+				.broadcastStateChange(ProcessPanel.this.myIDEState);
 			}
 		});
 	}
@@ -541,14 +569,14 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 	 * <li> <em>environment has been selected:</em><br>
 	 * environment is put into RUNNING mode TODO</li>
 	 * </ul>
-	 * 
+	 *
 	 * FIXME it seems we can move this to the PlatformManager or Runtime? In
 	 * fact we use it in 2 actions only... maybe move it to them?
-	 * 
+	 *
 	 * @param node
 	 *            process node (or the MAS child if root node) to be put into
 	 *            RUNNING mode.
-	 * 
+	 *
 	 */
 	@SuppressWarnings("unchecked")
 	public void runProcessNode(ProcessNode node) throws GOALException {
@@ -600,8 +628,8 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 				try {
 					// TODO how do we know if agent needs environment
 					// connection?
-					LaunchManager.getCurrent().getRuntimeManager().restartAgent(
-							new AgentId(node.getNodeName()));
+					LaunchManager.getCurrent().getRuntimeManager()
+					.restartAgent(new AgentId(node.getNodeName()));
 				} catch (Exception e) {
 					new Warning(String.format(
 							Resources.get(WarningStrings.FAILED_AGENT_RESTART),
@@ -637,17 +665,17 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 
 	@Override
 	public String toString() {
-		return "ProcessPanel[" + myIDE + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "ProcessPanel[" + this.myIDE + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
 	 * Handles double click events on process nodes, in order to open
 	 * introspector panels for the agent(s) that are selected. Single click
 	 * events are handled by the tree selection listener.
-	 * 
+	 *
 	 * We have inner class here because ProcessPanel already extends JPanel so
 	 * it can not also extend MouseAdapter.
-	 * 
+	 *
 	 * @see http ://java.sun.com/j2se/1.4.2/docs/api/javax/swing/JTree.html for
 	 *      code.
 	 */
@@ -655,15 +683,16 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 	class MyMouseAdapter extends MouseAdapter {
 		@Override
 		public void mousePressed(MouseEvent event) {
-			ActionFactory.broadcastStateChange(myIDEState);
+			ActionFactory.broadcastStateChange(ProcessPanel.this.myIDEState);
 			if (event.isPopupTrigger()) {
-				processTree.getComponentPopupMenu().show(processTree,
-						event.getX(), event.getY());
+				ProcessPanel.this.processTree.getComponentPopupMenu().show(
+						ProcessPanel.this.processTree, event.getX(),
+						event.getY());
 				return;
 			}
 
-			TreePath selPath = processTree.getPathForLocation(event.getX(),
-					event.getY());
+			TreePath selPath = ProcessPanel.this.processTree
+					.getPathForLocation(event.getX(), event.getY());
 			if (selPath == null) { // nothing selected
 				return;
 			}
@@ -685,8 +714,9 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 		@Override
 		public void mouseReleased(MouseEvent event) {
 			if (event.isPopupTrigger()) {
-				processTree.getComponentPopupMenu().show(processTree,
-						event.getX(), event.getY());
+				ProcessPanel.this.processTree.getComponentPopupMenu().show(
+						ProcessPanel.this.processTree, event.getX(),
+						event.getY());
 				return;
 			}
 		}

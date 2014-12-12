@@ -39,7 +39,7 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
  * made, as far as I understand).</li>
  * <li>
  * show logged text (text streamed through a {@link GOALLogger}</li>
- * 
+ *
  * @author N.Kraayenbrink<br>
  *         Text can now only be added using loggers, of which the output is only
  *         shown once {@link #flush} is called. Use {@link #subscribeTo} to
@@ -52,7 +52,11 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
 @SuppressWarnings("serial")
 public class LogTextTrackingScrollPane extends TextTrackingScrollPane {
 
-	private GOALBufferedHandler myHandler;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 932378235353669776L;
+	private final GOALBufferedHandler myHandler;
 
 	public LogTextTrackingScrollPane(String initialText) {
 		this(initialText, IntrospectorPreferences.getMaxLines());
@@ -72,7 +76,7 @@ public class LogTextTrackingScrollPane extends TextTrackingScrollPane {
 	 * Subscribes this {@link LogTextTrackingScrollPane} to a {@link GOALLogger}
 	 * by adding the {@link TextPaneHandler} to the given {@link GOALLogger}
 	 * handler list.
-	 * 
+	 *
 	 * @param loggers
 	 *            The {@link GOALLogger}s to subscribe this
 	 *            {@link LogTextTrackingScrollPane} to.
@@ -87,7 +91,7 @@ public class LogTextTrackingScrollPane extends TextTrackingScrollPane {
 	 * Unsubscribes this {@link LogTextTrackingScrollPane} from a
 	 * {@link GOALLogger} by removing the {@link TextPaneHandler} from the given
 	 * {@link GOALLogger}'s handler list.
-	 * 
+	 *
 	 * @param loggers
 	 *            The {@link GOALLogger}s to unsubscribe from.
 	 */
@@ -127,9 +131,9 @@ public class LogTextTrackingScrollPane extends TextTrackingScrollPane {
 	 * {@link Formatter} prescribed by the given {@link GOALLogRecord}. If a
 	 * {@link LogRecord} is given that is not a {@link GOALLogRecord}, its raw
 	 * message is displayed.
-	 * 
+	 *
 	 * @author N.Kraayenbrink
-	 * 
+	 *
 	 */
 	private class TextPaneHandler extends Handler {
 
@@ -150,7 +154,7 @@ public class LogTextTrackingScrollPane extends TextTrackingScrollPane {
 
 		@Override
 		public void flush() {
-			if (lineBuffer.length() == 0) {
+			if (this.lineBuffer.length() == 0) {
 				return;
 			}
 			append(this.lineBuffer.toString());

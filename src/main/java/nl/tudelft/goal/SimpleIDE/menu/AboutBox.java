@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -39,19 +39,24 @@ import javax.swing.event.HyperlinkListener;
 
 /**
  * Displays 'About GOAL' panel. Shows version number and web link.
- * 
+ *
  * CHECK why is this in the "menu" directory as this is not a menu? Maybe we can
  * use a JOptionPane.showMessageDialog here, that way we can avoid handling
  * close buttons and events saving a few lines of code.
- * 
+ *
  * @author W.Pasman
  */
 @SuppressWarnings("serial")
 public class AboutBox extends JFrame {
 
 	/**
+	 *
+	 */
+	private static final long serialVersionUID = -904263836528337663L;
+
+	/**
 	 * Displays 'About GOAL' panel. Shows version number and web link.
-	 * 
+	 *
 	 * @param is
 	 *            component, used to determine position of this about box.
 	 */

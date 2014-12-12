@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -27,7 +27,7 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 
 /**
- * 
+ *
  * This factory provides all the IDE icons. It prevents multiple creation of the
  * same icon.
  * <p>
@@ -42,9 +42,9 @@ import javax.swing.ImageIcon;
  * Warnings concerning un-loadable icons are printed with a Warning during
  * loading of this class. At runtime, icons that failed to load will return null
  * as icon.
- * 
+ *
  * @author W.Pasman 24jun2011
- * 
+ *
  */
 public enum IconFactory {
 
@@ -133,19 +133,19 @@ public enum IconFactory {
 			new Warning(String.format(
 					Resources.get(WarningStrings.FAILED_ICON_GET), filename));
 		} else {
-			icon = new ImageIcon(iconfile);
+			this.icon = new ImageIcon(iconfile);
 		}
 	}
 
 	/**
 	 * You use this by for example <code>
-	 * IconFactory.RUN.getIcon() 
+	 * IconFactory.RUN.getIcon()
 	 * </code>
-	 * 
+	 *
 	 * @return the ImageIcon, or null if the icon could not be loaded.
 	 */
 	public ImageIcon getIcon() {
-		return icon;
+		return this.icon;
 	}
 
 }

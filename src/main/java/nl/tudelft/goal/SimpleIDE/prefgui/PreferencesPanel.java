@@ -34,19 +34,23 @@ import javax.swing.JTabbedPane;
 /**
  * GUI that combines all known preference GUIs. Shows the various preference
  * panels in a tabbed pane
- * 
+ *
  * <p>
  * This functionality is needed also in uninstaller Therefore avoid general
  * dependencies on GOAL, e.g. don't use the Logger, don't use callbacks to the
  * SimpleIDE, don't use GOAL Exceptions, etc.
  * </p>
- * 
+ *
  * @author W.Pasman mar2009
  * @modified KH Added debug preference pane
  */
 @SuppressWarnings("serial")
 public class PreferencesPanel extends JPanel implements ActionListener {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 2277869948061028972L;
 	/**
 	 * the dialog that we show. We might consider singleton for this panel. But
 	 * that would not allowing freeing of the associated memory when closing the
@@ -57,7 +61,7 @@ public class PreferencesPanel extends JPanel implements ActionListener {
 	/**
 	 * create panel containing all preference panels, and show it as non-modal
 	 * dialog.
-	 * 
+	 *
 	 * @param parent
 	 *            is the panel requesting this pref panel. Used only to center
 	 *            the preferences panel.
@@ -97,19 +101,19 @@ public class PreferencesPanel extends JPanel implements ActionListener {
 
 		add(closeButtonPanel, BorderLayout.SOUTH);
 		// show a NON-MODAL dialog with this panel.
-		dialog = new JDialog(parent, false);
-		dialog.setTitle("GOAL Preferences");
-		dialog.setContentPane(this);
-		dialog.pack();
+		this.dialog = new JDialog(parent, false);
+		this.dialog.setTitle("GOAL Preferences");
+		this.dialog.setContentPane(this);
+		this.dialog.pack();
 
 		// following should not be necessary, bug in Java? Did I miss something?
-		dialog.setLocationRelativeTo(parent);
-		dialog.setVisible(true);
+		this.dialog.setLocationRelativeTo(parent);
+		this.dialog.setVisible(true);
 	}
 
 	/**
 	 * Add a tab with given contents to given pane.
-	 * 
+	 *
 	 * @param pane
 	 *            the pane to extend with a new tab
 	 * @param tabname
@@ -129,16 +133,16 @@ public class PreferencesPanel extends JPanel implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		dialog.setVisible(false);
-		dialog = null;
+		this.dialog.setVisible(false);
+		this.dialog = null;
 	}
 
 	/**
 	 * Utility method for creating {@link JLabel} with bold font.
-	 * 
+	 *
 	 * @param text
 	 *            The text to display in label.
-	 * 
+	 *
 	 *            TODO: create utility class and add this method to it?
 	 */
 	public static JLabel getBoldFontJLabel(String text) {

@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -28,9 +28,9 @@ import nl.tudelft.goal.SimpleIDE.actions.GOALAction;
  * done properly and keeps track of existing actions, to (1) avoid making
  * duplicates which is just inefficient and (2) to be able to update the actions
  * when something changes in the IDE.
- * 
+ *
  * @author W.Pasman 21jun2011
- * 
+ *
  */
 public class ActionFactory {
 	/**
@@ -41,7 +41,7 @@ public class ActionFactory {
 	 * factory approach taken here also allows us to avoid the factory
 	 * initialization problems (the chicken-and-egg problem, "Thinking in Java",
 	 * p.582).<br>
-	 * 
+	 *
 	 * The actionCache should maintain the ORDER of the inserted items.
 	 */
 	private static Map<Class<? extends GOALAction>, GOALAction> actionCache = new LinkedHashMap<Class<? extends GOALAction>, GOALAction>();
@@ -63,7 +63,7 @@ public class ActionFactory {
 	/**
 	 * Get a factory. There is only 1 factory and the first call to getFactory
 	 * determines the associated IDEfunctionality.
-	 * 
+	 *
 	 * @param idef
 	 *            is link to IDEFunctionality. Only used at the first call.
 	 * @param initialState
@@ -82,7 +82,7 @@ public class ActionFactory {
 	/**
 	 * get the action of the given class. Stores the action in the cache. The
 	 * action is called with the initial state given
-	 * 
+	 *
 	 * @param actionclass
 	 *            the action class that this factory has to create a action
 	 *            instantiation for.
@@ -103,7 +103,7 @@ public class ActionFactory {
 
 	/**
 	 * Broadcast a state change to all actions.
-	 * 
+	 *
 	 * @param newState
 	 *            is the new state of the IDE.
 	 */

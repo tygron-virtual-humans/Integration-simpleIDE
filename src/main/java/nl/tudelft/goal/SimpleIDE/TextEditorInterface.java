@@ -1,17 +1,17 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
@@ -22,6 +22,7 @@ import goal.tools.debugger.BreakPoint;
 import goal.tools.errorhandling.exceptions.GOALCommandCancelledException;
 import goal.tools.errorhandling.exceptions.GOALException;
 
+import java.awt.Frame;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -39,7 +40,7 @@ import org.gjt.sp.jedit.textarea.TextArea;
 /**
  * This is the interface for the editor. This interface allows us to support
  * multiple editors and to separate GOAL from the editor implementation.
- * 
+ *
  * @author W.Pasman 25jun08
  * @modified KH removed observable1
  * @modified W.Pasman 19apr2012 #2108 conditional breakpoints
@@ -47,6 +48,10 @@ import org.gjt.sp.jedit.textarea.TextArea;
 @SuppressWarnings("serial")
 public abstract class TextEditorInterface extends JPanel {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 9043138222605026480L;
 	private TextArea textArea;
 	private String filename;
 
@@ -73,7 +78,7 @@ public abstract class TextEditorInterface extends JPanel {
 	 * Returns the text area.
 	 */
 	public TextArea getTextArea() {
-		return textArea;
+		return this.textArea;
 	}
 
 	/**
@@ -111,7 +116,7 @@ public abstract class TextEditorInterface extends JPanel {
 	 * The save routines in jEdit are extensive and intricately linked with
 	 * View, Buffer (which is NOT the JEditBuffer) etc. However all it takes to
 	 * do a basic load and save is a few lines of code as below.
-	 * 
+	 *
 	 * @throws DOC
 	 *             exceptions handled by calling method to be able to clean up
 	 *             e.g. editor window
@@ -125,13 +130,13 @@ public abstract class TextEditorInterface extends JPanel {
 		if (!thefile.exists()) {
 			int result = JOptionPane
 					.showConfirmDialog(
-							SimpleIDE.getFrames()[0],
+							Frame.getFrames()[0],
 							"The selected file ("
 									+ thefile.getName()
 									+ ") does not exist.\n"
 									+ "Do you want to create it? The path to the new file will be:\n"
 									+ thefile.getPath(), "No such file.",
-							JOptionPane.YES_NO_OPTION);
+									JOptionPane.YES_NO_OPTION);
 			switch (result) {
 			case JOptionPane.YES_OPTION: {
 				boolean createResult = thefile.createNewFile();
@@ -164,7 +169,7 @@ public abstract class TextEditorInterface extends JPanel {
 
 	/**
 	 * Writes a string to a file.
-	 * 
+	 *
 	 * @param filename
 	 *            is the name of the file to be written
 	 * @param contents
@@ -187,7 +192,7 @@ public abstract class TextEditorInterface extends JPanel {
 	 * <li>user edited content of this editor
 	 * <li>someone replaced the file in the file system.
 	 * <p>
-	 * 
+	 *
 	 * @throws IOException
 	 */
 	public abstract void reload() throws IOException;
@@ -195,7 +200,7 @@ public abstract class TextEditorInterface extends JPanel {
 	/**
 	 * show dialog allowing user to pick filename and saves current text in
 	 * editor
-	 * 
+	 *
 	 */
 	public abstract void save() throws IOException;
 
@@ -208,7 +213,7 @@ public abstract class TextEditorInterface extends JPanel {
 	/**
 	 * close the editor and the files that it is manipulating. Note, this does
 	 * not close tabs that were holding the editor panel.
-	 * 
+	 *
 	 * @throws GOALCommandCancelledException
 	 *             when user cancels the close.
 	 * @throws GOALException
@@ -221,7 +226,7 @@ public abstract class TextEditorInterface extends JPanel {
 	/**
 	 * Returns whether one of the open editor panels contains content that has
 	 * been changed but not has been saved yet.
-	 * 
+	 *
 	 * @return true if file content has been edited, but not yet saved.
 	 */
 	public abstract boolean isDirty();
@@ -229,7 +234,7 @@ public abstract class TextEditorInterface extends JPanel {
 	/**
 	 * Enables or disables the ability of the user to edit the contents of this
 	 * text editor. Breakpoints should still be editable.
-	 * 
+	 *
 	 * @param editable
 	 *            If the text area should be editable.
 	 */
@@ -292,21 +297,21 @@ public abstract class TextEditorInterface extends JPanel {
 
 	/**
 	 * Get the preference panel of the text editor
-	 * 
+	 *
 	 * @return a JPanel with a GUI for the Text Editor.
 	 */
 	public abstract JPanel getEditorPreferencePanel();
 
 	/**
 	 * Get all the current breakpoints.
-	 * 
+	 *
 	 * @return all the enabled breakpoints.
 	 */
 	public abstract Set<BreakPoint> getBreakpoints();
 
 	/**
 	 * set breakpoint.
-	 * 
+	 *
 	 * @param breakpoint
 	 *            to be set.
 	 * @throws ArrayIndexOutOfBoundsException
@@ -317,7 +322,7 @@ public abstract class TextEditorInterface extends JPanel {
 
 	/**
 	 * removes breakpoint.
-	 * 
+	 *
 	 * @param breakpoint
 	 *            is breakpoint to be removed.
 	 * @throws ArrayIndexOutOfBoundsException

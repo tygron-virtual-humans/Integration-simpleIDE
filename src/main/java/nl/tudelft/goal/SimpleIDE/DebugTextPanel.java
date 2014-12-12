@@ -19,7 +19,6 @@
 package nl.tudelft.goal.SimpleIDE;
 
 import goal.core.agent.Agent;
-import goal.core.agent.AgentId;
 import goal.preferences.DebugPreferences;
 import goal.tools.IDEDebugger;
 import goal.tools.IDEGOALInterpreter;
@@ -33,6 +32,8 @@ import goal.tools.logging.GOALLogger;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import languageTools.program.agent.AgentId;
+
 /**
  * <p>
  * Shows debug trace information and a level number input field. Note that this
@@ -42,7 +43,7 @@ import java.beans.PropertyChangeListener;
  * So we have a bit curious situation. This panel, that wants to show the debug
  * messages does the following:
  * <ol>
- * 
+ *
  * <li>it creates a {@link GOALLogger} for the messages
  * <li>It subscribes ITSELF to the source that it wants to log, eg the
  * {@link IDEDebugger}.
@@ -52,7 +53,7 @@ import java.beans.PropertyChangeListener;
  * log and writes it to the screen.
  * </ol>
  * </p>
- * 
+ *
  * @author W.Pasman
  * @modified KH091218 clean up, added debug viewing channels
  * @modified N.Kraayenbrink Does not directly display incoming debug events, but
@@ -62,6 +63,10 @@ import java.beans.PropertyChangeListener;
 public final class DebugTextPanel extends LogTextTrackingScrollPane implements
 		DebugObserver, PropertyChangeListener {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 2048259638325071337L;
 	private final AgentId agentId;
 	private final GOALLogger logger;
 	private IDEDebugger debugger;
@@ -71,7 +76,7 @@ public final class DebugTextPanel extends LogTextTrackingScrollPane implements
 	 * to debugger associated with agent to receive debug event information.
 	 * Subscribes to viewing those debug channels (events) selected and
 	 * preferred by the user.
-	 * 
+	 *
 	 * @param agent
 	 *            corresponding agent whose debug output needs to be shown on
 	 *            panel.
@@ -85,15 +90,15 @@ public final class DebugTextPanel extends LogTextTrackingScrollPane implements
 		// for each agent
 		// this logger will log all incoming DebugEvents
 		// this.theLogger = GOALLogger.getAnonymousLogger();
-		this.logger = new GOALLogger(agentId.getName(), true);
+		this.logger = new GOALLogger(this.agentId.getName(), true);
 		// subscribe to the created anonymous logger
-		this.subscribeTo(this.logger);
+		subscribeTo(this.logger);
 		this.debugger = agent.getController().getDebugger();
 
 		// subscribe only after fields have been set!!! Callback may happen
 		// immediately
 		// we NEED the RUNMODE channel to trigger text flush
-		debugger.subscribe(this, Channel.RUNMODE);
+		this.debugger.subscribe(this, Channel.RUNMODE);
 
 		// we also want to see the round separator here.
 		// No we don't #3005. Performance issue as this is also going to the log
@@ -103,7 +108,7 @@ public final class DebugTextPanel extends LogTextTrackingScrollPane implements
 
 		for (Channel channel : Channel.values()) {
 			if (DebugPreferences.getChannelState(channel).canView()) {
-				this.addViewChannel(channel);
+				addViewChannel(channel);
 			}
 		}
 
@@ -112,18 +117,18 @@ public final class DebugTextPanel extends LogTextTrackingScrollPane implements
 
 	/**
 	 * Returns name of the debug text pane.
-	 * 
+	 *
 	 * @return name of debug text pane, same name as associated agent.
 	 */
 	@Override
 	public String getObserverName() {
-		return "debugtextpanel_" + agentId;
+		return "debugtextpanel_" + this.agentId;
 	}
 
 	/**
 	 * Prints events received from debugger. Handles selection events from
 	 * scheduler separately, as these indicate round updates.
-	 * 
+	 *
 	 * @param event
 	 *            The debug event received from the debugger.
 	 */
@@ -144,12 +149,12 @@ public final class DebugTextPanel extends LogTextTrackingScrollPane implements
 
 	/**
 	 * Adds a channel to the channels which the observer wants to view.
-	 * 
+	 *
 	 * @param channel
 	 *            channel which is to be viewed.
 	 */
 	public synchronized void addViewChannel(Channel channel) {
-		debugger.subscribe(this, channel);
+		this.debugger.subscribe(this, channel);
 		if (!Channel.getConditionalChannel(channel).equals(channel)) {
 			this.debugger.subscribe(this,
 					Channel.getConditionalChannel(channel));
@@ -159,12 +164,12 @@ public final class DebugTextPanel extends LogTextTrackingScrollPane implements
 	/**
 	 * Removes a channel from the list of channels which the observer wants to
 	 * view.
-	 * 
+	 *
 	 * @param channel
 	 *            channel which no longer should be viewed.
 	 */
 	public synchronized void removeViewChannel(Channel channel) {
-		debugger.unsubscribe(this, channel);
+		this.debugger.unsubscribe(this, channel);
 		if (!Channel.getConditionalChannel(channel).equals(channel)) {
 			this.debugger.unsubscribe(this,
 					Channel.getConditionalChannel(channel));
@@ -198,10 +203,10 @@ public final class DebugTextPanel extends LogTextTrackingScrollPane implements
 	 * Unsubscribes panel as observer and releases debugger.
 	 */
 	public void cleanUp() {
-		unsubscribeFrom(logger);
+		unsubscribeFrom(this.logger);
 		DebugPreferences.removeChangeListener(this);
-		debugger.unsubscribe(this);
-		debugger = null;
+		this.debugger.unsubscribe(this);
+		this.debugger = null;
 	}
 
 	/**
@@ -213,9 +218,9 @@ public final class DebugTextPanel extends LogTextTrackingScrollPane implements
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder("Debug trace window for ");
-		builder.append(agentId);
+		builder.append(this.agentId);
 		builder.append("\nSubscribed to debugger ");
-		builder.append(debugger.getName());
+		builder.append(this.debugger.getName());
 		return builder.toString();
 	}
 

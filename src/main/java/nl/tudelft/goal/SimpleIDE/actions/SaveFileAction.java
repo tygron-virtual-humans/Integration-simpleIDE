@@ -1,48 +1,47 @@
 /**
  * GOAL interpreter that facilitates developing and executing GOAL multi-agent
  * programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
- * 
+ *
  * This program is free software: you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
  * Foundation, either version 3 of the License, or (at your option) any later
  * version.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
  * details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 package nl.tudelft.goal.SimpleIDE.actions;
 
-import goal.core.kr.KRlanguage;
 import goal.tools.PlatformManager;
-import goal.tools.errorhandling.exceptions.GOALParseException;
 import goal.tools.errorhandling.exceptions.GOALUserError;
-import goal.tools.errorhandling.exceptions.KRInitFailedException;
 import goal.util.Extension;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
 
+import krTools.KRInterface;
+import krTools.errors.exceptions.KRInitFailedException;
+import krTools.errors.exceptions.ParserException;
 import nl.tudelft.goal.SimpleIDE.EditManager;
 import nl.tudelft.goal.SimpleIDE.IDEMainPanel;
 import nl.tudelft.goal.SimpleIDE.IDENode;
 import nl.tudelft.goal.SimpleIDE.IconFactory;
-import swiprolog3.engines.SWIPrologLanguage;
+import swiprolog.SWIPrologInterface;
 
 /**
  * Save file currently being edited in the editor panel.
- * 
+ *
  * @author W.Pasman 20jun2011
  */
 public class SaveFileAction extends GOALAction {
-
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -66,19 +65,19 @@ public class SaveFileAction extends GOALAction {
 		} catch (GOALUserError e) {
 			isUserEditing = false;
 		}
-		setActionEnabled(currentState.getViewMode() == IDEMainPanel.EDIT_VIEW
+		setActionEnabled(this.currentState.getViewMode() == IDEMainPanel.EDIT_VIEW
 				&& isUserEditing);
 	}
 
 	/**
 	 * DOC
-	 * 
+	 *
 	 * @throws GOALUserError
 	 * @throws GOALParseException
 	 */
 	@Override
 	protected void execute(IDENode selectedNode, ActionEvent e)
-			throws GOALUserError, GOALParseException {
+			throws GOALUserError {
 		File theFile = EditManager.getInstance().save();
 		Extension ext = Extension.getFileExtension(theFile);
 		if (ext != null) {
@@ -86,38 +85,46 @@ public class SaveFileAction extends GOALAction {
 			case MAS:
 				try {
 					PlatformManager.getCurrent().parseMASFile(theFile);
+				} catch (ParserException e1) {
+					throw new GOALUserError("Can't parse MAS file " + theFile,
+							e1);
 				} finally {
 					developmentEnvironment.getMainPanel().getFilePanel()
-							.refreshMASFile(theFile);
+					.refreshMASFile(theFile);
 				}
 				break;
 			case GOAL:
 				try {
-					KRlanguage language;
+					KRInterface language;
 					try {
-						language = SWIPrologLanguage.getInstance();
+						language = SWIPrologInterface.getInstance();
 					} catch (KRInitFailedException e1) {
-						throw new GOALParseException("Can't parse GOAL file "
+						throw new GOALUserError("Can't parse GOAL file "
 								+ theFile, e1);
 					}
 					// FIXME how can we already know the language at this
 					// point?? We did not yet parse the goal file!
 					// KRlanguage language = PlatformManager
 					// .getGOALProgam(theFile).getKRLanguage();
-					PlatformManager.getCurrent().parseGOALFile(theFile, language);
+					try {
+						PlatformManager.getCurrent().parseGOALFile(theFile,
+								language);
+					} catch (ParserException e1) {
+						throw new GOALUserError("Can't parse GOAL file "
+								+ theFile, e1);
+					}
 				} finally {
 					developmentEnvironment.getMainPanel().getFilePanel()
-							.refreshGOALFile(theFile);
+					.refreshGOALFile(theFile);
 				}
 				break;
 			case MODULES:
 				developmentEnvironment.getMainPanel().getFilePanel()
-						.refreshMod2gFile(theFile);
-
+				.refreshMod2gFile(theFile);
 				break;
 			case PROLOG:
 				developmentEnvironment.getMainPanel().getFilePanel()
-						.refreshPrologFile(theFile);
+				.refreshPrologFile(theFile);
 				break;
 			}
 		}

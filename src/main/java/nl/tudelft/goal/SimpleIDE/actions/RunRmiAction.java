@@ -27,11 +27,16 @@ import nl.tudelft.goal.SimpleIDE.IDENode;
 
 /**
  * Use RMI middleware when asked to run.
- * 
+ *
  * @author W.Pasman 20jun2011
  */
 @SuppressWarnings("serial")
 public class RunRmiAction extends GOALAction {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 6022040971268133465L;
 
 	@Override
 	/**
@@ -39,7 +44,7 @@ public class RunRmiAction extends GOALAction {
 	 */
 	public void stateChangeEvent() {
 		// only allowed to switch when not running.
-		setActionEnabled(!currentState.isRuntimeEnvironmentAvailable());
+		setActionEnabled(!this.currentState.isRuntimeEnvironmentAvailable());
 		setName("Run RMI (Distributed)");
 	}
 

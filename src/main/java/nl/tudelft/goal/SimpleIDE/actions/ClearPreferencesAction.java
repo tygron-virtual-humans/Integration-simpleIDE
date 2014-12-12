@@ -27,11 +27,16 @@ import nl.tudelft.goal.SimpleIDE.IDENode;
 
 /**
  * Clear all preferences.
- * 
+ *
  * @author W.Pasman 29jun2011
  */
 @SuppressWarnings("serial")
 public class ClearPreferencesAction extends GOALAction {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 6198831936674012540L;
 
 	@Override
 	public void stateChangeEvent() {
