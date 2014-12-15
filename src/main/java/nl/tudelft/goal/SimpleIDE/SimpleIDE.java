@@ -18,12 +18,14 @@
 
 package nl.tudelft.goal.SimpleIDE;
 
+import goal.OSXAdapter;
 import goal.preferences.LoggingPreferences;
 import goal.tools.LaunchManager;
 import goal.tools.errorhandling.Resources;
 import goal.tools.errorhandling.Warning;
 import goal.tools.errorhandling.WarningStrings;
 import goal.tools.errorhandling.exceptions.GOALCommandCancelledException;
+import goal.tools.errorhandling.exceptions.GOALException;
 import goal.tools.errorhandling.exceptions.GOALUserError;
 import goal.tools.logging.InfoLog;
 import goal.tools.logging.Loggers;
@@ -95,8 +97,8 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 			JOptionPane.showMessageDialog(
 					null,
 					Resources.get(WarningStrings.FAILED_IDE_LAUNCH)
-					+ e.getMessage() + "\n" //$NON-NLS-1$
-					+ e.getStackTrace()[0]);
+							+ e.getMessage() + "\n" //$NON-NLS-1$
+							+ e.getStackTrace()[0]);
 		}
 	}
 
@@ -149,7 +151,18 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 		setVisible(true);
 
 		if (System.getProperty("os.name").equals("Mac OS X")) { //$NON-NLS-1$ //$NON-NLS-2$
-			installOSXAdapter();
+			OSXAdapter.setQuitHandler(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						ActionFactory.getAction(QuitAction.class).Execute(null,
+								null);
+					} catch (IllegalAccessException | InstantiationException
+							| GOALException e) {
+						e.printStackTrace();
+					}
+				}
+			});
 		}
 
 		// Disable default close operation and install quit "button" handler.
@@ -224,7 +237,7 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 				new Warning(
 						String.format(Resources
 								.get(WarningStrings.FAILED_FILE_RELOAD), path),
-								e);
+						e);
 			}
 		}
 	}
@@ -316,7 +329,7 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 	public static File askFile(Component parentpanel, boolean openFile,
 			String title, int mode, String exten, String defaultName,
 			String startdir, boolean enforceExtension)
-					throws GOALCommandCancelledException, GOALUserError {
+			throws GOALCommandCancelledException, GOALUserError {
 		// insert the leading dot if necessary.
 		String extension = (exten == null || exten.startsWith(".")) ? exten //$NON-NLS-1$
 				: "." + exten; //$NON-NLS-1$

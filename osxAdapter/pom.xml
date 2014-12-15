@@ -5,13 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github.goalhub.simpleide</groupId>
-	<artifactId>simpleide</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
-	<name>GOAL SimpleIDE</name>
+	<name>OSX Adapter</name>
 	<url>https://github.com/goalhub/simpleIDE</url>
-	<description>An IDE for GOAL based on JEdit.</description>
 
 	<licenses>
 		<license>
@@ -52,45 +50,22 @@
 		</repository>
 	</repositories>
 
-	<dependencies>
+	<dependencies>		
 		<dependency>
 			<groupId>com.github.goalhub.runtime</groupId>
 			<artifactId>runtime</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.gjt.sp.jedit</groupId>
 			<artifactId>jedit</artifactId>
 			<version>1.0</version>
 		</dependency>
-
-		<dependency>
-			<groupId>com.github.goalhub.simpleide</groupId>
-			<artifactId>osxadapter</artifactId>
-			<version>1.0.0</version>
-		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.9</version>
-				<executions>
-					<execution>
-						<id>analyze</id>
-						<goals>
-							<goal>analyze-only</goal>
-						</goals>
-						<configuration>
-							<failOnWarning>true</failOnWarning>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -140,9 +115,9 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>nl.tudelft.goal.SimpleIDE.SimpleIDE</mainClass>
-						</manifest>
-					</archive>
+			            	<mainClass>nl.tudelft.goal.SimpleIDE.SimpleIDE</mainClass>
+			            </manifest>
+			        </archive>
 				</configuration>
 				<executions>
 					<execution>
@@ -197,8 +172,10 @@
 					</execution>
 				</executions>
 			</plugin>
-
+			
 		</plugins>
 	</build>
 
+	<artifactId>osxadapter</artifactId>
+	<description>Adapter to catch OSX specific events (ctrl-Q)</description>
 </project>
