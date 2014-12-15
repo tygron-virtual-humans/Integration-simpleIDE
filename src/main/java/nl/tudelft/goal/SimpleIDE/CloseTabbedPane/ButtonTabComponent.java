@@ -81,7 +81,7 @@ public class ButtonTabComponent extends JPanel {
 	 *
 	 */
 	private static final long serialVersionUID = 7268698042170164205L;
-	// Êthe parent panel to call back when close button is pressed.
+	// the parent panel to call back when close button is pressed.
 	private CloseTabbedPane pane;
 
 	public ButtonTabComponent(CloseTabbedPane parent) {
