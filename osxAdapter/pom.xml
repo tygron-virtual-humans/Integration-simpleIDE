@@ -6,7 +6,7 @@
 
 	<groupId>com.github.goalhub.simpleide</groupId>
 	<artifactId>osxadapter</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 	
 	<name>OSX Adapter</name>
@@ -115,11 +115,6 @@
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
-					<archive>
-						<manifest>
-			            	<mainClass>nl.tudelft.goal.SimpleIDE.SimpleIDE</mainClass>
-			            </manifest>
-			        </archive>
 				</configuration>
 				<executions>
 					<execution>
@@ -174,7 +169,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			
 		</plugins>
 	</build>
 </project>
