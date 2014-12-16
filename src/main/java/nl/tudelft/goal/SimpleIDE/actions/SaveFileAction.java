@@ -21,6 +21,7 @@ package nl.tudelft.goal.SimpleIDE.actions;
 import goal.tools.PlatformManager;
 import goal.tools.errorhandling.exceptions.GOALUserError;
 import goal.util.Extension;
+import goalhub.krTools.KRFactory;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -32,7 +33,6 @@ import nl.tudelft.goal.SimpleIDE.EditManager;
 import nl.tudelft.goal.SimpleIDE.IDEMainPanel;
 import nl.tudelft.goal.SimpleIDE.IDENode;
 import nl.tudelft.goal.SimpleIDE.IconFactory;
-import swiprolog.SWIPrologInterface;
 
 /**
  * Save file currently being edited in the editor panel.
@@ -90,14 +90,14 @@ public class SaveFileAction extends GOALAction {
 							e1);
 				} finally {
 					developmentEnvironment.getMainPanel().getFilePanel()
-					.refreshMASFile(theFile);
+							.refreshMASFile(theFile);
 				}
 				break;
 			case GOAL:
 				try {
 					KRInterface language;
 					try {
-						language = SWIPrologInterface.getInstance();
+						language = KRFactory.getDefaultInterface();
 					} catch (KRInitFailedException e1) {
 						throw new GOALUserError("Can't parse GOAL file "
 								+ theFile, e1);
@@ -115,16 +115,16 @@ public class SaveFileAction extends GOALAction {
 					}
 				} finally {
 					developmentEnvironment.getMainPanel().getFilePanel()
-					.refreshGOALFile(theFile);
+							.refreshGOALFile(theFile);
 				}
 				break;
 			case MODULES:
 				developmentEnvironment.getMainPanel().getFilePanel()
-				.refreshMod2gFile(theFile);
+						.refreshMod2gFile(theFile);
 				break;
 			case PROLOG:
 				developmentEnvironment.getMainPanel().getFilePanel()
-				.refreshPrologFile(theFile);
+						.refreshPrologFile(theFile);
 				break;
 			}
 		}
