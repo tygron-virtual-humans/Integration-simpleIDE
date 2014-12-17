@@ -25,7 +25,7 @@ Dependency Information
 <dependency>
 	<groupId>com.github.goalhub.simpleide</groupId>
 	<artifactId>simpleide</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 </dependency>
 ```	
 
