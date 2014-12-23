@@ -808,10 +808,10 @@ public class FilePanel extends JPanel {
 						+ " always have a recognized extension."); //$NON-NLS-1$
 			}
 			switch (ext) {
+			default:
 			case GOAL:
 			case MAS:
-				throw new GOALBug("Agents should not be able to import" //$NON-NLS-1$
-						+ " other agent or MAS files."); //$NON-NLS-1$
+				break;
 			case MODULES:
 				newNode = new ModulesNode(file);
 				break;
@@ -819,15 +819,17 @@ public class FilePanel extends JPanel {
 				newNode = new PrologNode(file);
 				break;
 			}
-			this.allFiles.add(newNode);
-			// There is no need to add the same file twice
-			if (!newChildren.contains(newNode)) {
-				newChildren.add(newNode);
-				// efficiency (somewhat): there is no need to add a node
-				// that
-				// is already a child
-				if (!goalnode.isNodeChild(newNode)) {
-					appendNode(goalnode, newNode);
+			if (newNode != null) {
+				this.allFiles.add(newNode);
+				// There is no need to add the same file twice
+				if (!newChildren.contains(newNode)) {
+					newChildren.add(newNode);
+					// efficiency (somewhat): there is no need to add a node
+					// that
+					// is already a child
+					if (!goalnode.isNodeChild(newNode)) {
+						appendNode(goalnode, newNode);
+					}
 				}
 			}
 		}
