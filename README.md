@@ -9,25 +9,6 @@ Usage
 
  * Download the jar 
  * Double click the jar to run it 
- 
-Dependency Information
-=============
-
-```
-<repository>
-	<id>goalhub-mvn-repo</id>
-	<url>https://raw.github.com/goalhub/mvn-repo/master</url>
-</repository>
-
-```
-
-```
-<dependency>
-	<groupId>com.github.goalhub.simpleide</groupId>
-	<artifactId>simpleide</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
-</dependency>
-```	
 
 Release Procedure
 =============
