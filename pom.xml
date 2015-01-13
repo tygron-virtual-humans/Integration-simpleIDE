@@ -6,7 +6,7 @@
 
 	<groupId>com.github.goalhub.simpleide</groupId>
 	<artifactId>simpleide</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<packaging>jar</packaging>
 
 	<name>GOAL SimpleIDE</name>
@@ -65,7 +65,7 @@
 		<dependency>
 			<groupId>com.github.goalhub.runtime</groupId>
 			<artifactId>runtime</artifactId>
-			<version>1.1.0</version>
+			<version>1.1.1</version>
 		</dependency>
 		
 		<dependency>
