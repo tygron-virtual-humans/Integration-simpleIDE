@@ -54,5 +54,6 @@
 
 	<modules>
 		<module>IDE</module>
+		<module>jEdit</module>
 	</modules>
 </project>

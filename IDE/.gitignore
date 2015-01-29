@@ -1,2 +1,5 @@
 /target/
 /settings.yaml
+/.settings/
+/.classpath
+/.project

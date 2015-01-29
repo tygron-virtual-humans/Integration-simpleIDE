@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<!-- left this groupID for historical reasons -->
-	<groupId>org.gjt.sp</groupId>
+	<groupId>org.gjt.sp.jedit</groupId>
 	<artifactId>jedit</artifactId>
 	<version>1.1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
