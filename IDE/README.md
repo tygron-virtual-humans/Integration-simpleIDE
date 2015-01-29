@@ -1,9 +1,7 @@
 SimpleIDE
 =========
 
-An IDE for GOAL based on JEdit.
-This actually is the wrapper that also contains other modules essential for the SimpleIDE.
-Please check the IDE module.
+An IDE for GOAL based on JEdit
 
 
 Usage
@@ -35,7 +33,7 @@ Ensure your ~/.m2/settings.xml file is as follows:
 Then call:
 
 ```
-mvn deploy
+mvn versions:use-latest-versions -DallowSnapshots=true -DexcludeReactor=false && mvn deploy -DcreateChecksum=true
 ```
 
 Note that you must have a public name and e-mail address set on GitHub for this to work correctly (https://github.com/settings/profile)
