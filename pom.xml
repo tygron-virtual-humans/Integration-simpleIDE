@@ -55,5 +55,6 @@
 	<modules>
 		<module>IDE</module>
 		<module>jEdit</module>
+		<!-- osxAdapter module not included: it only builds on OSX. -->
 	</modules>
 </project>
