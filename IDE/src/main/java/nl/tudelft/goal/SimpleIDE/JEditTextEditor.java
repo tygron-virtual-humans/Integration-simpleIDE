@@ -105,28 +105,28 @@ public final class JEditTextEditor extends TextEditorInterface {
 		Extension ext = Extension.getFileExtension(filename);
 		if (ext == null) {
 			mode = new Mode("plaintext");
-			mode.setProperty(FILE_KEY, "/modes/plaintext.xml");
+			mode.setProperty(FILE_KEY, "modes/plaintext.xml");
 			ModeProvider.instance.addMode(mode);
 		} else {
 			switch (ext) {
 			case MAS:
 				mode = new Mode("mas");
-				mode.setProperty(FILE_KEY, "/modes/mas.xml");
+				mode.setProperty(FILE_KEY, "modes/mas.xml");
 				ModeProvider.instance.addMode(mode);
 				break;
 			case GOAL:
 			case MODULES:
 				Mode prologmode = new Mode("prolog");
-				prologmode.setProperty(FILE_KEY, "/modes/prolog.xml");
+				prologmode.setProperty(FILE_KEY, "modes/prolog.xml");
 				ModeProvider.instance.addMode(prologmode);
 
 				mode = new Mode("goal");
-				mode.setProperty(FILE_KEY, "/modes/goal.xml");
+				mode.setProperty(FILE_KEY, "modes/goal.xml");
 				ModeProvider.instance.addMode(mode);
 				break;
 			case PROLOG:
 				mode = new Mode("prolog");
-				mode.setProperty(FILE_KEY, "/modes/prolog.xml");
+				mode.setProperty(FILE_KEY, "modes/prolog.xml");
 				ModeProvider.instance.addMode(mode);
 				break;
 			default:
@@ -350,7 +350,7 @@ public final class JEditTextEditor extends TextEditorInterface {
 				 * jedit.props file in jedit project. cc=.8 ff=1 84=80==.5 66=.4
 				 */
 				SyntaxStyle[] styles = { /* see jedit.props also */
-						style(plain, black), // NONE
+				style(plain, black), // NONE
 						style(plain, red), // view.style.comment1=color:#cc0000
 						style(plain, orange),// view.style.comment2=color:#ff8400
 						style(plain, purple),// view.style.comment3=color:#6600cc
@@ -384,11 +384,11 @@ public final class JEditTextEditor extends TextEditorInterface {
 						// bgColor:#e7e7ff
 						// style:b
 						style(bold, black, brightpink) /*
-						 * view.style.foldLine.3=
-						 * color:#000000
-						 * bgColor:#ffe0f0
-						 * style:b
-						 */
+														 * view.style.foldLine.3=
+														 * color:#000000
+														 * bgColor:#ffe0f0
+														 * style:b
+														 */
 				};
 
 				getTextArea().getPainter().setStyles(styles);
@@ -450,7 +450,7 @@ public final class JEditTextEditor extends TextEditorInterface {
 	public void removeBreakpoint(BreakPoint breakpoint)
 			throws ArrayIndexOutOfBoundsException {
 		this.view.getBuffer().getBreakpoints()
-		.removeBreakpoint(breakpoint.getLine());
+				.removeBreakpoint(breakpoint.getLine());
 	}
 
 	@Override
