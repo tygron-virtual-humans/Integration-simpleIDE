@@ -351,7 +351,7 @@ public class JEditBuffer {
 	 * thread-safe.
 	 * 
 	 * @param line
-	 *            The line
+	 *            The line. First line is 0.
 	 * @return The start offset of the specified line
 	 * @since jEdit 4.0pre1
 	 */

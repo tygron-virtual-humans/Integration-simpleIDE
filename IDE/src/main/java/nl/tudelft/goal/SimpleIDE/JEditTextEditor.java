@@ -60,8 +60,8 @@ import org.gjt.sp.jedit.textarea.AntiAlias;
 import org.gjt.sp.jedit.textarea.StandaloneTextArea;
 
 /**
- * DOC This is some glue code to comply a jEdit pane with a TextEditorInterface.
- * see also org/gjt/sp/jedit/actions.xml in the jEdit code.
+ * DOC This is an adapter to meet jEdit pane with a TextEditorInterface. see
+ * also org/gjt/sp/jedit/actions.xml in the jEdit code.
  *
  * This builds on a edited and recompiled version of jEdit v4.3.pre16
  * <p>
@@ -71,6 +71,7 @@ import org.gjt.sp.jedit.textarea.StandaloneTextArea;
  *
  * @author W.Pasman
  * @modified W.Pasman 19apr2012 #2108 conditional breakpoints
+ * @modified W.Pasman jan2015 #3238 breakpoints in GOAL now 1-based.
  */
 @SuppressWarnings("serial")
 public final class JEditTextEditor extends TextEditorInterface {
@@ -420,8 +421,9 @@ public final class JEditTextEditor extends TextEditorInterface {
 						"inconsistency between GOAL and jEdit: unknown breakpoint type encountered "
 								+ bp.getType());
 			}
+			// #3238 our bpts are 0-based, GOAL bpts are 1=based
 			breakpoints.add(new BreakPoint(new File(getFilename()), bp
-					.getLine(), bptype));
+					.getLine() + 1, bptype));
 		}
 		return breakpoints;
 	}
@@ -441,8 +443,9 @@ public final class JEditTextEditor extends TextEditorInterface {
 			throw new IllegalArgumentException("unknown breakpoint type "
 					+ breakpoint.getType());
 		}
+		// #3238 GOAL bpts are 1=based, our bpts are 0-based
 		int line = this.view.getBuffer().getLineStartOffset(
-				breakpoint.getLine());
+				breakpoint.getLine() - 1);
 		this.view.getBuffer().getBreakpoints().addBreakpoint(line, type);
 	}
 
@@ -450,7 +453,7 @@ public final class JEditTextEditor extends TextEditorInterface {
 	public void removeBreakpoint(BreakPoint breakpoint)
 			throws ArrayIndexOutOfBoundsException {
 		this.view.getBuffer().getBreakpoints()
-				.removeBreakpoint(breakpoint.getLine());
+				.removeBreakpoint(breakpoint.getLine() - 1);
 	}
 
 	@Override
