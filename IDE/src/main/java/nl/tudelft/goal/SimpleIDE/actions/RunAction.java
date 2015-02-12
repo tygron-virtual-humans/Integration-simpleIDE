@@ -228,7 +228,7 @@ public class RunAction extends GOALAction {
 				runtime.addObserver(developmentEnvironment.getMainPanel()
 						.getProcessPanel());
 				if (runtime.getEnvironmentPorts().isEmpty()) {
-					runtime.startEnvironment();
+					runtime.startAgentsAndEnvironment();
 				}
 			} catch (Exception e) { // TODO: distinguish between types of
 				// exceptions...
