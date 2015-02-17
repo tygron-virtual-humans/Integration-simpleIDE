@@ -22,8 +22,9 @@
 package org.gjt.sp.jedit.syntax;
 
 //{{{ Imports
-import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,11 +144,11 @@ public class ModeProvider {
 			// don't just print an error to console. This is a problem.
 			throw new RuntimeException("File not found " + fileName);
 		}
-		BufferedInputStream grammar = new BufferedInputStream(resource);
-		// }
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(resource));
 
 		try {
-			InputSource isrc = new InputSource(grammar);
+			InputSource isrc = new InputSource(br);
 			// isrc.setSystemId("jedit.jar");
 			parser.setContentHandler(xmh);
 			parser.setDTDHandler(xmh);
@@ -159,7 +160,7 @@ public class ModeProvider {
 		} catch (Throwable e) {
 			error(fileName, e);
 		} finally {
-			IOUtilities.closeQuietly(grammar);
+			IOUtilities.closeQuietly(resource);
 		}
 	} // }}}
 
