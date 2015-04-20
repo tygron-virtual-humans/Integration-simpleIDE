@@ -57,7 +57,10 @@ mvn deploy
 
 Note that you must have a public name and e-mail address set on GitHub for this to work correctly (https://github.com/settings/profile)
 
+<div id="sampleDiv">Nothing loaded </div>
+
+
 <script type="text/javascript">
 var s = "JavaScript syntax highlighting";
-alert(s);
+document.getElementById("sampleDiv").innerHTML = "test";
 </script>
