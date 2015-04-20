@@ -1,65 +1,68 @@
-SimpleIDE
-=========
+<html>
+<head>
+<title>Javascript Internal Script</title>
 
-An IDE for GOAL based on JEdit
+<script type="text/javascript">
+
+// get metadata xml file from given basedirectory-link and parse it to xml object
+// the base directory will be extended with "/maven-metadata.xml" and that file will be read
+function getMavenMetadata(xmlurl) {
+	var xmlhttp;
+    if (window.XMLHttpRequest)
+    {
+        xmlhttp=new XMLHttpRequest();
+    }    else {
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
 
 
-Usage
-=====
+	xmlhttp.open("GET",xmlurl+"/maven-metadata.xml",false);
+	xmlhttp.send();
+	return (new window.DOMParser() ).parseFromString(xmlhttp.responseText, "text/xml");
+    
+}
 
- * Download the jar 
- * Double click the jar to run it 
- 
-Dependency Information
-=============
+// get the version from the metadata in the given link.
+function getMavenMetadataVersion(xmlurl)
+{
+	return getMavenMetadata(xmlurl).getElementsByTagName("version")[0].childNodes[0].nodeValue;
+}
 
-```
-<repository>
-	<id>goalhub-mvn-repo</id>
-	<url>https://raw.github.com/goalhub/mvn-repo/master</url>
-</repository>
+function getLastSnapshotVersion(xmlurl) {
+	return getMavenMetadata(xmlurl).getElementsByTagName("value")[0].childNodes[0].nodeValue;
+}
 
-```
 
-```
-<dependency>
-	<groupId>com.github.goalhub.simpleide</groupId>
-	<artifactId>simpleide</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
-</dependency>
-```	
+// basexmlurl="https://raw.githubusercontent.com/goalhub/mvn-repo/master/com/github/goalhub"
+// package="simpeide"
+// we return basexmlurl/package/package/<latestversion>/package-<latestsnapshotversion>-jar-with-dependencies.jar
+function getLatestSnapshot(basexmlurl, package) {
+	var rooturl = basexmlurl + "/" + package + "/" + package;
+	var latestversion = getMavenMetadataVersion(rooturl); // gives eg "1.1.2-SNAPSHOT"
+	// now go to that directory .../1.1.2-SNAPSHOT and get the metadata for that snapshot
+	var versiondir = rooturl + "/" + latestversion;
+	var latestSnapshotVersion = getLastSnapshotVersion(versiondir); // eg, "1.1.2-20150413.110259-26"
+	return versiondir+"/"+package+"-"+latestSnapshotVersion+"-jar-with-dependencies.jar";
+}
 
-Release Procedure
-=============
+</script>
 
-Ensure your ~/.m2/settings.xml file is as follows:
 
-```
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
-                          http://maven.apache.org/xsd/settings-1.0.0.xsd">
-	<servers>
-		<server>
-   			<id>github</id>
-   			<username>YOUR_USERNAME</username>
-   			<password>YOUR_PASSWORD</password>
-		</server>
-	</servers>
-</settings>
-```
+</head>
+<body>
+<h1>Download</h1>
 
-Then call:
+Download the latest snapshot version here:<br>
 
-```
-mvn deploy
-```
+<a id="sampleDiv">download link</a>
 
-Note that you must have a public name and e-mail address set on GitHub for this to work correctly (https://github.com/settings/profile)
 
-<script>alert('hello');</script>
 
-test
+<script type="text/javascript">
+	//var base= "https://raw.githubusercontent.com/goalhub/mvn-repo/master/com/github/goalhub/simpleide/simpleide";
+	var base= "https://raw.githubusercontent.com/goalhub/mvn-repo/master/com/github/goalhub";
+	document.getElementById("sampleDiv").innerHTML = getLatestSnapshot(base, "simpleide");
+</script>
 
-<div id="sampleDiv">Nothing loaded</div>
-
+</body>
+</html>
