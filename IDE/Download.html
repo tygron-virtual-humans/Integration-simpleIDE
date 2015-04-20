@@ -54,14 +54,14 @@ function getLatestSnapshot(basexmlurl, package) {
 <h1>Download</h1>
 
 Download the latest snapshot version here:<br>
-<a href id="sampleDiv">download link</a>
+<a href="unset" id="sampleDiv">download link</a>
 
 
 
 <script type="text/javascript">
 	//var base= "https://raw.githubusercontent.com/goalhub/mvn-repo/master/com/github/goalhub/simpleide/simpleide";
 	var base= "https://raw.githubusercontent.com/goalhub/mvn-repo/master/com/github/goalhub";
-	document.getElementById("sampleDiv").innerHTML = getLatestSnapshot(base, "simpleide");
+	document.getElementById("sampleDiv").href = getLatestSnapshot(base, "simpleide");
 </script>
 
 </body>

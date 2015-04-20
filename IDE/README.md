@@ -7,7 +7,7 @@ An IDE for GOAL based on JEdit
 Usage
 =====
 
- * Download the jar 
+ * Download the <a href="http://rawgit.com/goalhub/simpleIDE/develop/IDE/Download.html">latest build</a> 
  * Double click the jar to run it 
  
 Dependency Information
@@ -57,9 +57,5 @@ mvn deploy
 
 Note that you must have a public name and e-mail address set on GitHub for this to work correctly (https://github.com/settings/profile)
 
-<script>alert('hello');</script>
 
-test
-
-<div id="sampleDiv">Nothing loaded</div>
 
