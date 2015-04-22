@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github.goalhub.simpleide</groupId>
-	<artifactId>simpleidemodules</artifactId>
+	<artifactId>simpleide</artifactId>
 	<!-- only modules are under version control -->
 	<version>-</version>
 	<packaging>pom</packaging>
