@@ -31,11 +31,14 @@ import goal.tools.errorhandling.exceptions.GOALException;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
 import krTools.errors.exceptions.ParserException;
+import languageTools.program.agent.AgentProgram;
 import languageTools.program.mas.MASProgram;
 import nl.tudelft.goal.SimpleIDE.EditManager;
 import nl.tudelft.goal.SimpleIDE.IDEMainPanel;
@@ -204,10 +207,17 @@ public class RunAction extends GOALAction {
 					EditManager.getInstance().updateBreakpoints(agentFile);
 				}
 
+				MASProgram masprog = platform.getMASProgram(fileNode
+						.getBaseFile());
+				Map<File, AgentProgram> allPrograms = platform
+						.getParsedAgentPrograms();
+				Map<File, AgentProgram> programs = new HashMap<File, AgentProgram>();
+				for (File agentfile : masprog.getAgentFiles()) {
+					programs.put(agentfile, allPrograms.get(agentfile));
+				}
+
 				RuntimeManager<IDEDebugger, IDEGOALInterpreter> runtime = LaunchManager
-						.createNew().launchMAS(
-								platform.getMASProgram(fileNode.getBaseFile()),
-								platform.getParsedAgentPrograms());
+						.createNew().launchMAS(masprog, programs);
 
 				// Update view.
 				developmentEnvironment.getMainPanel().getProcessPanel().init();
@@ -217,9 +227,7 @@ public class RunAction extends GOALAction {
 						.getFeedbackPanel());
 				runtime.addObserver(developmentEnvironment.getMainPanel()
 						.getProcessPanel());
-				if (runtime.getEnvironmentPorts().isEmpty()) {
-					runtime.startEnvironment();
-				}
+				runtime.start(false);
 			} catch (Exception e) { // TODO: distinguish between types of
 				// exceptions...
 				new Warning(Resources.get(WarningStrings.FAILED_RUN_MAS), e);

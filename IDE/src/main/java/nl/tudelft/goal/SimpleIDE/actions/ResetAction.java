@@ -18,14 +18,19 @@
 
 package nl.tudelft.goal.SimpleIDE.actions;
 
+import eis.exceptions.EnvironmentInterfaceException;
+import goal.core.agent.Agent;
 import goal.core.runtime.service.agent.AgentService;
 import goal.core.runtime.service.environmentport.EnvironmentPort;
 import goal.tools.IDEDebugger;
 import goal.tools.IDEGOALInterpreter;
 import goal.tools.LaunchManager;
+import goal.tools.errorhandling.Resources;
+import goal.tools.errorhandling.WarningStrings;
+import goal.tools.errorhandling.exceptions.GOALBug;
 import goal.tools.errorhandling.exceptions.GOALException;
 import goal.tools.errorhandling.exceptions.GOALLaunchFailureException;
-import goal.tools.errorhandling.exceptions.GOALWarning;
+import goal.tools.errorhandling.exceptions.GOALUserError;
 
 import java.awt.event.ActionEvent;
 
@@ -34,6 +39,7 @@ import nl.tudelft.goal.SimpleIDE.IDEMainPanel;
 import nl.tudelft.goal.SimpleIDE.IDENode;
 import nl.tudelft.goal.SimpleIDE.IconFactory;
 import nl.tudelft.goal.SimpleIDE.ProcessNode;
+import nl.tudelft.goal.messaging.exceptions.MessagingException;
 
 /**
  * reset the selected node or all. Only available in Debug mode. IDE figures out
@@ -86,13 +92,25 @@ public class ResetAction extends GOALAction {
 		case ENVIRONMENT_PROCESS:
 			try {
 				((EnvironmentPort) selectedNode.getUserObject()).reset();
-			} catch (Exception e1) {
-				throw new GOALWarning("reset of environment failed", e1);
+			} catch (MessagingException | EnvironmentInterfaceException e) {
+				throw new GOALUserError("reset of environment failed", e);
 			}
 			break;
 		case AGENT_PROCESS:
-			AgentId id = new AgentId(selectedNode.getNodeName());
-			LaunchManager.getCurrent().getRuntimeManager().resetAgent(id);
+			Agent<IDEGOALInterpreter> agt = LaunchManager.getCurrent()
+					.getRuntimeManager()
+					.getAgent(new AgentId(selectedNode.getNodeName()));
+			if (agt != null) {
+				try {
+					agt.reset();
+				} catch (Exception e) {
+					// this should not throw.
+					throw new GOALBug(String.format(
+							Resources.get(WarningStrings.FAILED_AGENT_RESTART),
+							agt.getId()), e);
+
+				}
+			}
 			break;
 		case MAS_PROCESS:
 			try {

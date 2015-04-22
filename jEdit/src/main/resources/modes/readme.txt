@@ -1,0 +1,1 @@
+These files are mode files for JEdit

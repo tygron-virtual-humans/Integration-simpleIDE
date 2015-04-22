@@ -244,7 +244,7 @@ public class EditManager extends JPanel {
 		for (int i = 0; i < this.tabbedPane.getTabCount(); i++) {
 			dirty = dirty
 					| ((TextEditorInterface) this.tabbedPane.getComponentAt(i))
-					.isDirty();
+							.isDirty();
 		}
 
 		return dirty;
@@ -260,7 +260,7 @@ public class EditManager extends JPanel {
 		this.textEditorsAreEditable = editable;
 		for (int i = 0; i < this.tabbedPane.getTabCount(); i++) {
 			((TextEditorInterface) this.tabbedPane.getComponentAt(i))
-			.setEditable(editable);
+					.setEditable(editable);
 		}
 	}
 
@@ -587,10 +587,8 @@ public class EditManager extends JPanel {
 		}
 		// then add all new ones, but only if there are any
 		for (SourceInfo newBP : realBreakpoints) {
-			// make sure to convert between 1-based and 0-based indices
 			// HACK. We need to keep the type intact!!
-			editor.setBreakpoint(new BreakPoint(file,
-					newBP.getLineNumber() - 1,
+			editor.setBreakpoint(new BreakPoint(file, newBP.getLineNumber(),
 					newBP instanceof ActionCombo ? Type.CONDITIONAL
 							: Type.ALWAYS));
 		}

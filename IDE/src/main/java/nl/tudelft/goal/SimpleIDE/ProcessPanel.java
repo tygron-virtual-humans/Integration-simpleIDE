@@ -174,7 +174,7 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 					ProcessPanel.this.processTreeModel = new DefaultTreeModel(
 							null);
 					ProcessPanel.this.processTree
-					.setModel(ProcessPanel.this.processTreeModel);
+							.setModel(ProcessPanel.this.processTreeModel);
 					break;
 				case AGENT_BORN:
 				case AGENT_IS_LOCAL_AND_READY:
@@ -307,7 +307,7 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 			@Override
 			public void panelHasChanged() {
 				ActionFactory
-				.broadcastStateChange(ProcessPanel.this.myIDEState);
+						.broadcastStateChange(ProcessPanel.this.myIDEState);
 			}
 		};
 		this.processTreeModel.insertNodeInto(node, this.masNode,
@@ -331,7 +331,7 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 			@Override
 			public void panelHasChanged() {
 				ActionFactory
-				.broadcastStateChange(ProcessPanel.this.myIDEState);
+						.broadcastStateChange(ProcessPanel.this.myIDEState);
 			}
 		};
 		this.processTreeModel.setRoot(this.masNode);
@@ -364,7 +364,7 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 				@Override
 				public void panelHasChanged() {
 					ActionFactory
-					.broadcastStateChange(ProcessPanel.this.myIDEState);
+							.broadcastStateChange(ProcessPanel.this.myIDEState);
 				}
 			};
 
@@ -375,13 +375,13 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 					j = i;
 					if (node.getNodeName().compareTo(
 							((ProcessNode) this.masNode.getChildAt(i))
-							.getNodeName()) <= 0) {
+									.getNodeName()) <= 0) {
 						break;
 					}
 				}
 				if (node.getNodeName().compareTo(
 						((ProcessNode) this.masNode.getChildAt(j))
-						.getNodeName()) > 0) {
+								.getNodeName()) > 0) {
 					j++;
 				}
 			}
@@ -535,7 +535,7 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
 				ActionFactory
-				.broadcastStateChange(ProcessPanel.this.myIDEState);
+						.broadcastStateChange(ProcessPanel.this.myIDEState);
 			}
 		});
 
@@ -544,13 +544,13 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 			@Override
 			public void treeExpanded(TreeExpansionEvent event) {
 				ActionFactory
-				.broadcastStateChange(ProcessPanel.this.myIDEState);
+						.broadcastStateChange(ProcessPanel.this.myIDEState);
 			}
 
 			@Override
 			public void treeCollapsed(TreeExpansionEvent event) {
 				ActionFactory
-				.broadcastStateChange(ProcessPanel.this.myIDEState);
+						.broadcastStateChange(ProcessPanel.this.myIDEState);
 			}
 		});
 	}
@@ -620,20 +620,24 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 				agent.getController().getDebugger().run();
 				break;
 			case KILLED:
-				// must be agent process node, as MAS node cannot have status
-				// killed
-				// (in that case it would have been removed and the debug view
-				// would have
-				// been closed)
+				/*
+				 * must be agent process node, as MAS node cannot have status
+				 * killed (in that case it would have been removed and the debug
+				 * view would have been closed) TODO how do we know if agent
+				 * needs environment connection?
+				 */
+				Agent<IDEGOALInterpreter> agt = LaunchManager.getCurrent()
+						.getRuntimeManager()
+						.getAgent(new AgentId(node.getNodeName()));
 				try {
-					// TODO how do we know if agent needs environment
-					// connection?
-					LaunchManager.getCurrent().getRuntimeManager()
-					.restartAgent(new AgentId(node.getNodeName()));
+					if (agt != null) {
+						agt.reset();
+					}
 				} catch (Exception e) {
-					new Warning(String.format(
+					// this should not throw.
+					throw new GOALBug(String.format(
 							Resources.get(WarningStrings.FAILED_AGENT_RESTART),
-							node.getNodeName()), e);
+							agt.getId()), e);
 				}
 				break;
 			case REMOTEPROCESS:

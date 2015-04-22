@@ -1,0 +1,229 @@
+<?xml version="1.0"?>
+
+<!--
+ GOAL interpreter that facilitates developing and executing GOAL multi-agent
+ programs. Copyright (C) 2011 K.V. Hindriks, W. Pasman
+ 
+ This program is free software: you can redistribute it and/or modify it under
+ the terms of the GNU General Public License as published by the Free Software
+ Foundation, either version 3 of the License, or (at your option) any later
+ version.
+ 
+ This program is distributed in the hope that it will be useful, but WITHOUT
+ ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ details.
+ 
+ You should have received a copy of the GNU General Public License along with
+ this program. If not, see <http://www.gnu.org/licenses/>.
+ -->
+ 
+<!-- author W.Pasman 3dec08 -->
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+
+<MODE>
+
+
+
+    <RULES>
+		<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>    
+        <EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+        
+        <SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="ENV">
+            <BEGIN>environment\s*\{</BEGIN>
+            <END>}</END>
+        </SPAN_REGEXP>
+    
+        <SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="AGTFILES">
+            <BEGIN>agentfiles\s*\{</BEGIN>
+            <END>}</END>
+        </SPAN_REGEXP>
+    
+        <SPAN_REGEXP TYPE="KEYWORD1" DELEGATE="LNCHPOL">
+            <BEGIN>launchpolicy\s*\{</BEGIN>
+            <END>}</END>
+        </SPAN_REGEXP>
+        
+        <KEYWORDS>
+            <KEYWORD1>agentfiles</KEYWORD1>
+            <KEYWORD1>launchpolicy</KEYWORD1>
+            <KEYWORD1>environment</KEYWORD1>
+        </KEYWORDS>
+        
+    </RULES>
+    
+    <RULES SET="ENV">
+		<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+        <EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+        
+        <SEQ TYPE="OPERATOR">.</SEQ>
+        
+        <SEQ_REGEXP TYPE="LITERAL2">"[^"]+"</SEQ_REGEXP>
+        
+        <SPAN_REGEXP TYPE="KEYWORD2" DELEGATE="ENVPARAMS">
+            <BEGIN>init\s*\[</BEGIN>
+            <END>]</END><!-- cannot add a . at the end, END tag is not a regexp -->
+        </SPAN_REGEXP>
+        
+        <KEYWORDS>
+            <KEYWORD2>init</KEYWORD2>
+        </KEYWORDS>
+        
+    </RULES>
+    
+    <RULES SET="ENVPARAMS">
+    	<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+        <EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+    
+        <SEQ TYPE="OPERATOR">,</SEQ>
+        <!-- keys -->
+        <SEQ_REGEXP TYPE="KEYWORD3">[a-zA-Z_][a-zA-Z_0-9]*\s*=</SEQ_REGEXP>
+        <!-- identifiers -->
+        <SEQ_REGEXP TYPE="KEYWORD4">[a-zA-Z_][a-zA-Z0-9_]*</SEQ_REGEXP>
+        <!-- strings/paths -->
+        <SEQ_REGEXP TYPE="LITERAL2">"[^"]*"</SEQ_REGEXP>
+        <!-- numerals -->
+        <SEQ_REGEXP TYPE="LITERAL3">-?[0-9]+\.?[0-9]*((e|E)-?[0-9]+)?</SEQ_REGEXP>
+        <SEQ_REGEXP TYPE="LITERAL3">\.[0-9]+((e|E)-?[0-9]+)?</SEQ_REGEXP>
+        <!-- lists. Note that the coloring is recursive, incorrectly coloring 
+             lists like '[a=2, d=.5001e-10, s="aap"]' -->
+        <SPAN TYPE="OPERATOR" DELEGATE="ENVPARAMS">
+            <BEGIN>[</BEGIN>
+            <END>]</END>
+        </SPAN>
+        
+    </RULES>
+    
+    <RULES SET="AGTFILES">
+    	<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+        <EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+        
+        <SPAN_REGEXP TYPE="LITERAL2" DELEGATE="AGTFILE">
+            <BEGIN>"[^"]*\.goal"</BEGIN>
+            <END>.</END>
+        </SPAN_REGEXP>
+        
+    </RULES>
+    
+    <RULES SET="AGTFILE">
+		<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+        <EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+        
+        <SPAN TYPE="KEYWORD2" NO_LINE_BREAK="TRUE" DELEGATE="AGTPARAMS">
+            <BEGIN>[</BEGIN>
+            <END>]</END>
+        </SPAN>
+    </RULES>
+    
+    <RULES SET="AGTPARAMS">
+		<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>    
+        <EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+    
+        <SEQ TYPE="OPERATOR">,</SEQ>
+        <SEQ TYPE="OPERATOR">=</SEQ>
+        
+        <!-- give the allowed parameter(s) a different color -->
+        <SEQ TYPE="KEYWORD3">name</SEQ>
+        <!--SEQ TYPE="KEYWORD3">language</SEQ-->
+        
+        <SEQ_REGEXP TYPE="KEYWORD4">[a-zA-Z_][a-zA-Z0-9_]*</SEQ_REGEXP>
+        
+        <KEYWORDS>
+            <KEYWORD3>name</KEYWORD3>
+            <!--KEYWORD3>language</KEYWORD3-->
+        </KEYWORDS>
+    </RULES>
+
+
+    <RULES SET="LNCHPOL">
+		<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+        <EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+        
+        <SPAN_REGEXP TYPE="KEYWORD3" DELEGATE="LAUNCHRULE">
+            <BEGIN>when</BEGIN>
+            <END>do</END>
+        </SPAN_REGEXP>
+        
+        <SPAN_REGEXP TYPE="KEYWORD3" NO_LINE_BREAK="TRUE" DELEGATE="LAUNCH">
+            <BEGIN>launch</BEGIN>
+            <END>\.</END>
+        </SPAN_REGEXP>
+        
+        <KEYWORDS>
+            <KEYWORD2>launch</KEYWORD2>
+            <KEYWORD2>when</KEYWORD2>
+            <KEYWORD2>@env</KEYWORD2>
+            <KEYWORD2>do</KEYWORD2>
+        </KEYWORDS>
+    </RULES>
+    
+    <RULES SET="LAUNCHRULE">
+		<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+	    <EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+        
+        <SEQ TYPE="LITERAL2">entity</SEQ>
+        <SEQ TYPE="LITERAL2">@env</SEQ>
+        
+        <SPAN TYPE="KEYWORD2" DELEGATE="ENTITYPRM">
+            <BEGIN>[</BEGIN>
+            <END>]</END>
+        </SPAN>
+        
+        <KEYWORDS>
+            <LITERAL2>entity</LITERAL2>
+            <LITERAL2>@env</LITERAL2>
+        </KEYWORDS>
+    
+    </RULES>
+    
+    <RULES SET="ENTITYPRM">
+		<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+        <EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+        
+        <SEQ TYPE="OPERATOR">,</SEQ>
+        <SEQ TYPE="OPERATOR">=</SEQ>
+        
+        <!-- give the allowed parameters a different color -->
+        <SEQ TYPE="KEYWORD3">type</SEQ>
+        <SEQ TYPE="KEYWORD3">max</SEQ>
+        <SEQ TYPE="KEYWORD3">name</SEQ>
+        
+        <SEQ_REGEXP TYPE="KEYWORD4">([a-zA-Z_][a-zA-Z0-9_]*)|(0|([1-9][0-9]*))</SEQ_REGEXP>
+        
+        <KEYWORDS>
+            <KEYWORD3>type</KEYWORD3>
+            <KEYWORD3>max</KEYWORD3>
+            <KEYWORD3>name</KEYWORD3>
+        </KEYWORDS>
+        
+    </RULES>
+    
+    <RULES SET="LAUNCH">
+		<PROPS>
+			<PROPERTY NAME="lineComment" VALUE="%" />
+		</PROPS>
+        <EOL_SPAN TYPE="COMMENT1">%</EOL_SPAN>
+        
+        <SEQ_REGEXP TYPE="LITERAL3">((\*)|([a-zA-Z_][a-zA-Z0-9_]*))(\s)*:(\s)*[a-zA-Z_][a-zA-Z0-9_]*</SEQ_REGEXP>
+    
+    </RULES>
+
+</MODE>
