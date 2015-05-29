@@ -7,7 +7,7 @@
 	<!-- left this groupID for historical reasons -->
 	<groupId>org.gjt.sp.jedit</groupId>
 	<artifactId>jedit</artifactId>
-	<version>1.1.1-SNAPSHOT</version>
+	<version>1.1.1</version>
 	<packaging>jar</packaging>
 
 	<name>JEdit editor modified for internal editor use in IDE</name>
