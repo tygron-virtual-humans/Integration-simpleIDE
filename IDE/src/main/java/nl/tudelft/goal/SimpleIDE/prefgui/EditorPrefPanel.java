@@ -52,7 +52,7 @@ import nl.tudelft.goal.SimpleIDE.preferences.EditorPreferences;
  */
 @SuppressWarnings("serial")
 public class EditorPrefPanel extends JPanel implements ChangeListener,
-ItemListener {
+		ItemListener {
 	/**
 	 *
 	 */
@@ -110,7 +110,7 @@ ItemListener {
 	public void stateChanged(ChangeEvent anyevent) {
 		EditorPreferences.setFontName((String) this.fontName.getSelectedItem());
 		EditorPreferences
-				.setFontSize((Integer) this.fontSizeSpinner.getValue());
+		.setFontSize((Integer) this.fontSizeSpinner.getValue());
 		EditorPreferences.isAntiAliased(this.antiAlias.isSelected());
 	}
 

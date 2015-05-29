@@ -93,7 +93,7 @@ public class KillAction extends GOALAction {
 			setDescription("Kill multi-agent system"); //$NON-NLS-1$
 			setActionEnabled(true);
 			break; // always, to always provide opportunity to
-		// terminate run environment
+			// terminate run environment
 		case AGENT_PROCESS:
 			setDescription("Kill agent"); //$NON-NLS-1$
 			setActionEnabled(((ProcessNode) node).getProcessRunMode() != RunMode.KILLED);
@@ -204,8 +204,8 @@ public class KillAction extends GOALAction {
 		default: // FIXME redundant check, if we make NodeType more specific
 			throw new GOALBug(
 					this
-							+ "should only be enabled while selection is a PROCESS node, but found" //$NON-NLS-1$
-							+ node);
+					+ "should only be enabled while selection is a PROCESS node, but found" //$NON-NLS-1$
+					+ node);
 		}
 
 		// update view and switch to edit view if needed

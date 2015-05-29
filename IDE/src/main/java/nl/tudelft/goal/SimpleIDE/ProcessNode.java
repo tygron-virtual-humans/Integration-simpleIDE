@@ -43,7 +43,7 @@ import nl.tudelft.goal.messaging.messagebox.MessageBoxId;
  */
 @SuppressWarnings("serial")
 public abstract class ProcessNode extends DefaultMutableTreeNode implements
-IDENode, DebugObserver {
+		IDENode, DebugObserver {
 
 	/**
 	 *
@@ -62,6 +62,7 @@ IDENode, DebugObserver {
 	private boolean isSelectedByScheduler = false;
 
 	private boolean isConnected = false;// set to true when we connect to our
+
 	// process(agent,env)
 
 	/**
@@ -249,7 +250,7 @@ IDENode, DebugObserver {
 			return mode;
 		case ENVIRONMENT_PROCESS:
 			EnvironmentState s = ((EnvironmentPort) getUserObject())
-			.getEnvironmentState();
+					.getEnvironmentState();
 			switch (s) {
 			case INITIALIZING:
 				return RunMode.UNKNOWN;

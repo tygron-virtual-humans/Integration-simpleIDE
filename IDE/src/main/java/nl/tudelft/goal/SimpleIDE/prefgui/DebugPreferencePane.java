@@ -104,7 +104,7 @@ public class DebugPreferencePane extends JPanel implements TableModelListener {
 		// Center headers.
 		((DefaultTableCellRenderer) this.table.getTableHeader()
 				.getDefaultRenderer())
-		.setHorizontalAlignment(SwingConstants.CENTER);
+				.setHorizontalAlignment(SwingConstants.CENTER);
 
 		// Create the scroll pane and add the table to it
 		JScrollPane scrollPane = new JScrollPane(this.table);

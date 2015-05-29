@@ -49,7 +49,7 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
  */
 @SuppressWarnings("serial")
 public class DebugPanel extends CloseTabbedPane implements
-		LayoutChangeListener, TabCloseListener {
+LayoutChangeListener, TabCloseListener {
 
 	/**
 	 *
@@ -79,7 +79,7 @@ public class DebugPanel extends CloseTabbedPane implements
 				Component c = getComponent(n);
 				if (c instanceof IntrospectorPanel) {
 					((IntrospectorPanel) c)
-							.setDividerLocation(newSplitPosition);
+					.setDividerLocation(newSplitPosition);
 				}
 			}
 		}
@@ -174,8 +174,8 @@ public class DebugPanel extends CloseTabbedPane implements
 	 *
 	 */
 	public void close() throws GOALCommandCancelledException,
-			GOALIncompleteGUIUsageException, GOALException,
-			IllegalAccessException, InstantiationException {
+	GOALIncompleteGUIUsageException, GOALException,
+	IllegalAccessException, InstantiationException {
 		Component c = getSelectedComponent();
 		if (c == null) {
 			return;

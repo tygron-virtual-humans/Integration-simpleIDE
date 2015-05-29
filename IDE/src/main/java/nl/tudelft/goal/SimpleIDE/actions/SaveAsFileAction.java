@@ -76,7 +76,7 @@ public class SaveAsFileAction extends GOALAction {
 
 		try {
 			developmentEnvironment.getMainPanel().getFilePanel()
-					.rename(editor.getFile());
+			.rename(editor.getFile());
 		} catch (ParserException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

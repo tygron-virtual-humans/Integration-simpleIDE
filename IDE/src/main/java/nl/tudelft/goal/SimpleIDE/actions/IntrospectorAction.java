@@ -75,7 +75,7 @@ public class IntrospectorAction extends GOALAction {
 		switch (selectedNode.getType()) { // must be process node
 		case AGENT_PROCESS: // only in this case do something
 			developmentEnvironment.getMainPanel().getDebugPanel()
-			.showIntrospectorPanel(selectedNode.toString()); // toString
+					.showIntrospectorPanel(selectedNode.toString()); // toString
 			// gives
 			// agent's
 			// name.

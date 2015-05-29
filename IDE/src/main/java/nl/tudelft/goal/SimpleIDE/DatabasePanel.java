@@ -53,7 +53,7 @@ import mentalState.BASETYPE;
  */
 @SuppressWarnings("serial")
 public class DatabasePanel extends JPanel implements DebugObserver,
-		Observer<QueryPanel, DatabaseChangedInfo> {
+Observer<QueryPanel, DatabaseChangedInfo> {
 
 	/**
 	 *
@@ -105,15 +105,15 @@ public class DatabasePanel extends JPanel implements DebugObserver,
 		switch (datatype) {
 		case BELIEFBASE:
 			agent.getController().getDebugger()
-					.subscribe(this, Channel.BB_UPDATES);
+			.subscribe(this, Channel.BB_UPDATES);
 			break;
 		case GOALBASE:
 			agent.getController().getDebugger()
-					.subscribe(this, Channel.GB_UPDATES);
+			.subscribe(this, Channel.GB_UPDATES);
 			agent.getController().getDebugger()
-					.subscribe(this, Channel.GOAL_ACHIEVED);
+			.subscribe(this, Channel.GOAL_ACHIEVED);
 			agent.getController().getDebugger()
-					.subscribe(this, Channel.GB_CHANGES);
+			.subscribe(this, Channel.GB_CHANGES);
 			break;
 		case KNOWLEDGEBASE:
 			// No channel to subscribe to because knowledge base does not
@@ -126,7 +126,7 @@ public class DatabasePanel extends JPanel implements DebugObserver,
 			// Percept base changes are reported on
 			// Channel.PERCEPTS_CONDITIONAL_VIEW.
 			agent.getController().getDebugger()
-					.subscribe(this, Channel.PERCEPTS_CONDITIONAL_VIEW);
+			.subscribe(this, Channel.PERCEPTS_CONDITIONAL_VIEW);
 			break;
 		}
 

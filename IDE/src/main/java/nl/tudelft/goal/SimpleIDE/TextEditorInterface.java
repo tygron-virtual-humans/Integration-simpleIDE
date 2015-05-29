@@ -136,7 +136,7 @@ public abstract class TextEditorInterface extends JPanel {
 									+ ") does not exist.\n"
 									+ "Do you want to create it? The path to the new file will be:\n"
 									+ thefile.getPath(), "No such file.",
-									JOptionPane.YES_NO_OPTION);
+							JOptionPane.YES_NO_OPTION);
 			switch (result) {
 			case JOptionPane.YES_OPTION: {
 				boolean createResult = thefile.createNewFile();

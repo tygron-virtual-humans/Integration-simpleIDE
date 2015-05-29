@@ -82,7 +82,7 @@ public class ReloadFileAction extends GOALAction {
 	 * requester whether user is sure to reload.
 	 */
 	public void executeAll(ActionEvent e) throws GOALCommandCancelledException,
-	GOALIncompleteGUIUsageException, GOALException {
+			GOALIncompleteGUIUsageException, GOALException {
 		List<? extends IDENode> sel = this.currentState.getSelectedNodes();
 		if (sel.isEmpty()) {
 			throw new GOALBug(
@@ -120,7 +120,7 @@ public class ReloadFileAction extends GOALAction {
 			if (EditManager.getInstance().isOpenEditor(fileNode.getBaseFile())) {
 				try {
 					EditManager.getInstance().getEditor(fileNode.getBaseFile())
-					.reload();
+							.reload();
 				} catch (IOException er) {
 					new Warning(String.format(
 							Resources.get(WarningStrings.FAILED_FILE_RELOAD),
@@ -131,7 +131,7 @@ public class ReloadFileAction extends GOALAction {
 		default:
 			new Warning(
 					Resources
-					.get(WarningStrings.FAILED_FILE_RELOAD_NO_SELECTION));
+							.get(WarningStrings.FAILED_FILE_RELOAD_NO_SELECTION));
 			break;
 		}
 	}

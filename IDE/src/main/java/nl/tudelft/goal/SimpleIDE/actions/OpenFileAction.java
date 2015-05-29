@@ -85,7 +85,7 @@ public class OpenFileAction extends GOALAction {
 			}
 			try {
 				developmentEnvironment.getMainPanel().getFilePanel()
-						.insertFile(theFile);
+				.insertFile(theFile);
 			} catch (GOALException e1) {
 				new Warning(String.format(
 						Resources.get(WarningStrings.FAILED_FILE_OPEN2),

@@ -98,8 +98,8 @@ public class ResetAction extends GOALAction {
 			break;
 		case AGENT_PROCESS:
 			Agent<IDEGOALInterpreter> agt = LaunchManager.getCurrent()
-					.getRuntimeManager()
-					.getAgent(new AgentId(selectedNode.getNodeName()));
+			.getRuntimeManager()
+			.getAgent(new AgentId(selectedNode.getNodeName()));
 			if (agt != null) {
 				try {
 					agt.reset();

@@ -59,7 +59,7 @@ import nl.tudelft.goal.SimpleIDE.preferences.IDEPreferences;
  */
 @SuppressWarnings("serial")
 public class RuntimePrefPanel extends JPanel implements ActionListener,
-		ChangeListener {
+ChangeListener {
 
 	/**
 	 *
@@ -226,7 +226,7 @@ public class RuntimePrefPanel extends JPanel implements ActionListener,
 		this.sleepRepeatingAgent.setSelected(PMPreferences
 				.getSleepRepeatingAgent());
 		this.removeKilledAgent
-		.setSelected(PMPreferences.getRemoveKilledAgent());
+				.setSelected(PMPreferences.getRemoveKilledAgent());
 		this.printEntities.setSelected(EnvironmentPreferences
 				.getPrintEntities());
 		this.agentCopyEnvRunState.setSelected(PMPreferences
@@ -249,7 +249,7 @@ public class RuntimePrefPanel extends JPanel implements ActionListener,
 				.isSelected());
 		PMPreferences.setRemoveKilledAgent(this.removeKilledAgent.isSelected());
 		EnvironmentPreferences
-		.setPrintEntities(this.printEntities.isSelected());
+				.setPrintEntities(this.printEntities.isSelected());
 		PMPreferences.setAgentCopyEnvRunState(this.agentCopyEnvRunState
 				.isSelected());
 		PMPreferences.setThreadPoolSize((Integer) this.threadPoolSize
@@ -262,10 +262,10 @@ public class RuntimePrefPanel extends JPanel implements ActionListener,
 	public void stateChanged(ChangeEvent e) {
 		// IDEPreferences.setAutoSwitchDebugTab( autoSwitchTab.isSelected() );
 		IDEPreferences
-				.setOpenDebugTraceTabAtAgentLaunch(this.openDebugTraceTabAtAgentLaunch
-						.isSelected());
-		PMPreferences
-		.setPrefixAgentNameWithMASName(this.prefixAgentNamesWithMASName
+		.setOpenDebugTraceTabAtAgentLaunch(this.openDebugTraceTabAtAgentLaunch
 				.isSelected());
+		PMPreferences
+				.setPrefixAgentNameWithMASName(this.prefixAgentNamesWithMASName
+						.isSelected());
 	}
 }

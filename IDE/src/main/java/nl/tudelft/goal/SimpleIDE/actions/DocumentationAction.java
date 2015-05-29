@@ -66,9 +66,9 @@ public class DocumentationAction extends GOALAction {
 
 			Desktop desktop = Desktop.isDesktopSupported() ? Desktop
 					.getDesktop() : null;
-					if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-						desktop.browse(uri);
-					}
+			if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+				desktop.browse(uri);
+			}
 		} catch (URISyntaxException e) {
 			throw new GOALActionFailedException("can't open web page:", e);
 		} catch (IOException e) {

@@ -47,9 +47,9 @@ import javax.swing.JTextArea;
  */
 @SuppressWarnings("serial")
 public class QueryPanel extends JPanel
-implements
-FocusListener,
-Observable<Observer<QueryPanel, DatabaseChangedInfo>, QueryPanel, DatabaseChangedInfo> {
+		implements
+		FocusListener,
+		Observable<Observer<QueryPanel, DatabaseChangedInfo>, QueryPanel, DatabaseChangedInfo> {
 
 	/**
 	 *
@@ -106,8 +106,8 @@ Observable<Observer<QueryPanel, DatabaseChangedInfo>, QueryPanel, DatabaseChange
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} // TODO if query is expensive or
-					// even crashes,
-					// this locks up the IDE
+						// even crashes,
+						// this locks up the IDE
 				}
 			}
 		});

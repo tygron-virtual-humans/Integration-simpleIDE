@@ -63,9 +63,9 @@ public class CloseAndRemoveAction extends GOALAction {
 				// can be closed and removed.
 				&& !this.currentState.isRuntimeEnvironmentAvailable()
 				&& (nodeType == NodeType.MASFILE
-				|| nodeType == NodeType.GOALFILE
-				|| nodeType == NodeType.MODFILE
-				|| nodeType == NodeType.PLFILE || nodeType == NodeType.TXTFILE));
+						|| nodeType == NodeType.GOALFILE
+						|| nodeType == NodeType.MODFILE
+						|| nodeType == NodeType.PLFILE || nodeType == NodeType.TXTFILE));
 	}
 
 	/**
@@ -102,8 +102,8 @@ public class CloseAndRemoveAction extends GOALAction {
 		if (!(selectedNode instanceof FileNode)) {
 			throw new GOALBug(
 					this
-					+ "should only be enabled while selection is a FILE node, but found"
-					+ selectedNode);
+							+ "should only be enabled while selection is a FILE node, but found"
+							+ selectedNode);
 		}
 		FileNode fn = (FileNode) selectedNode;
 		/*
@@ -130,10 +130,10 @@ public class CloseAndRemoveAction extends GOALAction {
 		case MODFILE:
 		case PLFILE:
 			JOptionPane
-			.showMessageDialog(
-					this.currentState.getRootComponent(),
-					"Remember to edit"
-							+ " the agent file(s) manually to remove the references");
+					.showMessageDialog(
+							this.currentState.getRootComponent(),
+							"Remember to edit"
+									+ " the agent file(s) manually to remove the references");
 			break;
 		default:
 			// no warning for MAS files, no user action required then.

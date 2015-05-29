@@ -49,7 +49,7 @@ public class TreePopupMenu extends JPopupMenu {
 	 * @throws IllegalAccessException
 	 */
 	public TreePopupMenu() throws IllegalAccessException,
-	InstantiationException {
+			InstantiationException {
 		add(ActionFactory.getAction(RunAction.class));
 		add(ActionFactory.getAction(StepAction.class));
 		add(ActionFactory.getAction(PauseAction.class));

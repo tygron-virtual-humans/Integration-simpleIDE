@@ -99,7 +99,7 @@ public class EditAction extends GOALAction {
 		default:
 			new Warning(
 					Resources
-					.get(WarningStrings.FAILED_EDITACTION_NOT_AVAILABLE));
+							.get(WarningStrings.FAILED_EDITACTION_NOT_AVAILABLE));
 			break;
 		}
 		if (extension != null) {

@@ -61,6 +61,6 @@ public class CloseIntrospectorAction extends GOALAction {
 	protected void execute(IDENode selectedNode, ActionEvent e)
 			throws GOALUserError {
 		developmentEnvironment.getMainPanel().getDebugPanel()
-		.closeIntrospector(e.getActionCommand());
+				.closeIntrospector(e.getActionCommand());
 	}
 }

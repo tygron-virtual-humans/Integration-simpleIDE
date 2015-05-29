@@ -165,7 +165,7 @@ public class FilePanel extends JPanel {
 	}
 
 	private JPopupMenu createPopupMenu() throws IllegalAccessException,
-			InstantiationException {
+	InstantiationException {
 		JPopupMenu popup = new JPopupMenu();
 		popup.add(new JMenuItem(ActionFactory.getAction(EditAction.class)));
 		popup.add(new JMenuItem(ActionFactory.getAction(SaveFileAction.class)));
@@ -231,8 +231,9 @@ public class FilePanel extends JPanel {
 		 * panels for the file(s) that are selected. Single click events are
 		 * handled by the tree selection listener.
 		 *
-		 * @see http ://java.sun.com/j2se/1.4.2/docs/api/javax/swing/JTree.html
-		 *      for code.
+		 * @see http
+		 *      ://java.sun.com/j2se/1.4.2/docs/api/javax/swing/JTree.html for
+		 *      code.
 		 */
 		@Override
 		public void mousePressed(MouseEvent event) {
@@ -243,7 +244,7 @@ public class FilePanel extends JPanel {
 				} catch (Exception e) {
 					new Warning(
 							Resources
-									.get(WarningStrings.FAILED_POPUP_WINDOW_CREATE),
+							.get(WarningStrings.FAILED_POPUP_WINDOW_CREATE),
 							e);
 				}
 			}
@@ -276,7 +277,7 @@ public class FilePanel extends JPanel {
 				} catch (Exception e) {
 					new Warning(
 							Resources
-									.get(WarningStrings.FAILED_POPUP_WINDOW_CREATE),
+							.get(WarningStrings.FAILED_POPUP_WINDOW_CREATE),
 							e);
 				}
 			}
@@ -340,7 +341,7 @@ public class FilePanel extends JPanel {
 	 * @throws ParserException
 	 */
 	public FileNode insertFile(File newFile) throws IllegalAccessException,
-			InstantiationException, GOALException, ParserException {
+	InstantiationException, GOALException, ParserException {
 		FileNode newNode = null;
 
 		Extension ext = Extension.getFileExtension(newFile);
@@ -545,7 +546,7 @@ public class FilePanel extends JPanel {
 		}
 		if (parent != null) {
 			this.treeModel
-					.insertNodeInto(child, parent, parent.getChildCount());
+			.insertNodeInto(child, parent, parent.getChildCount());
 			this.fileTree.expandPath(new TreePath(child.getPath()));
 		} else if (!oldParentWasNullNode && child.getType() != NodeType.MASFILE) {
 			// automatically move the old node to the null-node when it
@@ -1110,7 +1111,7 @@ public class FilePanel extends JPanel {
 		switch (ext) {
 		case GOAL:
 			KRInterface language = this.platform.getAgentProgram(oldFile)
-					.getKRInterface();
+			.getKRInterface();
 			this.platform.parseGOALFile(newFile, language);
 			this.platform.removeParsedProgram(oldFile);
 			break;
@@ -1154,7 +1155,7 @@ public class FilePanel extends JPanel {
 			} catch (SecurityException e) {
 				new Warning(
 						Resources
-								.get(WarningStrings.FAILED_REMOVE_AFTER_RENAME),
+						.get(WarningStrings.FAILED_REMOVE_AFTER_RENAME),
 						e);
 			}
 		}
@@ -1271,7 +1272,7 @@ public class FilePanel extends JPanel {
 		choicespanel.setLayout(new BoxLayout(choicespanel, BoxLayout.Y_AXIS));
 		choicespanel.add(new JLabel(
 				"There are multiple mas's using the renamed file.\n" //$NON-NLS-1$
-						+ "Please select which ones have to be renamed")); //$NON-NLS-1$
+				+ "Please select which ones have to be renamed")); //$NON-NLS-1$
 		ArrayList<JCheckBox> choices = new ArrayList<JCheckBox>();
 		for (FileNode n : nodes) {
 			JCheckBox checkbox = new JCheckBox("" //$NON-NLS-1$
@@ -1403,7 +1404,7 @@ public class FilePanel extends JPanel {
 				if (child.getBaseFile().exists()) {
 					throw new GOALIncompleteGUIUsageException(
 							"A MAS file can only be deleted after removing " //$NON-NLS-1$
-									+ "all related project files."); //$NON-NLS-1$
+							+ "all related project files."); //$NON-NLS-1$
 				}
 			}
 			break;
@@ -1413,7 +1414,7 @@ public class FilePanel extends JPanel {
 		// if we get here, the file can be deleted.
 		int selection = JOptionPane.showConfirmDialog(this,
 				"This will delete the file " + node.getFilename() //$NON-NLS-1$
-						+ " from the file system. Please confirm.", //$NON-NLS-1$
+				+ " from the file system. Please confirm.", //$NON-NLS-1$
 				"Pleas Confirm", JOptionPane.YES_NO_OPTION); //$NON-NLS-1$
 		if (selection == JOptionPane.YES_OPTION) {
 			File f = node.getBaseFile();

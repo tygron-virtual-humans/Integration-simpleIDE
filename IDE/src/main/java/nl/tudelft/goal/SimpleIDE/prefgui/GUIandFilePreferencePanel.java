@@ -62,7 +62,7 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
  */
 @SuppressWarnings("serial")
 public class GUIandFilePreferencePanel extends JPanel implements
-ChangeListener, ActionListener {
+		ChangeListener, ActionListener {
 
 	/**
 	 *
@@ -137,7 +137,7 @@ ChangeListener, ActionListener {
 									PMPreferences.getAgentBrowsePath(), true);
 					if (newFile != null) {
 						GUIandFilePreferencePanel.this.agentsbrowsedir
-								.setText(newFile.getAbsolutePath());
+						.setText(newFile.getAbsolutePath());
 						thispanel.actionPerformed(null);
 					}
 
@@ -197,9 +197,9 @@ ChangeListener, ActionListener {
 				DEFAULT_OUTPUT_LINES, MIN_OUTPUT_LINES, MAX_OUTPUT_LINES,
 				OUTPUT_LINES_STEPSIZE);
 		maxlinesIntrospectorPanel
-		.add(new JLabel(
-				"Maximum number of lines in query output area in INTROSPECTOR"),
-				BorderLayout.CENTER);
+				.add(new JLabel(
+						"Maximum number of lines in query output area in INTROSPECTOR"),
+						BorderLayout.CENTER);
 		this.spinner = new JSpinner(smIntrospector);
 		maxlinesIntrospectorPanel.add(this.spinner, BorderLayout.WEST);
 
@@ -210,9 +210,9 @@ ChangeListener, ActionListener {
 				FONT_MAX_SIZE, 1);
 		this.fontsizespinner = new JSpinner(fontsm);
 		fontsizepanel
-		.add(new JLabel(
-				"Font size in CONSOLE area (changes take effect after restart)"),
-				BorderLayout.CENTER);
+				.add(new JLabel(
+						"Font size in CONSOLE area (changes take effect after restart)"),
+						BorderLayout.CENTER);
 		fontsizepanel.add(this.fontsizespinner, BorderLayout.WEST);
 
 		// Re-opening of files at start-up

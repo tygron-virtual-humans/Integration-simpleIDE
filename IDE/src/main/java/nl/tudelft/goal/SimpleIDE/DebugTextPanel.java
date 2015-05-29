@@ -61,7 +61,7 @@ import languageTools.program.agent.AgentId;
  * */
 @SuppressWarnings("serial")
 public final class DebugTextPanel extends LogTextTrackingScrollPane implements
-		DebugObserver, PropertyChangeListener {
+DebugObserver, PropertyChangeListener {
 
 	/**
 	 *

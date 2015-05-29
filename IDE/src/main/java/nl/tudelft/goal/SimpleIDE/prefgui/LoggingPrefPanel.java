@@ -187,8 +187,8 @@ public class LoggingPrefPanel extends JPanel implements ChangeListener {
 		LoggingPreferences.setShowStackdump(this.stackTraceCheckBox
 				.isSelected());
 		LoggingPreferences
-		.setSuppressLevel((Integer) this.maxNrOfWarningMessagesSpinner
-				.getValue());
+				.setSuppressLevel((Integer) this.maxNrOfWarningMessagesSpinner
+						.getValue());
 		LoggingPreferences.setLogDirectory(this.logdirectory.getText());
 	}
 }

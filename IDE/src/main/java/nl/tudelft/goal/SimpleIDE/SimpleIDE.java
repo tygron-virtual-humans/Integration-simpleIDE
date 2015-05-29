@@ -97,8 +97,8 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 			JOptionPane.showMessageDialog(
 					null,
 					Resources.get(WarningStrings.FAILED_IDE_LAUNCH)
-							+ e.getMessage() + "\n" //$NON-NLS-1$
-							+ e.getStackTrace()[0]);
+					+ e.getMessage() + "\n" //$NON-NLS-1$
+					+ e.getStackTrace()[0]);
 		}
 	}
 
@@ -232,12 +232,12 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 		for (String path : IDEPreferences.getOtherFiles()) {
 			try {
 				this.mainPanel.getFilePanel()
-						.insertSpuriousFile(new File(path));
+				.insertSpuriousFile(new File(path));
 			} catch (Exception e) {
 				new Warning(
 						String.format(Resources
 								.get(WarningStrings.FAILED_FILE_RELOAD), path),
-						e);
+								e);
 			}
 		}
 	}
@@ -329,7 +329,7 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 	public static File askFile(Component parentpanel, boolean openFile,
 			String title, int mode, String exten, String defaultName,
 			String startdir, boolean enforceExtension)
-			throws GOALCommandCancelledException, GOALUserError {
+					throws GOALCommandCancelledException, GOALUserError {
 		// insert the leading dot if necessary.
 		String extension = (exten == null || exten.startsWith(".")) ? exten //$NON-NLS-1$
 				: "." + exten; //$NON-NLS-1$

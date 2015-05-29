@@ -56,8 +56,8 @@ import nl.tudelft.goal.SimpleIDE.preferences.IDEPreferences;
  */
 @SuppressWarnings("serial")
 public class FeedbackPanel extends CloseTabbedPane implements
-		RuntimeEventObserver, TabCloseListener, PropertyChangeListener,
-		ChangeListener {
+RuntimeEventObserver, TabCloseListener, PropertyChangeListener,
+ChangeListener {
 
 	/**
 	 *
@@ -170,23 +170,23 @@ public class FeedbackPanel extends CloseTabbedPane implements
 				closeTab(i);
 			}
 			break;
-		// case SCHEDULER_SELECTED_AGENT:
-		// ArrayList<Agent> agents = (ArrayList<Agent>) source;
-		// int index = indexOfTab(agents.get(0).getId().getName());
-		//
-		// if (agents.size() == 1
-		// && (index != -1)
-		// && (agents.get(0).getDebugger().getRunMode() != RunMode.RUNNING)
-		// && IDEPreferences.getAutoSwitchDebugTab()) {
-		// /*
-		// * possible to switch to unique debug pane switch to and make
-		// * visible corresponding debug pane for agent only switch if
-		// * agent is not in RUNNING mode and currently selected index is
-		// * debug pane
-		// */
-		// this.setSelectedIndex(index);
-		// }
-		// break;
+			// case SCHEDULER_SELECTED_AGENT:
+			// ArrayList<Agent> agents = (ArrayList<Agent>) source;
+			// int index = indexOfTab(agents.get(0).getId().getName());
+			//
+			// if (agents.size() == 1
+			// && (index != -1)
+			// && (agents.get(0).getDebugger().getRunMode() != RunMode.RUNNING)
+			// && IDEPreferences.getAutoSwitchDebugTab()) {
+			// /*
+			// * possible to switch to unique debug pane switch to and make
+			// * visible corresponding debug pane for agent only switch if
+			// * agent is not in RUNNING mode and currently selected index is
+			// * debug pane
+			// */
+			// this.setSelectedIndex(index);
+			// }
+			// break;
 		}
 	}
 

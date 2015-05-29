@@ -43,7 +43,7 @@ import javax.swing.event.ChangeListener;
  */
 @SuppressWarnings("serial")
 public class DBExportPrefPanel extends JPanel implements ChangeListener,
-ActionListener {
+		ActionListener {
 	/**
 	 *
 	 */
@@ -60,7 +60,7 @@ ActionListener {
 	private final JLabel exportBrowseDirExplanation = new JLabel(
 			"Start browsing for export directory at:");
 	private final JLabel exportbrowsedir = new JLabel("/"); // not editable
-															// directly
+	// directly
 	private final JCheckBox rememberUsedExportDir = new JCheckBox(
 			"Remember last used export directory");
 
@@ -110,7 +110,7 @@ ActionListener {
 	private void initSettings() {
 		this.exportbeliefs.setSelected(DBExportPreferences.getExportBeliefs());
 		this.exportpercepts
-				.setSelected(DBExportPreferences.getExportPercepts());
+		.setSelected(DBExportPreferences.getExportPercepts());
 		this.exportmailbox.setSelected(DBExportPreferences.getExportMailbox());
 		this.exportgoals.setSelected(DBExportPreferences.getExportGoals());
 		this.separatefiles.setSelected(DBExportPreferences
@@ -140,8 +140,8 @@ ActionListener {
 		// you can not change the export browse dir directly here, so no need to
 		// update that here.
 		DBExportPreferences
-				.setRememberLastUsedExportDir(this.rememberUsedExportDir
-						.isSelected());
+		.setRememberLastUsedExportDir(this.rememberUsedExportDir
+				.isSelected());
 	}
 
 	/**

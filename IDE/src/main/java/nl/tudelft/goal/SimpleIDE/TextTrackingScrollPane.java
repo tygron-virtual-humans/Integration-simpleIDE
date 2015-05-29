@@ -66,7 +66,7 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
  */
 @SuppressWarnings("serial")
 public class TextTrackingScrollPane extends JScrollPane implements
-ActionListener, MouseWheelListener, AdjustmentListener, MarkedReadable {
+		ActionListener, MouseWheelListener, AdjustmentListener, MarkedReadable {
 
 	/**
 	 *

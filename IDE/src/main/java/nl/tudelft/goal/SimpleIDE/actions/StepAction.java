@@ -146,7 +146,7 @@ public class StepAction extends GOALAction {
 				if (childNode.getType() == NodeType.ENVIRONMENT_PROCESS
 						&& childNode.getProcessRunMode() != RunMode.RUNNING) {
 					developmentEnvironment.getMainPanel().getProcessPanel()
-					.runProcessNode(childNode);
+							.runProcessNode(childNode);
 				}
 			}
 
@@ -165,7 +165,7 @@ public class StepAction extends GOALAction {
 			case RUNNING:
 				@SuppressWarnings("unchecked")
 				Agent<IDEGOALInterpreter> agent = (Agent<IDEGOALInterpreter>) node
-				.getUserObject();
+						.getUserObject();
 				agent.getController().getDebugger().step();
 				break;
 			default: // FIXME should throw GOALBug but that's not possible
@@ -189,8 +189,8 @@ public class StepAction extends GOALAction {
 		default: // Redundant check, if we make NodeType more specific
 			throw new GOALBug(
 					this
-					+ "should only be enabled while selection is a PROCESS node, but found" //$NON-NLS-1$
-					+ node);
+							+ "should only be enabled while selection is a PROCESS node, but found" //$NON-NLS-1$
+							+ node);
 		}
 	}
 

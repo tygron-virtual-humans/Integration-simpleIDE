@@ -49,8 +49,8 @@ public class IDEMainPanel extends JPanel {
 	private final JSplitPane pane, tophalf;
 
 	private final JPanel fileProcessPanel; // the top level panel, showing
-											// either edit
-											// or debug
+	// either edit
+	// or debug
 	private final FilePanel filePanel;
 	private final ProcessPanel processPanel;
 
@@ -58,9 +58,9 @@ public class IDEMainPanel extends JPanel {
 	private final DebugPanel debugPanel; // visible in run mode
 
 	private final FeedbackPanel feedbackPanel; // lower part of IDE that shows
-												// console
-												// output and other tabs with
-												// feedback
+	// console
+	// output and other tabs with
+	// feedback
 
 	private final SimpleIDE theIDE;
 	private static final String EDIT_VIEW_STR = "EDITVIEW";
@@ -80,7 +80,7 @@ public class IDEMainPanel extends JPanel {
 	 *            user's requests.
 	 */
 	public IDEMainPanel(SimpleIDE ide) throws InstantiationException,
-	IllegalAccessException {
+			IllegalAccessException {
 		CardLayout cl;
 
 		this.theIDE = ide;
@@ -201,8 +201,8 @@ public class IDEMainPanel extends JPanel {
 	 *             DOC
 	 */
 	public void close() throws GOALCommandCancelledException,
-	GOALIncompleteGUIUsageException, GOALException,
-	IllegalAccessException, InstantiationException {
+			GOALIncompleteGUIUsageException, GOALException,
+			IllegalAccessException, InstantiationException {
 		int view = getView();
 		switch (view) {
 		case EDIT_VIEW:

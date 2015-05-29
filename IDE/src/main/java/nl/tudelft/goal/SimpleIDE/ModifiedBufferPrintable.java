@@ -314,7 +314,7 @@ class ModifiedBufferPrintable implements Printable {
 			}
 			if (!jEdit.getBooleanProperty("print.folds", true)
 					&& !this.view.getTextArea().getDisplayManager()
-					.isLineVisible(this.currentPhysicalLine)) {
+							.isLineVisible(this.currentPhysicalLine)) {
 
 				Log.log(Log.DEBUG, this, "Skipping invisible line");
 				this.currentPhysicalLine++;

@@ -62,9 +62,9 @@ public class RenameAction extends GOALAction {
 				// can be closed and removed.
 				&& !this.currentState.isRuntimeEnvironmentAvailable()
 				&& (nodeType == NodeType.MASFILE
-						|| nodeType == NodeType.GOALFILE
-						|| nodeType == NodeType.MODFILE
-						|| nodeType == NodeType.PLFILE || nodeType == NodeType.TXTFILE)
+				|| nodeType == NodeType.GOALFILE
+				|| nodeType == NodeType.MODFILE
+				|| nodeType == NodeType.PLFILE || nodeType == NodeType.TXTFILE)
 				&& ((FileNode) node).getBaseFile().exists());
 
 	}
@@ -77,7 +77,7 @@ public class RenameAction extends GOALAction {
 			throws GOALException {
 		try {
 			developmentEnvironment.getMainPanel().getFilePanel()
-					.rename(((FileNode) selectedNode).getBaseFile());
+			.rename(((FileNode) selectedNode).getBaseFile());
 		} catch (ParserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -98,7 +98,7 @@ public class ToolBar extends JToolBar {
 	 * @throws IllegalAccessException
 	 */
 	private void addButtons() throws IllegalAccessException,
-	InstantiationException {
+			InstantiationException {
 		// File buttons
 		addButton(NewFileAction.class);
 		addButton(OpenFileAction.class);

@@ -224,7 +224,7 @@ public class EditManager extends JPanel {
 		try {
 			for (int i = 0; i < this.tabbedPane.getTabCount(); i++) {
 				((TextEditorInterface) this.tabbedPane.getComponentAt(i))
-						.save();
+				.save();
 			}
 			new InfoLog("All files saved."); //$NON-NLS-1$
 		} catch (IOException e) {
@@ -244,7 +244,7 @@ public class EditManager extends JPanel {
 		for (int i = 0; i < this.tabbedPane.getTabCount(); i++) {
 			dirty = dirty
 					| ((TextEditorInterface) this.tabbedPane.getComponentAt(i))
-							.isDirty();
+					.isDirty();
 		}
 
 		return dirty;
@@ -260,7 +260,7 @@ public class EditManager extends JPanel {
 		this.textEditorsAreEditable = editable;
 		for (int i = 0; i < this.tabbedPane.getTabCount(); i++) {
 			((TextEditorInterface) this.tabbedPane.getComponentAt(i))
-					.setEditable(editable);
+			.setEditable(editable);
 		}
 	}
 

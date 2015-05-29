@@ -37,7 +37,7 @@ import java.util.Map;
  */
 @SuppressWarnings("serial")
 public class ActionHistoryTextPanel extends LogTextTrackingScrollPane implements
-DebugObserver {
+		DebugObserver {
 
 	/**
 	 *
@@ -132,7 +132,7 @@ DebugObserver {
 		case ACTION_EXECUTED_BUILTIN:
 		case ACTION_EXECUTED_USERSPEC:
 			if (event.getSource() != null
-			&& this.lastSepEvents.get(event.getSource()) != null) {
+					&& this.lastSepEvents.get(event.getSource()) != null) {
 				this.logger.log(this.lastSepEvents.get(event.getSource()));
 				this.lastSepEvents.remove(event.getSource());
 			}

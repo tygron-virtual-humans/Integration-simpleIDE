@@ -53,7 +53,7 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
 
 @SuppressWarnings("serial")
 public class IntrospectorPanel extends JPanel implements
-		PropertyChangeListener, DebugObserver {
+PropertyChangeListener, DebugObserver {
 	/**
 	 *
 	 */
@@ -89,7 +89,7 @@ public class IntrospectorPanel extends JPanel implements
 		QueryPanel querypanel = new QueryPanel(agent);
 		this.pane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, tabs, querypanel);
 		this.pane
-				.setDividerLocation(IntrospectorPreferences.getDBContentSize());
+		.setDividerLocation(IntrospectorPreferences.getDBContentSize());
 
 		this.pane.setResizeWeight(1.0);
 		this.pane.setOneTouchExpandable(true);
@@ -124,7 +124,7 @@ public class IntrospectorPanel extends JPanel implements
 		this.debugger.unsubscribe(this);
 
 		IntrospectorPreferences
-				.setDBContentSize(this.pane.getDividerLocation());
+		.setDBContentSize(this.pane.getDividerLocation());
 	}
 
 	/**
