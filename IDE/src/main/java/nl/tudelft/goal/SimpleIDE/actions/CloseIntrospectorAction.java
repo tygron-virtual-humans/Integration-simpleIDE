@@ -31,9 +31,7 @@ import nl.tudelft.goal.SimpleIDE.SimpleIDE;
  *
  * @author W.Pasman 16jun2011
  */
-@SuppressWarnings("serial")
 public class CloseIntrospectorAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -61,6 +59,6 @@ public class CloseIntrospectorAction extends GOALAction {
 	protected void execute(IDENode selectedNode, ActionEvent e)
 			throws GOALUserError {
 		developmentEnvironment.getMainPanel().getDebugPanel()
-				.closeIntrospector(e.getActionCommand());
+		.closeIntrospector(e.getActionCommand());
 	}
 }

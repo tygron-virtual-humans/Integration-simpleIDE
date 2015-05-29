@@ -90,7 +90,7 @@ public class SaveFileAction extends GOALAction {
 							e1);
 				} finally {
 					developmentEnvironment.getMainPanel().getFilePanel()
-					.refreshMASFile(theFile);
+							.refreshMASFile(theFile);
 				}
 				break;
 			case GOAL:
@@ -115,16 +115,18 @@ public class SaveFileAction extends GOALAction {
 					}
 				} finally {
 					developmentEnvironment.getMainPanel().getFilePanel()
-					.refreshGOALFile(theFile);
+							.refreshGOALFile(theFile);
 				}
 				break;
 			case MODULES:
 				developmentEnvironment.getMainPanel().getFilePanel()
-				.refreshMod2gFile(theFile);
+						.refreshMod2gFile(theFile);
 				break;
 			case PROLOG:
 				developmentEnvironment.getMainPanel().getFilePanel()
-				.refreshPrologFile(theFile);
+						.refreshPrologFile(theFile);
+				break;
+			default:
 				break;
 			}
 		}

@@ -42,9 +42,7 @@ import nl.tudelft.goal.SimpleIDE.SimpleIDE;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class OpenFileAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -85,7 +83,7 @@ public class OpenFileAction extends GOALAction {
 			}
 			try {
 				developmentEnvironment.getMainPanel().getFilePanel()
-				.insertFile(theFile);
+						.insertFile(theFile);
 			} catch (GOALException e1) {
 				new Warning(String.format(
 						Resources.get(WarningStrings.FAILED_FILE_OPEN2),

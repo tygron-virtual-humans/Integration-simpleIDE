@@ -52,13 +52,10 @@ import nl.tudelft.goal.SimpleIDE.preferences.IDEPreferences;
  * Shows the console, action, and other user feedback panels. The FeedbackPanel
  * is the lower area of the IDE panel holding. Subscribes to the Platform
  * Manager in order to show the messages sent by agents.
- *
  */
-@SuppressWarnings("serial")
 public class FeedbackPanel extends CloseTabbedPane implements
 RuntimeEventObserver, TabCloseListener, PropertyChangeListener,
 ChangeListener {
-
 	/**
 	 *
 	 */
@@ -143,8 +140,9 @@ ChangeListener {
 	 * @param argument
 	 *            A {@link RuntimeEvent} event.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void eventOccured(RuntimeManager observable, RuntimeEvent event) {
+	public void eventOccured(RuntimeManager<?, ?> observable, RuntimeEvent event) {
 		Object source = event.getSource();
 		Agent<IDEGOALInterpreter> agent;
 
@@ -187,6 +185,8 @@ ChangeListener {
 			// this.setSelectedIndex(index);
 			// }
 			// break;
+		default:
+			break;
 		}
 	}
 
@@ -279,5 +279,4 @@ ChangeListener {
 			((MarkedReadable) tab).markRead();
 		}
 	}
-
 }

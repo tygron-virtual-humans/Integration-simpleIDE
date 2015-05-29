@@ -519,6 +519,10 @@ public class FilePanel extends JPanel {
 			case PROLOG:
 				newNode = new PrologNode(file);
 				break;
+			default:
+				throw new UnsupportedOperationException(
+						"Attempt to" //$NON-NLS-1$
+								+ "insert unrecognized file as spurious file in File Panel."); //$NON-NLS-1$
 			}
 		}
 		this.allFiles.add(newNode);

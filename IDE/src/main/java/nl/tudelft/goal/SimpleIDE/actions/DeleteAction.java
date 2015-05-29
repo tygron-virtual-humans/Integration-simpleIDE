@@ -36,9 +36,7 @@ import nl.tudelft.goal.SimpleIDE.files.FileNode;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class DeleteAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -64,9 +62,9 @@ public class DeleteAction extends GOALAction {
 				// can be closed and removed.
 				&& !this.currentState.isRuntimeEnvironmentAvailable()
 				&& (nodeType == NodeType.MASFILE
-						|| nodeType == NodeType.GOALFILE
-						|| nodeType == NodeType.MODFILE
-						|| nodeType == NodeType.PLFILE || nodeType == NodeType.TXTFILE)
+				|| nodeType == NodeType.GOALFILE
+				|| nodeType == NodeType.MODFILE
+				|| nodeType == NodeType.PLFILE || nodeType == NodeType.TXTFILE)
 				&& ((FileNode) node).getBaseFile().exists());
 
 	}
@@ -80,8 +78,8 @@ public class DeleteAction extends GOALAction {
 		if (!(selectedNode instanceof FileNode)) {
 			throw new GOALBug(
 					this
-							+ "should only be enabled while selection is a FILE node, but found"
-							+ selectedNode);
+					+ "should only be enabled while selection is a FILE node, but found"
+					+ selectedNode);
 		}
 		FileNode node = (FileNode) selectedNode;
 		if (developmentEnvironment.getMainPanel().getFilePanel()

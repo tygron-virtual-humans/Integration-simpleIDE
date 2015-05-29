@@ -34,9 +34,7 @@ import nl.tudelft.goal.SimpleIDE.actions.StepAction;
  * @modified W.Pasman 23jun2011 #1676 In fact this popup seems only working
  *           since I made these modifications, it used not to work.
  */
-@SuppressWarnings("serial")
 public class TreePopupMenu extends JPopupMenu {
-
 	/**
 	 *
 	 */
@@ -49,7 +47,7 @@ public class TreePopupMenu extends JPopupMenu {
 	 * @throws IllegalAccessException
 	 */
 	public TreePopupMenu() throws IllegalAccessException,
-			InstantiationException {
+	InstantiationException {
 		add(ActionFactory.getAction(RunAction.class));
 		add(ActionFactory.getAction(StepAction.class));
 		add(ActionFactory.getAction(PauseAction.class));
@@ -57,5 +55,4 @@ public class TreePopupMenu extends JPopupMenu {
 		add(ActionFactory.getAction(IntrospectorAction.class));
 		add(ActionFactory.getAction(DebugLogAction.class));
 	}
-
 }

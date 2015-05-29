@@ -32,9 +32,7 @@ import nl.tudelft.goal.SimpleIDE.IDENode;
  *
  * @author W.Pasman 16jun2011
  */
-@SuppressWarnings("serial")
 public class CloseEditorAction extends GOALAction {
-
 	/**
 	 *
 	 */

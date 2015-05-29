@@ -49,9 +49,7 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
  * @author W.Pasman 23sept10 created this class as extension of the
  *         {@link TextTrackingScrollPane}
  */
-@SuppressWarnings("serial")
 public class LogTextTrackingScrollPane extends TextTrackingScrollPane {
-
 	/**
 	 *
 	 */
@@ -168,8 +166,8 @@ public class LogTextTrackingScrollPane extends TextTrackingScrollPane {
 					"H:mm:ss:SSS");
 			Formatter f = null;
 			if (!(record instanceof GOALLogRecord)) {
-				if (this.getFormatter() != null) {
-					f = this.getFormatter();
+				if (getFormatter() != null) {
+					f = getFormatter();
 				}
 			} else {
 				f = ((GOALLogRecord) record).getFormatter();
@@ -184,8 +182,8 @@ public class LogTextTrackingScrollPane extends TextTrackingScrollPane {
 				text += record.getMessage();
 			}
 			append(text);
-			if (record.getLevel().intValue() > this.getLevel().intValue()) {
-				this.flush();
+			if (record.getLevel().intValue() > getLevel().intValue()) {
+				flush();
 			}
 		}
 	}

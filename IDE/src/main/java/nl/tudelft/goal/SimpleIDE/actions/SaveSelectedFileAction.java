@@ -38,9 +38,7 @@ import nl.tudelft.goal.SimpleIDE.files.FileNode;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class SaveSelectedFileAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -78,7 +76,7 @@ public class SaveSelectedFileAction extends GOALAction {
 		// save only files that are currently being edited.
 		try {
 			EditManager.getInstance()
-					.getEditor(((FileNode) selectedNode).getBaseFile()).save();
+			.getEditor(((FileNode) selectedNode).getBaseFile()).save();
 		} catch (IOException e) {
 			new Warning(String.format(
 					Resources.get(WarningStrings.FAILED_FILE_SAVE),

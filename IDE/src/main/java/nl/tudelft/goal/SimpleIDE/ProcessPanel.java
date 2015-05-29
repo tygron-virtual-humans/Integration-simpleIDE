@@ -61,9 +61,7 @@ import nl.tudelft.goal.messaging.messagebox.MessageBoxId;
  *
  * @author K.Hindriks
  */
-@SuppressWarnings("serial")
 public class ProcessPanel extends JPanel implements RuntimeEventObserver {
-
 	/**
 	 *
 	 */
@@ -155,16 +153,12 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 	@Override
 	public void eventOccured(final RuntimeManager observable,
 			final RuntimeEvent event) {
-
 		// Invoke later because this is an event listener that may be called
 		// from another thread then the swing thread.
 		SwingUtilities.invokeLater(new Runnable() {
-
 			@Override
 			public void run() {
-
 				Object source = event.getSource();
-
 				switch (event.getType()) {
 				case MAS_BORN:
 					handleMasBorn(source);
@@ -174,7 +168,7 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 					ProcessPanel.this.processTreeModel = new DefaultTreeModel(
 							null);
 					ProcessPanel.this.processTree
-					.setModel(ProcessPanel.this.processTreeModel);
+							.setModel(ProcessPanel.this.processTreeModel);
 					break;
 				case AGENT_BORN:
 				case AGENT_IS_LOCAL_AND_READY:
@@ -198,12 +192,12 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 					break;
 				case ENVIRONMENT_KILLED:
 					handleEnvKilled(source);
+					break;
+				default:
+					break;
 				}
-
 			}
-
 		});
-
 	}
 
 	/**
@@ -307,7 +301,7 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 			@Override
 			public void panelHasChanged() {
 				ActionFactory
-				.broadcastStateChange(ProcessPanel.this.myIDEState);
+						.broadcastStateChange(ProcessPanel.this.myIDEState);
 			}
 		};
 		this.processTreeModel.insertNodeInto(node, this.masNode,
@@ -331,7 +325,7 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 			@Override
 			public void panelHasChanged() {
 				ActionFactory
-				.broadcastStateChange(ProcessPanel.this.myIDEState);
+						.broadcastStateChange(ProcessPanel.this.myIDEState);
 			}
 		};
 		this.processTreeModel.setRoot(this.masNode);
@@ -364,7 +358,7 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 				@Override
 				public void panelHasChanged() {
 					ActionFactory
-					.broadcastStateChange(ProcessPanel.this.myIDEState);
+							.broadcastStateChange(ProcessPanel.this.myIDEState);
 				}
 			};
 
@@ -375,13 +369,13 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 					j = i;
 					if (node.getNodeName().compareTo(
 							((ProcessNode) this.masNode.getChildAt(i))
-							.getNodeName()) <= 0) {
+									.getNodeName()) <= 0) {
 						break;
 					}
 				}
 				if (node.getNodeName().compareTo(
 						((ProcessNode) this.masNode.getChildAt(j))
-						.getNodeName()) > 0) {
+								.getNodeName()) > 0) {
 					j++;
 				}
 			}
@@ -535,7 +529,7 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 			@Override
 			public void valueChanged(TreeSelectionEvent e) {
 				ActionFactory
-				.broadcastStateChange(ProcessPanel.this.myIDEState);
+						.broadcastStateChange(ProcessPanel.this.myIDEState);
 			}
 		});
 
@@ -544,13 +538,13 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 			@Override
 			public void treeExpanded(TreeExpansionEvent event) {
 				ActionFactory
-				.broadcastStateChange(ProcessPanel.this.myIDEState);
+						.broadcastStateChange(ProcessPanel.this.myIDEState);
 			}
 
 			@Override
 			public void treeCollapsed(TreeExpansionEvent event) {
 				ActionFactory
-				.broadcastStateChange(ProcessPanel.this.myIDEState);
+						.broadcastStateChange(ProcessPanel.this.myIDEState);
 			}
 		});
 	}
@@ -605,7 +599,7 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 				default:
 					throw new GOALBug(
 							"[SimpleIDE] Unexpected child of MAS process: " //$NON-NLS-1$
-							+ childNode);
+									+ childNode);
 				}
 			}
 			break;
@@ -627,8 +621,8 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 				 * needs environment connection?
 				 */
 				Agent<IDEGOALInterpreter> agt = LaunchManager.getCurrent()
-				.getRuntimeManager()
-				.getAgent(new AgentId(node.getNodeName()));
+						.getRuntimeManager()
+						.getAgent(new AgentId(node.getNodeName()));
 				try {
 					if (agt != null) {
 						agt.reset();
@@ -680,8 +674,8 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 	 * We have inner class here because ProcessPanel already extends JPanel so
 	 * it can not also extend MouseAdapter.
 	 *
-	 * @see http
-	 *      ://java.sun.com/j2se/1.4.2/docs/api/javax/swing/JTree.html for code.
+	 * @see http ://java.sun.com/j2se/1.4.2/docs/api/javax/swing/JTree.html for
+	 *      code.
 	 */
 
 	class MyMouseAdapter extends MouseAdapter {
@@ -709,7 +703,7 @@ public class ProcessPanel extends JPanel implements RuntimeEventObserver {
 				} catch (Exception e) {
 					new Warning(
 							Resources
-							.get(WarningStrings.FAILED_INTROSPECTOR_OPEN),
+									.get(WarningStrings.FAILED_INTROSPECTOR_OPEN),
 							e);
 				}
 			}

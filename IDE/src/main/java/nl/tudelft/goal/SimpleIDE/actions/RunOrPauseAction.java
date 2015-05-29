@@ -35,9 +35,7 @@ import nl.tudelft.goal.SimpleIDE.IDENode;
  *
  * @author W.Pasman 23jun2011
  */
-@SuppressWarnings("serial")
 public class RunOrPauseAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -46,7 +44,7 @@ public class RunOrPauseAction extends GOALAction {
 	private final PauseAction myPauseAction;
 
 	public RunOrPauseAction() throws IllegalAccessException,
-			InstantiationException {
+	InstantiationException {
 		/**
 		 * This action must be updated with stateChangeEvent() AFTER the run and
 		 * pause actions have been updated. This must be ensured by creating
@@ -92,5 +90,4 @@ public class RunOrPauseAction extends GOALAction {
 			this.myPauseAction.execute(selectedNode, ae);
 		}
 	}
-
 }

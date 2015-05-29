@@ -36,9 +36,7 @@ import nl.tudelft.goal.SimpleIDE.NodeType;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class IntrospectorAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -75,7 +73,7 @@ public class IntrospectorAction extends GOALAction {
 		switch (selectedNode.getType()) { // must be process node
 		case AGENT_PROCESS: // only in this case do something
 			developmentEnvironment.getMainPanel().getDebugPanel()
-					.showIntrospectorPanel(selectedNode.toString()); // toString
+			.showIntrospectorPanel(selectedNode.toString()); // toString
 			// gives
 			// agent's
 			// name.

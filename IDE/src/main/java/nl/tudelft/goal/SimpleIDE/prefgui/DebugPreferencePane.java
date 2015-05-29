@@ -59,7 +59,6 @@ import javax.swing.table.TableColumn;
  *           {@link DebugPreferences}. Removed channelstate fiddling from the
  *           view.
  */
-@SuppressWarnings("serial")
 public class DebugPreferencePane extends JPanel implements TableModelListener {
 	/**
 	 *
@@ -152,9 +151,7 @@ public class DebugPreferencePane extends JPanel implements TableModelListener {
 
 }
 
-@SuppressWarnings("serial")
 class MyTableModel extends AbstractTableModel {
-
 	/**
 	 *
 	 */
@@ -286,5 +283,4 @@ class MyTableModel extends AbstractTableModel {
 	public String[] getLongValues() {
 		return this.longValues;
 	}
-
 }

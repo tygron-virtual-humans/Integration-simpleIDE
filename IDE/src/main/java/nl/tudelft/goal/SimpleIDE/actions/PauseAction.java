@@ -58,9 +58,7 @@ import nl.tudelft.goal.SimpleIDE.ProcessNode;
  * @author W.Pasman
  * @modified W.Pasman 20jun2011 into action
  */
-@SuppressWarnings("serial")
 public class PauseAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -156,7 +154,7 @@ public class PauseAction extends GOALAction {
 			case PAUSED:
 			case RUNNING:
 				Agent<IDEGOALInterpreter> agent = (Agent<IDEGOALInterpreter>) node
-						.getUserObject();
+				.getUserObject();
 				agent.getController().getDebugger().finestep();
 				break;
 			case REMOTEPROCESS:
@@ -185,9 +183,8 @@ public class PauseAction extends GOALAction {
 		default: // FIXME redundant check, if we make node types more accurate.
 			throw new GOALBug(
 					this
-							+ " should only be enabled while selection is a PROCESS node, but found node of " //$NON-NLS-1$
-							+ node.getType() + " named " + node.getNodeName()); //$NON-NLS-1$
+					+ " should only be enabled while selection is a PROCESS node, but found node of " //$NON-NLS-1$
+					+ node.getType() + " named " + node.getNodeName()); //$NON-NLS-1$
 		}
 	}
-
 }

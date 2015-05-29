@@ -44,9 +44,8 @@ import nl.tudelft.goal.SimpleIDE.LogTextTrackingScrollPane;
  *
  * @author W.Pasman
  * */
-@SuppressWarnings("serial")
 public class ProfilerPanel extends LogTextTrackingScrollPane implements
-DebugObserver {
+		DebugObserver {
 	/**
 	 *
 	 */
@@ -94,5 +93,4 @@ DebugObserver {
 	public String getObserverName() {
 		return "profilerpanel";
 	}
-
 }

@@ -44,7 +44,6 @@ import nl.tudelft.goal.SimpleIDE.preferences.IDEPreferences;
  *
  * @author W.Pasman
  */
-@SuppressWarnings("serial")
 public final class ConsoleTextPanel extends JPanel implements MarkedReadable {
 	/**
 	 *

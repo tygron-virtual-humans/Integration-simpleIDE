@@ -41,9 +41,7 @@ import nl.tudelft.goal.SimpleIDE.files.FileNode;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class EditAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -99,7 +97,7 @@ public class EditAction extends GOALAction {
 		default:
 			new Warning(
 					Resources
-							.get(WarningStrings.FAILED_EDITACTION_NOT_AVAILABLE));
+					.get(WarningStrings.FAILED_EDITACTION_NOT_AVAILABLE));
 			break;
 		}
 		if (extension != null) {

@@ -45,9 +45,7 @@ import org.gjt.sp.jedit.textarea.TextArea;
  * @modified KH removed observable1
  * @modified W.Pasman 19apr2012 #2108 conditional breakpoints
  */
-@SuppressWarnings("serial")
 public abstract class TextEditorInterface extends JPanel {
-
 	/**
 	 *
 	 */
@@ -99,7 +97,7 @@ public abstract class TextEditorInterface extends JPanel {
 	 * @return A {@link File} with {@link #getFilename()} as path.
 	 */
 	public File getFile() {
-		return new File(this.getFilename());
+		return new File(getFilename());
 	}
 
 	/**
@@ -136,7 +134,7 @@ public abstract class TextEditorInterface extends JPanel {
 									+ ") does not exist.\n"
 									+ "Do you want to create it? The path to the new file will be:\n"
 									+ thefile.getPath(), "No such file.",
-							JOptionPane.YES_NO_OPTION);
+									JOptionPane.YES_NO_OPTION);
 			switch (result) {
 			case JOptionPane.YES_OPTION: {
 				boolean createResult = thefile.createNewFile();

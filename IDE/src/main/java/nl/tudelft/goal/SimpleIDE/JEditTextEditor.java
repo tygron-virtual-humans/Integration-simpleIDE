@@ -73,9 +73,7 @@ import org.gjt.sp.jedit.textarea.StandaloneTextArea;
  * @modified W.Pasman 19apr2012 #2108 conditional breakpoints
  * @modified W.Pasman jan2015 #3238 breakpoints in GOAL now 1-based.
  */
-@SuppressWarnings("serial")
 public final class JEditTextEditor extends TextEditorInterface {
-
 	/**
 	 *
 	 */
@@ -351,7 +349,7 @@ public final class JEditTextEditor extends TextEditorInterface {
 				 * jedit.props file in jedit project. cc=.8 ff=1 84=80==.5 66=.4
 				 */
 				SyntaxStyle[] styles = { /* see jedit.props also */
-						style(plain, black), // NONE
+				style(plain, black), // NONE
 						style(plain, red), // view.style.comment1=color:#cc0000
 						style(plain, orange),// view.style.comment2=color:#ff8400
 						style(plain, purple),// view.style.comment3=color:#6600cc
@@ -385,11 +383,11 @@ public final class JEditTextEditor extends TextEditorInterface {
 						// bgColor:#e7e7ff
 						// style:b
 						style(bold, black, brightpink) /*
-						 * view.style.foldLine.3=
-						 * color:#000000
-						 * bgColor:#ffe0f0
-						 * style:b
-						 */
+														 * view.style.foldLine.3=
+														 * color:#000000
+														 * bgColor:#ffe0f0
+														 * style:b
+														 */
 				};
 
 				getTextArea().getPainter().setStyles(styles);
@@ -453,7 +451,7 @@ public final class JEditTextEditor extends TextEditorInterface {
 	public void removeBreakpoint(BreakPoint breakpoint)
 			throws ArrayIndexOutOfBoundsException {
 		this.view.getBuffer().getBreakpoints()
-		.removeBreakpoint(breakpoint.getLine() - 1);
+				.removeBreakpoint(breakpoint.getLine() - 1);
 	}
 
 	@Override

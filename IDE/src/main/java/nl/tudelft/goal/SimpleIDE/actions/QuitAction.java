@@ -31,9 +31,7 @@ import nl.tudelft.goal.SimpleIDE.preferences.IDEPreferences;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class QuitAction extends GOALAction {
-
 	/**
 	 *
 	 */

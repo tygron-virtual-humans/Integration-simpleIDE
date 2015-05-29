@@ -50,8 +50,6 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
  * @author W.Pasman
  * @modified K.Hindriks
  */
-
-@SuppressWarnings("serial")
 public class IntrospectorPanel extends JPanel implements
 PropertyChangeListener, DebugObserver {
 	/**
@@ -165,16 +163,13 @@ PropertyChangeListener, DebugObserver {
 	 */
 	public void close() {
 	}
-
 }
 
 /**
  * Displays the various components of an agent's mental state in different tabs,
  * including the agent's beliefs, goals, mails, percepts, and knowledge.
  */
-@SuppressWarnings("serial")
 class MentalComponentsPanel extends JTabbedPane {
-
 	/**
 	 *
 	 */
@@ -226,5 +221,4 @@ class MentalComponentsPanel extends JTabbedPane {
 			Observable<Observer<QueryPanel, DatabaseChangedInfo>, QueryPanel, DatabaseChangedInfo> changenotifier) {
 		changenotifier.addObserver(this.beliefs);
 	}
-
 }

@@ -45,9 +45,7 @@ import nl.tudelft.goal.SimpleIDE.SimpleIDE;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class NewFileAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -112,8 +110,8 @@ public class NewFileAction extends GOALAction {
 		default:
 			throw new GOALBug(
 					this
-							+ "should only be enabled while selection is a FILE node, but found" //$NON-NLS-1$
-							+ selectedNode);
+					+ "should only be enabled while selection is a FILE node, but found" //$NON-NLS-1$
+					+ selectedNode);
 		} // end switch(nodeType)
 
 		if (theFile != null) {
@@ -124,7 +122,7 @@ public class NewFileAction extends GOALAction {
 				File newFile = PlatformManager.createfile(theFile,
 						Extension.getFileExtension(theFile));
 				developmentEnvironment.getMainPanel().getFilePanel()
-						.insertFile(newFile);
+				.insertFile(newFile);
 				// select new file for editing
 				EditManager.getInstance().editFile(newFile);
 			} catch (IOException ex) {
@@ -132,7 +130,7 @@ public class NewFileAction extends GOALAction {
 			} catch (Exception er) {
 				new Warning(
 						Resources
-								.get(WarningStrings.FAILED_IDE_FILENODE_INSERT),
+						.get(WarningStrings.FAILED_IDE_FILENODE_INSERT),
 						er);
 			}
 		}

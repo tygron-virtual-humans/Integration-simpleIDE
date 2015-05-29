@@ -47,9 +47,7 @@ import nl.tudelft.goal.messaging.exceptions.MessagingException;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class ResetAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -98,8 +96,8 @@ public class ResetAction extends GOALAction {
 			break;
 		case AGENT_PROCESS:
 			Agent<IDEGOALInterpreter> agt = LaunchManager.getCurrent()
-			.getRuntimeManager()
-			.getAgent(new AgentId(selectedNode.getNodeName()));
+					.getRuntimeManager()
+					.getAgent(new AgentId(selectedNode.getNodeName()));
 			if (agt != null) {
 				try {
 					agt.reset();

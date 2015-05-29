@@ -62,9 +62,7 @@ import nl.tudelft.goal.SimpleIDE.ProcessNode;
  * @author W.Pasman
  * @modified W.Pasman 20jun2011 into action
  */
-@SuppressWarnings("serial")
 public class StepAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -108,6 +106,7 @@ public class StepAction extends GOALAction {
 			setActionEnabled(mode == RunMode.RUNNING || mode == RunMode.PAUSED);
 			break;
 		case ENVIRONMENT_PROCESS:
+		case REMOTE_ENVIRONMENT_PROCESS:
 			boolean connected = (this.currentState
 					.isRuntimeEnvironmentAvailable() && LaunchManager
 					.getCurrent().getRuntimeManager().getEnvironmentPorts() != null);
@@ -146,7 +145,7 @@ public class StepAction extends GOALAction {
 				if (childNode.getType() == NodeType.ENVIRONMENT_PROCESS
 						&& childNode.getProcessRunMode() != RunMode.RUNNING) {
 					developmentEnvironment.getMainPanel().getProcessPanel()
-							.runProcessNode(childNode);
+					.runProcessNode(childNode);
 				}
 			}
 
@@ -165,7 +164,7 @@ public class StepAction extends GOALAction {
 			case RUNNING:
 				@SuppressWarnings("unchecked")
 				Agent<IDEGOALInterpreter> agent = (Agent<IDEGOALInterpreter>) node
-						.getUserObject();
+				.getUserObject();
 				agent.getController().getDebugger().step();
 				break;
 			default: // FIXME should throw GOALBug but that's not possible
@@ -189,8 +188,8 @@ public class StepAction extends GOALAction {
 		default: // Redundant check, if we make NodeType more specific
 			throw new GOALBug(
 					this
-							+ "should only be enabled while selection is a PROCESS node, but found" //$NON-NLS-1$
-							+ node);
+					+ "should only be enabled while selection is a PROCESS node, but found" //$NON-NLS-1$
+					+ node);
 		}
 	}
 
@@ -203,7 +202,8 @@ public class StepAction extends GOALAction {
 			return "environment"; //$NON-NLS-1$
 		case MAS_PROCESS:
 			return "multi-agent system"; //$NON-NLS-1$
+		default:
+			return "unknown"; //$NON-NLS-1$
 		}
-		return "unknown"; //$NON-NLS-1$
 	}
 }

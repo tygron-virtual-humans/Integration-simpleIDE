@@ -39,9 +39,7 @@ import nl.tudelft.goal.SimpleIDE.ProcessNode;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class DebugLogAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -77,9 +75,9 @@ public class DebugLogAction extends GOALAction {
 		case AGENT_PROCESS: // only in this case do something
 			@SuppressWarnings("unchecked")
 			Agent<IDEGOALInterpreter> agent = (Agent<IDEGOALInterpreter>) ((ProcessNode) selectedNode)
-					.getUserObject();
+			.getUserObject();
 			developmentEnvironment.getMainPanel().getFeedbackPanel()
-					.openDebugTracer(agent);
+			.openDebugTracer(agent);
 			break;
 		default: // MAS file and environment do not produce debug
 			// messages

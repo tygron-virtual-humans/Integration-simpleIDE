@@ -46,9 +46,7 @@ import javax.swing.WindowConstants;
  *
  * @author W.Pasman 11feb09
  */
-@SuppressWarnings("serial")
 public class MemInfoBox extends JFrame {
-
 	/**
 	 *
 	 */

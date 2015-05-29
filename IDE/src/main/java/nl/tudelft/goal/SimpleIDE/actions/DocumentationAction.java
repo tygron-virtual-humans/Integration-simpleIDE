@@ -37,9 +37,7 @@ import nl.tudelft.goal.SimpleIDE.IDENode;
  * @author W.Pasman 3feb2014
  *
  */
-@SuppressWarnings("serial")
 public class DocumentationAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -53,7 +51,6 @@ public class DocumentationAction extends GOALAction {
 	@Override
 	public void stateChangeEvent() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -66,9 +63,9 @@ public class DocumentationAction extends GOALAction {
 
 			Desktop desktop = Desktop.isDesktopSupported() ? Desktop
 					.getDesktop() : null;
-			if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
-				desktop.browse(uri);
-			}
+					if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+						desktop.browse(uri);
+					}
 		} catch (URISyntaxException e) {
 			throw new GOALActionFailedException("can't open web page:", e);
 		} catch (IOException e) {

@@ -57,10 +57,8 @@ import nl.tudelft.goal.SimpleIDE.preferences.IDEPreferences;
  *           display through new class
  * @modified K.Hindriks Layout and naming.
  */
-@SuppressWarnings("serial")
 public class RuntimePrefPanel extends JPanel implements ActionListener,
-ChangeListener {
-
+		ChangeListener {
 	/**
 	 *
 	 */
@@ -87,7 +85,7 @@ ChangeListener {
 	private final JSpinner threadPoolSize = new JSpinner();
 
 	// KR section.
-	private final JComboBox defaultkrlanguagebox;
+	private final JComboBox<String> defaultkrlanguagebox;
 
 	// Environment section.
 	private final JCheckBox printEntities = new JCheckBox(
@@ -115,7 +113,7 @@ ChangeListener {
 		// Panel to select default KR language.
 		Vector<String> langs = new Vector<String>(
 				KRFactory.getSupportedInterfaces());
-		this.defaultkrlanguagebox = new JComboBox(langs);
+		this.defaultkrlanguagebox = new JComboBox<String>(langs);
 
 		JPanel languageselpanel = new JPanel(new BorderLayout());
 		languageselpanel.add(
@@ -226,7 +224,7 @@ ChangeListener {
 		this.sleepRepeatingAgent.setSelected(PMPreferences
 				.getSleepRepeatingAgent());
 		this.removeKilledAgent
-				.setSelected(PMPreferences.getRemoveKilledAgent());
+		.setSelected(PMPreferences.getRemoveKilledAgent());
 		this.printEntities.setSelected(EnvironmentPreferences
 				.getPrintEntities());
 		this.agentCopyEnvRunState.setSelected(PMPreferences
@@ -249,7 +247,7 @@ ChangeListener {
 				.isSelected());
 		PMPreferences.setRemoveKilledAgent(this.removeKilledAgent.isSelected());
 		EnvironmentPreferences
-				.setPrintEntities(this.printEntities.isSelected());
+		.setPrintEntities(this.printEntities.isSelected());
 		PMPreferences.setAgentCopyEnvRunState(this.agentCopyEnvRunState
 				.isSelected());
 		PMPreferences.setThreadPoolSize((Integer) this.threadPoolSize
@@ -262,10 +260,10 @@ ChangeListener {
 	public void stateChanged(ChangeEvent e) {
 		// IDEPreferences.setAutoSwitchDebugTab( autoSwitchTab.isSelected() );
 		IDEPreferences
-		.setOpenDebugTraceTabAtAgentLaunch(this.openDebugTraceTabAtAgentLaunch
-				.isSelected());
-		PMPreferences
-				.setPrefixAgentNameWithMASName(this.prefixAgentNamesWithMASName
+				.setOpenDebugTraceTabAtAgentLaunch(this.openDebugTraceTabAtAgentLaunch
 						.isSelected());
+		PMPreferences
+		.setPrefixAgentNameWithMASName(this.prefixAgentNamesWithMASName
+				.isSelected());
 	}
 }

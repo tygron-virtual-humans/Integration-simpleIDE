@@ -60,10 +60,8 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
  *           display through new class
  * @modified K.Hindriks Layout and naming.
  */
-@SuppressWarnings("serial")
 public class GUIandFilePreferencePanel extends JPanel implements
 		ChangeListener, ActionListener {
-
 	/**
 	 *
 	 */
@@ -83,7 +81,7 @@ public class GUIandFilePreferencePanel extends JPanel implements
 	// last time?
 
 	// Look and Feel
-	private final JComboBox lookAndFeel;
+	private final JComboBox<String> lookAndFeel;
 
 	// Window Sizing and Settings
 	private final JCheckBox rememberIDEWindowSize;
@@ -121,7 +119,7 @@ public class GUIandFilePreferencePanel extends JPanel implements
 
 		// Look and feel.
 		String[] lafs = { "Default", "Nimbus" };
-		this.lookAndFeel = new JComboBox(lafs);
+		this.lookAndFeel = new JComboBox<String>(lafs);
 
 		// Button to start browsing for path.
 		this.agentBrowseButton.addActionListener(new ActionListener() {
@@ -187,8 +185,8 @@ public class GUIandFilePreferencePanel extends JPanel implements
 		// Introspector window sizing.
 		this.rememberdbsize = new JCheckBox(
 				"Remember the size of the database view area in INTROSPECTOR");
-		JTextArea dbsize = new JTextArea("      current size:"
-				+ IntrospectorPreferences.getDBContentSize());
+		// JTextArea dbsize = new JTextArea("      current size:"
+		// + IntrospectorPreferences.getDBContentSize());
 		this.couplequerysize = new JCheckBox(
 				"Single size of query area in INTROSPECTOR");
 

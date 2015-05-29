@@ -64,10 +64,8 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
  *         LogTextTrackingScrollPane that had been heavily extended in the code
  *         (instead of being extended via class extension)
  */
-@SuppressWarnings("serial")
 public class TextTrackingScrollPane extends JScrollPane implements
-		ActionListener, MouseWheelListener, AdjustmentListener, MarkedReadable {
-
+ActionListener, MouseWheelListener, AdjustmentListener, MarkedReadable {
 	/**
 	 *
 	 */
@@ -128,7 +126,7 @@ public class TextTrackingScrollPane extends JScrollPane implements
 		this.textarea = new JTextArea(initialText);
 		this.textarea.setEditable(false);
 		// textarea.getCaret().setVisible(true);
-		this.setViewportView(this.textarea);
+		setViewportView(this.textarea);
 		this.vscrollbar = getVerticalScrollBar();
 
 		// set up pop up menu
@@ -225,7 +223,7 @@ public class TextTrackingScrollPane extends JScrollPane implements
 	 */
 	@Override
 	public void markUnread() {
-		JComponent parent = (JComponent) this.getParent();
+		JComponent parent = (JComponent) getParent();
 		JComponent thisComp = this;
 		// this panel is usually directly below the tabbed panel
 		// however the text panel for console output has the ConsoleTextPanel
@@ -331,7 +329,7 @@ public class TextTrackingScrollPane extends JScrollPane implements
 
 		updateCaret1();
 
-		this.markUnread();
+		markUnread();
 	}
 
 	/**
@@ -424,5 +422,4 @@ public class TextTrackingScrollPane extends JScrollPane implements
 			setText(""); //$NON-NLS-1$
 		}
 	}
-
 }

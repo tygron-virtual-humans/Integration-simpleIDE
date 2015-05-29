@@ -44,9 +44,7 @@ import javax.swing.JTabbedPane;
  * @author W.Pasman mar2009
  * @modified KH Added debug preference pane
  */
-@SuppressWarnings("serial")
 public class PreferencesPanel extends JPanel implements ActionListener {
-
 	/**
 	 *
 	 */
@@ -151,5 +149,4 @@ public class PreferencesPanel extends JPanel implements ActionListener {
 				.getFont().getSize()));
 		return label;
 	}
-
 }

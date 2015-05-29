@@ -41,7 +41,6 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -76,9 +75,7 @@ import org.apache.commons.io.FilenameUtils;
  *           either private or overriding one of the two interfaces implemented
  *           here.
  */
-@SuppressWarnings("serial")
 public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
-
 	/**
 	 *
 	 */
@@ -202,25 +199,6 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 
 		// IDE state has been configured. Broadcast the info.
 		ActionFactory.broadcastStateChange(this);
-	}
-
-	/**
-	 * Install the OSX adapter. This adapter ensures that the Apple-Q shortcut
-	 * is correctly captured and handled by GOAL.
-	 * <p>
-	 * Trac #718. Indirect class loading because code referring to osxadapter
-	 * will not even compile on Windows. The point is, it will also not be
-	 * called on windows and it does not need compilation.
-	 */
-	private void installOSXAdapter() {
-		try {
-			Class<?> adapterclass = Class.forName("osxadapter.Adapter"); //$NON-NLS-1$
-			Constructor<?> adapterconstructor = adapterclass
-					.getConstructor(IDEfunctionality.class);
-			adapterconstructor.newInstance(this);
-		} catch (Exception e) {
-			new Warning(Resources.get(WarningStrings.FAILED_OSXADAPTER_LOAD), e);
-		}
 	}
 
 	/**
@@ -552,7 +530,6 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 	public boolean isRuntimeEnvironmentAvailable() {
 		return LaunchManager.getCurrent().isRuntimeEnvironmentAvailable();
 	}
-
 }
 
 /**
@@ -583,5 +560,4 @@ class IDETempState implements IDEState {
 	public boolean isRuntimeEnvironmentAvailable() {
 		return false;
 	}
-
 }

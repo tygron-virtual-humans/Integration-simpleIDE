@@ -76,9 +76,7 @@ import nl.tudelft.goal.SimpleIDE.actions.UndoAction;
  * This is the Main IDE menu bar.
  *
  */
-@SuppressWarnings("serial")
 public class IDEMenuBar extends JMenuBar {
-
 	/**
 	 *
 	 */
@@ -223,6 +221,5 @@ public class IDEMenuBar extends JMenuBar {
 		if (!OSX) {
 			add(helpMenu);
 		}
-
 	}
 }

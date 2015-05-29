@@ -55,9 +55,7 @@ import nl.tudelft.goal.SimpleIDE.files.FileNode;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class RunAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -239,7 +237,7 @@ public class RunAction extends GOALAction {
 			break;
 		case IDEMainPanel.DEBUG_VIEW:
 			developmentEnvironment.getMainPanel().getProcessPanel()
-					.runProcessNode((ProcessNode) node);
+			.runProcessNode((ProcessNode) node);
 			break;
 		}
 	}
@@ -255,8 +253,8 @@ public class RunAction extends GOALAction {
 			// edited
 			int selection = JOptionPane.showConfirmDialog(
 					developmentEnvironment.getMainPanel(), "Save all files?\n" //$NON-NLS-1$
-							+ "Some files were edited but are not yet saved. " //$NON-NLS-1$
-							+ "All files must be saved before launching.", //$NON-NLS-1$
+					+ "Some files were edited but are not yet saved. " //$NON-NLS-1$
+					+ "All files must be saved before launching.", //$NON-NLS-1$
 					"Save all files?", JOptionPane.OK_CANCEL_OPTION); //$NON-NLS-1$
 
 			switch (selection) {
@@ -276,5 +274,4 @@ public class RunAction extends GOALAction {
 		}
 		return true;
 	}
-
 }

@@ -35,10 +35,8 @@ import java.util.Map;
  * @author W.Pasman
  * @modified KH now shows actions performed by agents.
  */
-@SuppressWarnings("serial")
 public class ActionHistoryTextPanel extends LogTextTrackingScrollPane implements
-		DebugObserver {
-
+DebugObserver {
 	/**
 	 *
 	 */
@@ -69,7 +67,7 @@ public class ActionHistoryTextPanel extends LogTextTrackingScrollPane implements
 
 		// create and subscribe to a new logger.
 		this.logger = new GOALLogger(name, true);
-		this.subscribeTo(this.logger);
+		subscribeTo(this.logger);
 	}
 
 	@Override
@@ -132,7 +130,7 @@ public class ActionHistoryTextPanel extends LogTextTrackingScrollPane implements
 		case ACTION_EXECUTED_BUILTIN:
 		case ACTION_EXECUTED_USERSPEC:
 			if (event.getSource() != null
-					&& this.lastSepEvents.get(event.getSource()) != null) {
+			&& this.lastSepEvents.get(event.getSource()) != null) {
 				this.logger.log(this.lastSepEvents.get(event.getSource()));
 				this.lastSepEvents.remove(event.getSource());
 			}
@@ -157,5 +155,4 @@ public class ActionHistoryTextPanel extends LogTextTrackingScrollPane implements
 		builder.append(this.lastSepEvents.toString());
 		return builder.toString();
 	}
-
 }

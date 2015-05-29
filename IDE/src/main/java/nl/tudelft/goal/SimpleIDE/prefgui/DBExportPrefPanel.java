@@ -41,9 +41,8 @@ import javax.swing.event.ChangeListener;
  * @modified V.Koeman 12jun13 refactoring preferences: management separated from
  *           display through new class
  */
-@SuppressWarnings("serial")
 public class DBExportPrefPanel extends JPanel implements ChangeListener,
-		ActionListener {
+ActionListener {
 	/**
 	 *
 	 */
@@ -110,7 +109,7 @@ public class DBExportPrefPanel extends JPanel implements ChangeListener,
 	private void initSettings() {
 		this.exportbeliefs.setSelected(DBExportPreferences.getExportBeliefs());
 		this.exportpercepts
-		.setSelected(DBExportPreferences.getExportPercepts());
+				.setSelected(DBExportPreferences.getExportPercepts());
 		this.exportmailbox.setSelected(DBExportPreferences.getExportMailbox());
 		this.exportgoals.setSelected(DBExportPreferences.getExportGoals());
 		this.separatefiles.setSelected(DBExportPreferences
@@ -140,8 +139,8 @@ public class DBExportPrefPanel extends JPanel implements ChangeListener,
 		// you can not change the export browse dir directly here, so no need to
 		// update that here.
 		DBExportPreferences
-		.setRememberLastUsedExportDir(this.rememberUsedExportDir
-				.isSelected());
+				.setRememberLastUsedExportDir(this.rememberUsedExportDir
+						.isSelected());
 	}
 
 	/**

@@ -38,9 +38,7 @@ import nl.tudelft.goal.SimpleIDE.preferences.IDEPreferences;
  * The main GUI of the IDE.
  *
  */
-@SuppressWarnings("serial")
 public class IDEMainPanel extends JPanel {
-
 	/**
 	 *
 	 */
@@ -80,7 +78,7 @@ public class IDEMainPanel extends JPanel {
 	 *            user's requests.
 	 */
 	public IDEMainPanel(SimpleIDE ide) throws InstantiationException,
-			IllegalAccessException {
+	IllegalAccessException {
 		CardLayout cl;
 
 		this.theIDE = ide;
@@ -201,8 +199,8 @@ public class IDEMainPanel extends JPanel {
 	 *             DOC
 	 */
 	public void close() throws GOALCommandCancelledException,
-			GOALIncompleteGUIUsageException, GOALException,
-			IllegalAccessException, InstantiationException {
+	GOALIncompleteGUIUsageException, GOALException,
+	IllegalAccessException, InstantiationException {
 		int view = getView();
 		switch (view) {
 		case EDIT_VIEW:
@@ -249,5 +247,4 @@ public class IDEMainPanel extends JPanel {
 			throw new GOALUserError("Did not find panel");
 		}
 	}
-
 }
