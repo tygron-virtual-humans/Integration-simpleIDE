@@ -39,9 +39,7 @@ import nl.tudelft.goal.SimpleIDE.ProcessNode;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class DebugLogAction extends GOALAction {
-
 	/**
 	 *
 	 */

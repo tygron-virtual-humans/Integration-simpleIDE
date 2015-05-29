@@ -50,7 +50,6 @@ import nl.tudelft.goal.SimpleIDE.preferences.EditorPreferences;
  * @modified V.Koeman 12jun13 refactoring preferences: management separated from
  *           display through new class
  */
-@SuppressWarnings("serial")
 public class EditorPrefPanel extends JPanel implements ChangeListener,
 ItemListener {
 	/**
@@ -60,7 +59,7 @@ ItemListener {
 	private static final int MIN_FONT_SIZE = 4;
 	private static final int MAX_FONT_SIZE = 30;
 
-	private final JComboBox fontName;
+	private final JComboBox<String> fontName;
 	private final JSpinner fontSizeSpinner;
 	private final JCheckBox antiAlias;
 
@@ -73,7 +72,9 @@ ItemListener {
 		this.fontSizeSpinner = new JSpinner(spinnerModel);
 		dblevelpanel.add(this.fontSizeSpinner, BorderLayout.WEST);
 
-		this.fontName = new JComboBox(allFontNames().toArray());
+		Set<String> fontNames = allFontNames();
+		this.fontName = new JComboBox<String>(allFontNames().toArray(
+				new String[fontNames.size()]));
 
 		this.antiAlias = new JCheckBox("font anti aliasing");
 
@@ -137,5 +138,4 @@ ItemListener {
 	public void itemStateChanged(ItemEvent e) {
 		stateChanged(null);
 	}
-
 }

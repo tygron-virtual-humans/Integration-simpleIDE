@@ -60,10 +60,8 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
  *           display through new class
  * @modified K.Hindriks Layout and naming.
  */
-@SuppressWarnings("serial")
 public class GUIandFilePreferencePanel extends JPanel implements
-ChangeListener, ActionListener {
-
+		ChangeListener, ActionListener {
 	/**
 	 *
 	 */
@@ -83,7 +81,7 @@ ChangeListener, ActionListener {
 	// last time?
 
 	// Look and Feel
-	private final JComboBox lookAndFeel;
+	private final JComboBox<String> lookAndFeel;
 
 	// Window Sizing and Settings
 	private final JCheckBox rememberIDEWindowSize;
@@ -121,7 +119,7 @@ ChangeListener, ActionListener {
 
 		// Look and feel.
 		String[] lafs = { "Default", "Nimbus" };
-		this.lookAndFeel = new JComboBox(lafs);
+		this.lookAndFeel = new JComboBox<String>(lafs);
 
 		// Button to start browsing for path.
 		this.agentBrowseButton.addActionListener(new ActionListener() {
@@ -137,7 +135,7 @@ ChangeListener, ActionListener {
 									PMPreferences.getAgentBrowsePath(), true);
 					if (newFile != null) {
 						GUIandFilePreferencePanel.this.agentsbrowsedir
-								.setText(newFile.getAbsolutePath());
+						.setText(newFile.getAbsolutePath());
 						thispanel.actionPerformed(null);
 					}
 
@@ -187,8 +185,8 @@ ChangeListener, ActionListener {
 		// Introspector window sizing.
 		this.rememberdbsize = new JCheckBox(
 				"Remember the size of the database view area in INTROSPECTOR");
-		JTextArea dbsize = new JTextArea("      current size:"
-				+ IntrospectorPreferences.getDBContentSize());
+		// JTextArea dbsize = new JTextArea("      current size:"
+		// + IntrospectorPreferences.getDBContentSize());
 		this.couplequerysize = new JCheckBox(
 				"Single size of query area in INTROSPECTOR");
 
@@ -197,9 +195,9 @@ ChangeListener, ActionListener {
 				DEFAULT_OUTPUT_LINES, MIN_OUTPUT_LINES, MAX_OUTPUT_LINES,
 				OUTPUT_LINES_STEPSIZE);
 		maxlinesIntrospectorPanel
-		.add(new JLabel(
-				"Maximum number of lines in query output area in INTROSPECTOR"),
-				BorderLayout.CENTER);
+				.add(new JLabel(
+						"Maximum number of lines in query output area in INTROSPECTOR"),
+						BorderLayout.CENTER);
 		this.spinner = new JSpinner(smIntrospector);
 		maxlinesIntrospectorPanel.add(this.spinner, BorderLayout.WEST);
 
@@ -210,9 +208,9 @@ ChangeListener, ActionListener {
 				FONT_MAX_SIZE, 1);
 		this.fontsizespinner = new JSpinner(fontsm);
 		fontsizepanel
-		.add(new JLabel(
-				"Font size in CONSOLE area (changes take effect after restart)"),
-				BorderLayout.CENTER);
+				.add(new JLabel(
+						"Font size in CONSOLE area (changes take effect after restart)"),
+						BorderLayout.CENTER);
 		fontsizepanel.add(this.fontsizespinner, BorderLayout.WEST);
 
 		// Re-opening of files at start-up

@@ -57,7 +57,6 @@ import nl.tudelft.goal.SimpleIDE.SimpleIDE;
  * @modified V.Koeman 12jun13 refactoring preferences: management separated from
  *           display through new class
  */
-@SuppressWarnings("serial")
 public class LoggingPrefPanel extends JPanel implements ChangeListener {
 	/**
 	 *

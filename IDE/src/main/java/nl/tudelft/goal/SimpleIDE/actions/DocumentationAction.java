@@ -37,9 +37,7 @@ import nl.tudelft.goal.SimpleIDE.IDENode;
  * @author W.Pasman 3feb2014
  *
  */
-@SuppressWarnings("serial")
 public class DocumentationAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -53,7 +51,6 @@ public class DocumentationAction extends GOALAction {
 	@Override
 	public void stateChangeEvent() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

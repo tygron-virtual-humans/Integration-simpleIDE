@@ -68,9 +68,7 @@ import nl.tudelft.goal.SimpleIDE.actions.CloseEditorAction;
  * @modified 27jun2011 to get singleton pattern.
  * @modified W.Pasman 19apr2012 #2108 conditional breakpoints
  */
-@SuppressWarnings("serial")
 public class EditManager extends JPanel {
-
 	/**
 	 *
 	 */

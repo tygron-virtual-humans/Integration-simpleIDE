@@ -41,7 +41,6 @@ import javax.swing.event.ChangeListener;
  * @modified V.Koeman 12jun13 refactoring preferences: management separated from
  *           display through new class
  */
-@SuppressWarnings("serial")
 public class DBExportPrefPanel extends JPanel implements ChangeListener,
 ActionListener {
 	/**
@@ -60,7 +59,7 @@ ActionListener {
 	private final JLabel exportBrowseDirExplanation = new JLabel(
 			"Start browsing for export directory at:");
 	private final JLabel exportbrowsedir = new JLabel("/"); // not editable
-															// directly
+	// directly
 	private final JCheckBox rememberUsedExportDir = new JCheckBox(
 			"Remember last used export directory");
 

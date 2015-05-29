@@ -31,9 +31,7 @@ import nl.tudelft.goal.SimpleIDE.SimpleIDE;
  *
  * @author W.Pasman 16jun2011
  */
-@SuppressWarnings("serial")
 public class CloseIntrospectorAction extends GOALAction {
-
 	/**
 	 *
 	 */

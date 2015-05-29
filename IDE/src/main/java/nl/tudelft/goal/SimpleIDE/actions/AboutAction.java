@@ -30,9 +30,7 @@ import nl.tudelft.goal.SimpleIDE.menu.AboutBox;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class AboutAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -54,5 +52,4 @@ public class AboutAction extends GOALAction {
 			throws GOALException {
 		new AboutBox(developmentEnvironment.getMainPanel());
 	}
-
 }

@@ -54,9 +54,7 @@ import nl.tudelft.goal.SimpleIDE.actions.UndoAction;
  * @author KH
  * @author W.Pasman 23jun2011 now using actions.
  */
-@SuppressWarnings("serial")
 public class ToolBar extends JToolBar {
-
 	/**
 	 *
 	 */
@@ -137,7 +135,5 @@ public class ToolBar extends JToolBar {
 		// add switchpanel button directly, because we want to use the TEXT as
 		// we have no icon there.
 		add(ActionFactory.getAction(SwitchPanelAction.class));
-
 	}
-
 }

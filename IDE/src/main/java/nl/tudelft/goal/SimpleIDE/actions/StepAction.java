@@ -62,9 +62,7 @@ import nl.tudelft.goal.SimpleIDE.ProcessNode;
  * @author W.Pasman
  * @modified W.Pasman 20jun2011 into action
  */
-@SuppressWarnings("serial")
 public class StepAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -108,6 +106,7 @@ public class StepAction extends GOALAction {
 			setActionEnabled(mode == RunMode.RUNNING || mode == RunMode.PAUSED);
 			break;
 		case ENVIRONMENT_PROCESS:
+		case REMOTE_ENVIRONMENT_PROCESS:
 			boolean connected = (this.currentState
 					.isRuntimeEnvironmentAvailable() && LaunchManager
 					.getCurrent().getRuntimeManager().getEnvironmentPorts() != null);
@@ -203,7 +202,8 @@ public class StepAction extends GOALAction {
 			return "environment"; //$NON-NLS-1$
 		case MAS_PROCESS:
 			return "multi-agent system"; //$NON-NLS-1$
+		default:
+			return "unknown"; //$NON-NLS-1$
 		}
-		return "unknown"; //$NON-NLS-1$
 	}
 }

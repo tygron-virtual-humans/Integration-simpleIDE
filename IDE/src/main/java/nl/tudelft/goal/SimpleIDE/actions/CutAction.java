@@ -33,9 +33,7 @@ import nl.tudelft.goal.SimpleIDE.IconFactory;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class CutAction extends GOALAction {
-
 	/**
 	 *
 	 */

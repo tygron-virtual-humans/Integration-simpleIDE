@@ -35,9 +35,7 @@ import nl.tudelft.goal.SimpleIDE.TextEditorInterface;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class SaveAsFileAction extends GOALAction {
-
 	/**
 	 *
 	 */

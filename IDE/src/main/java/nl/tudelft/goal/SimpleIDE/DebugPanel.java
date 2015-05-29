@@ -47,10 +47,8 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
  * launched.
  *
  */
-@SuppressWarnings("serial")
 public class DebugPanel extends CloseTabbedPane implements
 		LayoutChangeListener, TabCloseListener {
-
 	/**
 	 *
 	 */
@@ -217,5 +215,4 @@ public class DebugPanel extends CloseTabbedPane implements
 	public void removeSnifferPanel(JPanel snifferPanel) {
 		remove(snifferPanel);
 	}
-
 }

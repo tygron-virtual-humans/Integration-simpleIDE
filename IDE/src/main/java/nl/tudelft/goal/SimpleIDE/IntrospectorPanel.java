@@ -50,10 +50,8 @@ import nl.tudelft.goal.SimpleIDE.preferences.IntrospectorPreferences;
  * @author W.Pasman
  * @modified K.Hindriks
  */
-
-@SuppressWarnings("serial")
 public class IntrospectorPanel extends JPanel implements
-		PropertyChangeListener, DebugObserver {
+PropertyChangeListener, DebugObserver {
 	/**
 	 *
 	 */
@@ -89,7 +87,7 @@ public class IntrospectorPanel extends JPanel implements
 		QueryPanel querypanel = new QueryPanel(agent);
 		this.pane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, tabs, querypanel);
 		this.pane
-				.setDividerLocation(IntrospectorPreferences.getDBContentSize());
+		.setDividerLocation(IntrospectorPreferences.getDBContentSize());
 
 		this.pane.setResizeWeight(1.0);
 		this.pane.setOneTouchExpandable(true);
@@ -124,7 +122,7 @@ public class IntrospectorPanel extends JPanel implements
 		this.debugger.unsubscribe(this);
 
 		IntrospectorPreferences
-				.setDBContentSize(this.pane.getDividerLocation());
+		.setDBContentSize(this.pane.getDividerLocation());
 	}
 
 	/**
@@ -165,16 +163,13 @@ public class IntrospectorPanel extends JPanel implements
 	 */
 	public void close() {
 	}
-
 }
 
 /**
  * Displays the various components of an agent's mental state in different tabs,
  * including the agent's beliefs, goals, mails, percepts, and knowledge.
  */
-@SuppressWarnings("serial")
 class MentalComponentsPanel extends JTabbedPane {
-
 	/**
 	 *
 	 */
@@ -226,5 +221,4 @@ class MentalComponentsPanel extends JTabbedPane {
 			Observable<Observer<QueryPanel, DatabaseChangedInfo>, QueryPanel, DatabaseChangedInfo> changenotifier) {
 		changenotifier.addObserver(this.beliefs);
 	}
-
 }

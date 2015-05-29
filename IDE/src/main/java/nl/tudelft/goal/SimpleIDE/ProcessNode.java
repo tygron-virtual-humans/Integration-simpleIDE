@@ -41,10 +41,8 @@ import nl.tudelft.goal.messaging.messagebox.MessageBoxId;
  * Stores information about nodes in a process tree. Internal data structure for
  * process nodes.
  */
-@SuppressWarnings("serial")
 public abstract class ProcessNode extends DefaultMutableTreeNode implements
 IDENode, DebugObserver {
-
 	/**
 	 *
 	 */
@@ -62,6 +60,7 @@ IDENode, DebugObserver {
 	private boolean isSelectedByScheduler = false;
 
 	private boolean isConnected = false;// set to true when we connect to our
+
 	// process(agent,env)
 
 	/**
@@ -238,8 +237,8 @@ IDENode, DebugObserver {
 			return RunMode.UNKNOWN;
 		case MAS_PROCESS:
 			// merge state of children
-			for (int i = 0; i < this.getChildCount(); i++) {
-				modeChildNode = ((ProcessNode) this.getChildAt(i))
+			for (int i = 0; i < getChildCount(); i++) {
+				modeChildNode = ((ProcessNode) getChildAt(i))
 						.getProcessRunMode();
 				// See #1229. RunModes higher than PAUSED are ignored
 				if (modeChildNode.getPriority() <= RunMode.PAUSED.getPriority()) {
@@ -333,5 +332,4 @@ IDENode, DebugObserver {
 	public void setBoldPrinting(boolean value) {
 		this.boldPrinting = value;
 	}
-
 }

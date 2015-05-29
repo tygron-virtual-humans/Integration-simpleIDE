@@ -57,10 +57,8 @@ import nl.tudelft.goal.SimpleIDE.preferences.IDEPreferences;
  *           display through new class
  * @modified K.Hindriks Layout and naming.
  */
-@SuppressWarnings("serial")
 public class RuntimePrefPanel extends JPanel implements ActionListener,
 		ChangeListener {
-
 	/**
 	 *
 	 */
@@ -87,7 +85,7 @@ public class RuntimePrefPanel extends JPanel implements ActionListener,
 	private final JSpinner threadPoolSize = new JSpinner();
 
 	// KR section.
-	private final JComboBox defaultkrlanguagebox;
+	private final JComboBox<String> defaultkrlanguagebox;
 
 	// Environment section.
 	private final JCheckBox printEntities = new JCheckBox(
@@ -115,7 +113,7 @@ public class RuntimePrefPanel extends JPanel implements ActionListener,
 		// Panel to select default KR language.
 		Vector<String> langs = new Vector<String>(
 				KRFactory.getSupportedInterfaces());
-		this.defaultkrlanguagebox = new JComboBox(langs);
+		this.defaultkrlanguagebox = new JComboBox<String>(langs);
 
 		JPanel languageselpanel = new JPanel(new BorderLayout());
 		languageselpanel.add(

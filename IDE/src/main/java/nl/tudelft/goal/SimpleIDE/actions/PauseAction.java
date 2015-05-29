@@ -58,9 +58,7 @@ import nl.tudelft.goal.SimpleIDE.ProcessNode;
  * @author W.Pasman
  * @modified W.Pasman 20jun2011 into action
  */
-@SuppressWarnings("serial")
 public class PauseAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -189,5 +187,4 @@ public class PauseAction extends GOALAction {
 					+ node.getType() + " named " + node.getNodeName()); //$NON-NLS-1$
 		}
 	}
-
 }

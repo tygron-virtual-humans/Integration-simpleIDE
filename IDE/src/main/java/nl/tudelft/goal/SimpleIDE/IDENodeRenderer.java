@@ -31,9 +31,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 /**
  * Custom renderer, to add our custom status icons to process nodes.
  */
-@SuppressWarnings("serial")
 public class IDENodeRenderer extends DefaultTreeCellRenderer {
-
 	/**
 	 *
 	 */

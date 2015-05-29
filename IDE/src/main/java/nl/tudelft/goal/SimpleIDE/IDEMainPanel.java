@@ -38,9 +38,7 @@ import nl.tudelft.goal.SimpleIDE.preferences.IDEPreferences;
  * The main GUI of the IDE.
  *
  */
-@SuppressWarnings("serial")
 public class IDEMainPanel extends JPanel {
-
 	/**
 	 *
 	 */
@@ -49,8 +47,8 @@ public class IDEMainPanel extends JPanel {
 	private final JSplitPane pane, tophalf;
 
 	private final JPanel fileProcessPanel; // the top level panel, showing
-											// either edit
-											// or debug
+	// either edit
+	// or debug
 	private final FilePanel filePanel;
 	private final ProcessPanel processPanel;
 
@@ -58,9 +56,9 @@ public class IDEMainPanel extends JPanel {
 	private final DebugPanel debugPanel; // visible in run mode
 
 	private final FeedbackPanel feedbackPanel; // lower part of IDE that shows
-												// console
-												// output and other tabs with
-												// feedback
+	// console
+	// output and other tabs with
+	// feedback
 
 	private final SimpleIDE theIDE;
 	private static final String EDIT_VIEW_STR = "EDITVIEW";
@@ -249,5 +247,4 @@ public class IDEMainPanel extends JPanel {
 			throw new GOALUserError("Did not find panel");
 		}
 	}
-
 }

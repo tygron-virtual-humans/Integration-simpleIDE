@@ -50,9 +50,7 @@ import nl.tudelft.goal.SimpleIDE.TextEditorInterface;
  * @author W.Pasman
  * @modified W.Pasman 20jun2011 into action
  */
-@SuppressWarnings("serial")
 public class KillAction extends GOALAction {
-
 	/**
 	 *
 	 */

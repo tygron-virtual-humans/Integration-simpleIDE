@@ -36,9 +36,7 @@ import nl.tudelft.goal.SimpleIDE.files.FileNode;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class DeleteAction extends GOALAction {
-
 	/**
 	 *
 	 */

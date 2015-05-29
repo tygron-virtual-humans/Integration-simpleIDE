@@ -59,10 +59,8 @@ import languageTools.program.agent.AgentId;
  * @modified N.Kraayenbrink Does not directly display incoming debug events, but
  *           logs them. Flushes once a PAUSED event is received.
  * */
-@SuppressWarnings("serial")
 public final class DebugTextPanel extends LogTextTrackingScrollPane implements
 		DebugObserver, PropertyChangeListener {
-
 	/**
 	 *
 	 */
@@ -223,5 +221,4 @@ public final class DebugTextPanel extends LogTextTrackingScrollPane implements
 		builder.append(this.debugger.getName());
 		return builder.toString();
 	}
-
 }

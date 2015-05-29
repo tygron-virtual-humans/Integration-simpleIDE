@@ -126,6 +126,8 @@ public class SaveFileAction extends GOALAction {
 				developmentEnvironment.getMainPanel().getFilePanel()
 						.refreshPrologFile(theFile);
 				break;
+			default:
+				break;
 			}
 		}
 	}

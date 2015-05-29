@@ -35,9 +35,7 @@ import nl.tudelft.goal.SimpleIDE.IDENode;
  *
  * @author W.Pasman 23jun2011
  */
-@SuppressWarnings("serial")
 public class RunOrPauseAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -92,5 +90,4 @@ public class RunOrPauseAction extends GOALAction {
 			this.myPauseAction.execute(selectedNode, ae);
 		}
 	}
-
 }

@@ -41,7 +41,6 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -76,9 +75,7 @@ import org.apache.commons.io.FilenameUtils;
  *           either private or overriding one of the two interfaces implemented
  *           here.
  */
-@SuppressWarnings("serial")
 public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
-
 	/**
 	 *
 	 */
@@ -97,8 +94,8 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 			JOptionPane.showMessageDialog(
 					null,
 					Resources.get(WarningStrings.FAILED_IDE_LAUNCH)
-							+ e.getMessage() + "\n" //$NON-NLS-1$
-							+ e.getStackTrace()[0]);
+					+ e.getMessage() + "\n" //$NON-NLS-1$
+					+ e.getStackTrace()[0]);
 		}
 	}
 
@@ -205,25 +202,6 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 	}
 
 	/**
-	 * Install the OSX adapter. This adapter ensures that the Apple-Q shortcut
-	 * is correctly captured and handled by GOAL.
-	 * <p>
-	 * Trac #718. Indirect class loading because code referring to osxadapter
-	 * will not even compile on Windows. The point is, it will also not be
-	 * called on windows and it does not need compilation.
-	 */
-	private void installOSXAdapter() {
-		try {
-			Class<?> adapterclass = Class.forName("osxadapter.Adapter"); //$NON-NLS-1$
-			Constructor<?> adapterconstructor = adapterclass
-					.getConstructor(IDEfunctionality.class);
-			adapterconstructor.newInstance(this);
-		} catch (Exception e) {
-			new Warning(Resources.get(WarningStrings.FAILED_OSXADAPTER_LOAD), e);
-		}
-	}
-
-	/**
 	 * re-open spurious files that were open last time.
 	 */
 	private void reopenSpurious() {
@@ -232,12 +210,12 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 		for (String path : IDEPreferences.getOtherFiles()) {
 			try {
 				this.mainPanel.getFilePanel()
-						.insertSpuriousFile(new File(path));
+				.insertSpuriousFile(new File(path));
 			} catch (Exception e) {
 				new Warning(
 						String.format(Resources
 								.get(WarningStrings.FAILED_FILE_RELOAD), path),
-						e);
+								e);
 			}
 		}
 	}
@@ -329,7 +307,7 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 	public static File askFile(Component parentpanel, boolean openFile,
 			String title, int mode, String exten, String defaultName,
 			String startdir, boolean enforceExtension)
-			throws GOALCommandCancelledException, GOALUserError {
+					throws GOALCommandCancelledException, GOALUserError {
 		// insert the leading dot if necessary.
 		String extension = (exten == null || exten.startsWith(".")) ? exten //$NON-NLS-1$
 				: "." + exten; //$NON-NLS-1$
@@ -552,7 +530,6 @@ public class SimpleIDE extends JFrame implements IDEfunctionality, IDEState {
 	public boolean isRuntimeEnvironmentAvailable() {
 		return LaunchManager.getCurrent().isRuntimeEnvironmentAvailable();
 	}
-
 }
 
 /**
@@ -583,5 +560,4 @@ class IDETempState implements IDEState {
 	public boolean isRuntimeEnvironmentAvailable() {
 		return false;
 	}
-
 }

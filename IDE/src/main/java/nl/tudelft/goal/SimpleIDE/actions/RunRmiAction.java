@@ -30,9 +30,7 @@ import nl.tudelft.goal.SimpleIDE.IDENode;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class RunRmiAction extends GOALAction {
-
 	/**
 	 *
 	 */

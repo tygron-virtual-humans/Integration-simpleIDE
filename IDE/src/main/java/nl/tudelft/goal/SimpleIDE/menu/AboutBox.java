@@ -46,9 +46,7 @@ import javax.swing.event.HyperlinkListener;
  *
  * @author W.Pasman
  */
-@SuppressWarnings("serial")
 public class AboutBox extends JFrame {
-
 	/**
 	 *
 	 */
@@ -101,7 +99,6 @@ public class AboutBox extends JFrame {
 }
 
 class myHyperlinkListener implements HyperlinkListener {
-
 	@Override
 	public void hyperlinkUpdate(HyperlinkEvent e) {
 		if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
@@ -114,5 +111,4 @@ class myHyperlinkListener implements HyperlinkListener {
 		}
 
 	}
-
 }

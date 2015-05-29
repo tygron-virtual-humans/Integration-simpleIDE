@@ -42,9 +42,7 @@ import nl.tudelft.goal.SimpleIDE.SimpleIDE;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class OpenFileAction extends GOALAction {
-
 	/**
 	 *
 	 */

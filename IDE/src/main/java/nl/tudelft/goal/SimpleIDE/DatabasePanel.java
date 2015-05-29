@@ -51,10 +51,8 @@ import mentalState.BASETYPE;
  *           contents instead of owning the mental state; see also
  *           {@link #refreshPanelContent()}.
  */
-@SuppressWarnings("serial")
 public class DatabasePanel extends JPanel implements DebugObserver,
 		Observer<QueryPanel, DatabaseChangedInfo> {
-
 	/**
 	 *
 	 */
@@ -224,5 +222,4 @@ public class DatabasePanel extends JPanel implements DebugObserver,
 	public void eventOccured(QueryPanel source, DatabaseChangedInfo evt) {
 		refreshPanelContent();
 	}
-
 }

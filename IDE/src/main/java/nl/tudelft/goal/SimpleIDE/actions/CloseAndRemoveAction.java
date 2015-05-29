@@ -40,9 +40,7 @@ import nl.tudelft.goal.SimpleIDE.files.FileNode;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class CloseAndRemoveAction extends GOALAction {
-
 	/**
 	 *
 	 */
@@ -139,6 +137,5 @@ public class CloseAndRemoveAction extends GOALAction {
 			// no warning for MAS files, no user action required then.
 			break;
 		}
-
 	}
 }

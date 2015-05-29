@@ -73,9 +73,7 @@ import org.gjt.sp.jedit.textarea.StandaloneTextArea;
  * @modified W.Pasman 19apr2012 #2108 conditional breakpoints
  * @modified W.Pasman jan2015 #3238 breakpoints in GOAL now 1-based.
  */
-@SuppressWarnings("serial")
 public final class JEditTextEditor extends TextEditorInterface {
-
 	/**
 	 *
 	 */

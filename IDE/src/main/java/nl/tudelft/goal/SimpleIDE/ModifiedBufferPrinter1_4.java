@@ -249,7 +249,7 @@ public class ModifiedBufferPrinter1_4 {
 				} catch (IOException e) {
 					new Warning(
 							Resources
-							.get(WarningStrings.FAILED_OUTSTREAM_CLOSE),
+									.get(WarningStrings.FAILED_OUTSTREAM_CLOSE),
 							e);
 				}
 			}

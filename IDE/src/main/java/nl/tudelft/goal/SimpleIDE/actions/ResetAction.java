@@ -47,9 +47,7 @@ import nl.tudelft.goal.messaging.exceptions.MessagingException;
  *
  * @author W.Pasman 20jun2011
  */
-@SuppressWarnings("serial")
 public class ResetAction extends GOALAction {
-
 	/**
 	 *
 	 */

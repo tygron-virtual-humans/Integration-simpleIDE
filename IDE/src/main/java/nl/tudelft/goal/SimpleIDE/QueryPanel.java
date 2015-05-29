@@ -45,12 +45,10 @@ import javax.swing.JTextArea;
  * @author W.Pasman 4aug09: now using TextTrackingScrollPane to add clear
  *         button.
  */
-@SuppressWarnings("serial")
 public class QueryPanel extends JPanel
 implements
 FocusListener,
 Observable<Observer<QueryPanel, DatabaseChangedInfo>, QueryPanel, DatabaseChangedInfo> {
-
 	/**
 	 *
 	 */
@@ -90,7 +88,7 @@ Observable<Observer<QueryPanel, DatabaseChangedInfo>, QueryPanel, DatabaseChange
 	 */
 	public QueryPanel(Agent<IDEGOALInterpreter> agent) {
 		this.agent = agent;
-		this.setLayout(new BorderLayout());
+		setLayout(new BorderLayout());
 
 		this.querytext.setText(INITIAL_TEXT);
 		this.querytext.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -226,5 +224,4 @@ Observable<Observer<QueryPanel, DatabaseChangedInfo>, QueryPanel, DatabaseChange
 	public void notifyObservers(QueryPanel src, DatabaseChangedInfo obj) {
 		this.myObservable.notifyObservers(this, obj);
 	}
-
 }
