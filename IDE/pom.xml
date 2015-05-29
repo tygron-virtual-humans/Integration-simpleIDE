@@ -188,12 +188,13 @@
 		      	<artifactId>maven-jar-plugin</artifactId>
 		      	<version>2.6</version>
 		      	<configuration>
-		        	<archive>                   
-		        		<manifest>
-		            		<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+					<archive>
+						<manifest>
+							<mainClass>nl.tudelft.goal.SimpleIDE.SimpleIDE</mainClass>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 		                	<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-		            	</manifest>
-		        	</archive>
+						</manifest>
+					</archive>
 		    	</configuration>
 		    </plugin>
 
@@ -207,8 +208,9 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 							<mainClass>nl.tudelft.goal.SimpleIDE.SimpleIDE</mainClass>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+		                	<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
 						</manifest>
 					</archive>
 				</configuration>
