@@ -167,7 +167,7 @@ PropertyChangeListener, DebugObserver {
 
 /**
  * Displays the various components of an agent's mental state in different tabs,
- * including the agent's beliefs, goals, mails, percepts, and knowledge.
+ * including the agent's beliefs, goals, mails, percepts, emotions, and knowledge.
  */
 class MentalComponentsPanel extends JTabbedPane {
 	/**
@@ -177,7 +177,7 @@ class MentalComponentsPanel extends JTabbedPane {
 
 	private static final String INITTEXT = "Database contents will appear here...";
 
-	private final DatabasePanel beliefs, goals, mails, percepts, knowledge;
+	private final DatabasePanel beliefs, goals, mails, percepts, emotions, knowledge;
 
 	/**
 	 * DOC
@@ -201,6 +201,7 @@ class MentalComponentsPanel extends JTabbedPane {
 		this.goals = new DatabasePanel(agent, BASETYPE.GOALBASE, INITTEXT);
 		this.mails = new DatabasePanel(agent, BASETYPE.MAILBOX, INITTEXT);
 		this.percepts = new DatabasePanel(agent, BASETYPE.PERCEPTBASE, INITTEXT);
+		this.emotions = new DatabasePanel(agent, BASETYPE.EMOTIONBASE, INITTEXT);
 		this.knowledge = new DatabasePanel(agent, BASETYPE.KNOWLEDGEBASE,
 				kbtext.toString());
 
@@ -208,6 +209,7 @@ class MentalComponentsPanel extends JTabbedPane {
 		this.add("Goals", this.goals);
 		this.add("Mails", this.mails);
 		this.add("Percepts", this.percepts);
+		this.add("Emotions", this.emotions);
 		this.add("Knowledge", this.knowledge);
 	}
 
