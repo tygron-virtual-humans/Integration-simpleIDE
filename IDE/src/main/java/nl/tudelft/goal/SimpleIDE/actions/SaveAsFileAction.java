@@ -22,8 +22,10 @@ import goal.tools.errorhandling.exceptions.GOALException;
 import goal.tools.errorhandling.exceptions.GOALUserError;
 
 import java.awt.event.ActionEvent;
+import java.io.FileNotFoundException;
 
 import krTools.errors.exceptions.ParserException;
+import languageTools.exceptions.relationParser.InvalidEmotionConfigFile;
 import nl.tudelft.goal.SimpleIDE.EditManager;
 import nl.tudelft.goal.SimpleIDE.IDEMainPanel;
 import nl.tudelft.goal.SimpleIDE.IDENode;
@@ -75,7 +77,7 @@ public class SaveAsFileAction extends GOALAction {
 		try {
 			developmentEnvironment.getMainPanel().getFilePanel()
 					.rename(editor.getFile());
-		} catch (ParserException e1) {
+		} catch (ParserException | FileNotFoundException | InvalidEmotionConfigFile e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}

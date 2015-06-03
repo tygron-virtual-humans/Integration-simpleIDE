@@ -16,39 +16,29 @@
  * this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package nl.tudelft.goal.SimpleIDE;
+package nl.tudelft.goal.SimpleIDE.files;
+
+import java.io.File;
+
+import nl.tudelft.goal.SimpleIDE.NodeType;
 
 /**
- * Represents the type of nodes that can occur in a file or process tree.
+ * {@link FileNode} representing an agent file.
  */
-public enum NodeType {
-	/** File type */
-	EMOFILE,
-	/** File type */
-	GOALFILE,
-	/** File type */
-	MASFILE,
-	/** File type */
-	MODFILE,
-	/** File type */
-	PLFILE,
-	/** File type. */
-	TXTFILE,
+public class EmotionNode extends FileNode {
+
+	/** Auto-generated serial version UID */
+	private static final long serialVersionUID = 2575955297417881901L;
+
 	/**
-	 * File type, used to put goal files without parent mas under in the
-	 * FilePanel
+	 * Creates a new emotion-file node.
+	 *
+	 * @param emoFile
+	 *            The emotion-file the new node represents.
 	 */
-	NULLFILE,
-	/** File or process type */
-	ROOT,
-	/** Process type */
-	MAS_PROCESS,
-	/** Process type */
-	AGENT_PROCESS,
-	/** Process type */
-	REMOTE_AGENT_PROCESS,
-	/** Process type */
-	ENVIRONMENT_PROCESS,
-	/** remote env process */
-	REMOTE_ENVIRONMENT_PROCESS;
+	public EmotionNode(File emoFile) {
+		super(NodeType.EMOFILE, emoFile);
+		this.allowsChildren = false;
+	}
+
 }

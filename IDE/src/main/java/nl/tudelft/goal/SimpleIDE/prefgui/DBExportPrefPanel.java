@@ -49,6 +49,7 @@ ActionListener {
 	private static final long serialVersionUID = 2392505424113267387L;
 	private final JCheckBox exportbeliefs;
 	private final JCheckBox exportpercepts;
+	private final JCheckBox exportemotions;
 	private final JCheckBox exportmailbox;
 	private final JCheckBox exportgoals;
 	private final JRadioButton separatefiles;
@@ -70,6 +71,8 @@ ActionListener {
 		this.exportbeliefs = new JCheckBox("Export Beliefbase");
 		this.exportpercepts = new JCheckBox("include percepts");
 		this.exportpercepts.setMargin(new Insets(0, INSET_LEFT, 0, 0));
+		this.exportemotions = new JCheckBox("include emotions");
+		this.exportemotions.setMargin(new Insets(0, INSET_LEFT, 0, 0));
 		this.exportmailbox = new JCheckBox("include mails");
 		this.exportmailbox.setMargin(new Insets(0, INSET_LEFT, 0, 0));
 		this.exportgoals = new JCheckBox("Export Goalbase");
@@ -84,6 +87,7 @@ ActionListener {
 		this.rememberUsedExportDir.addActionListener(this);
 		this.exportbeliefs.addChangeListener(this);
 		this.exportpercepts.addChangeListener(this);
+		this.exportemotions.addChangeListener(this);
 		this.exportmailbox.addChangeListener(this);
 		this.exportgoals.addChangeListener(this);
 		this.separatefiles.addChangeListener(this);
@@ -92,6 +96,7 @@ ActionListener {
 		add(new JLabel("Database Export Options"));
 		add(this.exportbeliefs);
 		add(this.exportpercepts);
+		add(this.exportemotions);
 		add(this.exportmailbox);
 		add(this.exportgoals);
 		add(this.separatefiles);
@@ -110,6 +115,8 @@ ActionListener {
 		this.exportbeliefs.setSelected(DBExportPreferences.getExportBeliefs());
 		this.exportpercepts
 				.setSelected(DBExportPreferences.getExportPercepts());
+		this.exportemotions
+				.setSelected(DBExportPreferences.getExportEmotions());
 		this.exportmailbox.setSelected(DBExportPreferences.getExportMailbox());
 		this.exportgoals.setSelected(DBExportPreferences.getExportGoals());
 		this.separatefiles.setSelected(DBExportPreferences
@@ -129,6 +136,7 @@ ActionListener {
 	private void update() {
 		DBExportPreferences.setExportBeliefs(this.exportbeliefs.isSelected());
 		DBExportPreferences.setExportPercepts(this.exportpercepts.isSelected());
+		DBExportPreferences.setExportEmotions(this.exportemotions.isSelected());
 		DBExportPreferences.setExportMailbox(this.exportmailbox.isSelected());
 		DBExportPreferences.setExportGoals(this.exportgoals.isSelected());
 		DBExportPreferences.setExportSeparateFiles(this.separatefiles

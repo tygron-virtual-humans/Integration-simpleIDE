@@ -28,10 +28,12 @@ import goal.tools.errorhandling.exceptions.GOALUserError;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import javax.swing.JFileChooser;
 
 import krTools.errors.exceptions.ParserException;
+import languageTools.exceptions.relationParser.InvalidEmotionConfigFile;
 import nl.tudelft.goal.SimpleIDE.IDEMainPanel;
 import nl.tudelft.goal.SimpleIDE.IDENode;
 import nl.tudelft.goal.SimpleIDE.IconFactory;
@@ -94,7 +96,7 @@ public class OpenFileAction extends GOALAction {
 			} catch (InstantiationException e1) {
 				// TODO Change these exception types...
 				e1.printStackTrace();
-			} catch (ParserException e1) {
+			} catch (ParserException | InvalidEmotionConfigFile | FileNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
