@@ -21,9 +21,11 @@ package nl.tudelft.goal.SimpleIDE.actions;
 import goal.tools.errorhandling.exceptions.GOALException;
 
 import java.awt.event.ActionEvent;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import krTools.errors.exceptions.ParserException;
+import languageTools.exceptions.relationParser.InvalidEmotionConfigFile;
 import nl.tudelft.goal.SimpleIDE.IDEMainPanel;
 import nl.tudelft.goal.SimpleIDE.IDENode;
 import nl.tudelft.goal.SimpleIDE.NodeType;
@@ -76,7 +78,7 @@ public class RenameAction extends GOALAction {
 		try {
 			developmentEnvironment.getMainPanel().getFilePanel()
 					.rename(((FileNode) selectedNode).getBaseFile());
-		} catch (ParserException e) {
+		} catch (ParserException | FileNotFoundException | InvalidEmotionConfigFile e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

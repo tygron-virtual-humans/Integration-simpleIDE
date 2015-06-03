@@ -31,6 +31,7 @@ import goal.tools.errorhandling.exceptions.GOALException;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,7 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 
 import krTools.errors.exceptions.ParserException;
+import languageTools.exceptions.relationParser.InvalidEmotionConfigFile;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.mas.MASProgram;
 import nl.tudelft.goal.SimpleIDE.EditManager;
@@ -171,7 +173,8 @@ public class RunAction extends GOALAction {
 			MASProgram mas = null;
 			try {
 				mas = platform.parseMASFile(fileNode.getBaseFile());
-			} catch (ParserException e1) {
+			} catch (ParserException | FileNotFoundException | InvalidEmotionConfigFile e1) {
+				
 			}
 
 			// check before proceeding, to avoid locking non-existant files.

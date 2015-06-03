@@ -25,10 +25,12 @@ import goalhub.krTools.KRFactory;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import krTools.KRInterface;
 import krTools.errors.exceptions.KRInitFailedException;
 import krTools.errors.exceptions.ParserException;
+import languageTools.exceptions.relationParser.InvalidEmotionConfigFile;
 import nl.tudelft.goal.SimpleIDE.EditManager;
 import nl.tudelft.goal.SimpleIDE.IDEMainPanel;
 import nl.tudelft.goal.SimpleIDE.IDENode;
@@ -85,7 +87,7 @@ public class SaveFileAction extends GOALAction {
 			case MAS:
 				try {
 					PlatformManager.getCurrent().parseMASFile(theFile);
-				} catch (ParserException e1) {
+				} catch (ParserException | FileNotFoundException | InvalidEmotionConfigFile e1) {
 					throw new GOALUserError("Can't parse MAS file " + theFile,
 							e1);
 				} finally {

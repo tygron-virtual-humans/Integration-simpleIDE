@@ -37,6 +37,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -65,6 +66,7 @@ import javax.swing.tree.TreePath;
 
 import krTools.KRInterface;
 import krTools.errors.exceptions.ParserException;
+import languageTools.exceptions.relationParser.InvalidEmotionConfigFile;
 import languageTools.program.agent.AgentProgram;
 import languageTools.program.mas.MASProgram;
 import nl.tudelft.goal.SimpleIDE.actions.CloseAndRemoveAction;
@@ -341,7 +343,7 @@ public class FilePanel extends JPanel {
 	 * @throws ParserException
 	 */
 	public FileNode insertFile(File newFile) throws IllegalAccessException,
-	InstantiationException, GOALException, ParserException {
+	InstantiationException, GOALException, ParserException, InvalidEmotionConfigFile, FileNotFoundException {
 		FileNode newNode = null;
 
 		Extension ext = Extension.getFileExtension(newFile);
@@ -404,7 +406,7 @@ public class FilePanel extends JPanel {
 	 */
 	private MASNode insertMASfile(File newMASfile)
 			throws IllegalAccessException, InstantiationException,
-			GOALException, ParserException {
+			GOALException, ParserException, InvalidEmotionConfigFile, FileNotFoundException {
 
 		List<FileNode> newNodeList = this.allFiles.getAll(newMASfile);
 		MASNode newNode = null;
@@ -1054,7 +1056,7 @@ public class FilePanel extends JPanel {
 	 * @throws GOALException
 	 * @throws ParserException
 	 */
-	public void rename(File oldFile) throws GOALException, ParserException {
+	public void rename(File oldFile) throws GOALException, ParserException, InvalidEmotionConfigFile, FileNotFoundException {
 		// step 1. ask new filename.
 		// use the general getExtension to support unknown extensions properly.
 		String extension = FilenameUtils.getExtension(oldFile.getName());
