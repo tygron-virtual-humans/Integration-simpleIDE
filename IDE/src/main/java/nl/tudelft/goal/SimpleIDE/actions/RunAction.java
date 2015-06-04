@@ -94,6 +94,7 @@ public class RunAction extends GOALAction {
 			setActionEnabled(node.getChildCount() == 1);
 			break;
 		case MASFILE:
+		case EMOFILE:
 		case GOALFILE:
 		case MODFILE:
 		case PLFILE:

@@ -91,6 +91,7 @@ public class StepAction extends GOALAction {
 		switch (nodeType) {
 		case ROOT:
 		case MASFILE:
+		case EMOFILE:
 		case GOALFILE:
 		case MODFILE:
 		case PLFILE:
