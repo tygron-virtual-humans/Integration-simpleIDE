@@ -68,7 +68,9 @@ public class ReloadFileAction extends GOALAction {
 			setActionEnabled(((nodeType == NodeType.MASFILE
 					|| nodeType == NodeType.GOALFILE
 					|| nodeType == NodeType.MODFILE
-					|| nodeType == NodeType.PLFILE || nodeType == NodeType.TXTFILE))
+					|| nodeType == NodeType.EMOFILE
+					|| nodeType == NodeType.PLFILE 
+					|| nodeType == NodeType.TXTFILE))
 					&& EditManager.getInstance().isOpenEditor(
 							((FileNode) node).getBaseFile()));
 		}
@@ -113,6 +115,7 @@ public class ReloadFileAction extends GOALAction {
 		case GOALFILE:
 		case MASFILE:
 		case MODFILE:
+		case EMOFILE:
 		case PLFILE:
 			FileNode fileNode = selectedNode;
 			if (EditManager.getInstance().isOpenEditor(fileNode.getBaseFile())) {

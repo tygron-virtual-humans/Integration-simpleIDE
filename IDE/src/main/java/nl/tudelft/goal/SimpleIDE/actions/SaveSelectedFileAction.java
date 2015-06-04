@@ -64,7 +64,9 @@ public class SaveSelectedFileAction extends GOALAction {
 			setActionEnabled(((nodeType == NodeType.MASFILE
 					|| nodeType == NodeType.GOALFILE
 					|| nodeType == NodeType.MODFILE
-					|| nodeType == NodeType.PLFILE || nodeType == NodeType.TXTFILE))
+					|| nodeType == NodeType.EMOFILE
+					|| nodeType == NodeType.PLFILE 
+					|| nodeType == NodeType.TXTFILE))
 					&& EditManager.getInstance().isOpenEditor(
 							((FileNode) node).getBaseFile()));
 		}

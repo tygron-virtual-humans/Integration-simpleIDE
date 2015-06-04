@@ -124,6 +124,10 @@ public class SaveFileAction extends GOALAction {
 				developmentEnvironment.getMainPanel().getFilePanel()
 						.refreshMod2gFile(theFile);
 				break;
+			case EMOTION:
+				developmentEnvironment.getMainPanel().getFilePanel()
+						.refreshEmo2gFile(theFile);
+				break;
 			case PROLOG:
 				developmentEnvironment.getMainPanel().getFilePanel()
 						.refreshPrologFile(theFile);

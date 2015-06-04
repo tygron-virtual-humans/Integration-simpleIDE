@@ -79,6 +79,7 @@ import nl.tudelft.goal.SimpleIDE.actions.ReloadFileAction;
 import nl.tudelft.goal.SimpleIDE.actions.RenameAction;
 import nl.tudelft.goal.SimpleIDE.actions.RunAction;
 import nl.tudelft.goal.SimpleIDE.actions.SaveFileAction;
+import nl.tudelft.goal.SimpleIDE.files.EmotionNode;
 import nl.tudelft.goal.SimpleIDE.files.FileNode;
 import nl.tudelft.goal.SimpleIDE.files.GOALNode;
 import nl.tudelft.goal.SimpleIDE.files.MASNode;
@@ -371,6 +372,12 @@ public class FilePanel extends JPanel {
 				this.allFiles.add(newNode);
 				refreshSpuriousList();
 				break;
+			case EMOTION:
+				newNode = new EmotionNode(newFile);
+				appendNode(null, newNode);
+				this.allFiles.add(newNode);
+				refreshSpuriousList();
+				break;
 			case PROLOG:
 				newNode = new PrologNode(newFile);
 				appendNode(null, newNode);
@@ -517,6 +524,9 @@ public class FilePanel extends JPanel {
 						+ "insert MAS file as spurious file in File Panel."); //$NON-NLS-1$
 			case MODULES:
 				newNode = new ModulesNode(file);
+				break;
+			case EMOTION:
+				newNode = new EmotionNode(file);
 				break;
 			case PROLOG:
 				newNode = new PrologNode(file);
@@ -984,6 +994,22 @@ public class FilePanel extends JPanel {
 	}
 
 	/**
+	 * After the file contents of given file were saved, Updates the tree model
+	 * so that the children of the given goal node correspond to the goal files
+	 * described in the agent file. Any files that are children of the agent
+	 * file but are not referenced to in the agent file will be moved to the
+	 * null file node.
+	 *
+	 * @param emo2gFile
+	 *            the file that was changed
+	 */
+	public void refreshEmo2gFile(File emo2gFile) {
+		for (FileNode node : this.allFiles.getAll(emo2gFile)) {
+			refreshModuleNode((ModulesNode) node);
+		}
+	}
+
+	/**
 	 * A Module node needs refreshing. This is done by refreshing its parent
 	 * GOAL node.
 	 *
@@ -1241,6 +1267,7 @@ public class FilePanel extends JPanel {
 	private void showRenameWarning(File f) {
 		switch (Extension.getFileExtension(f)) {
 		case GOAL:
+		case EMOTION:
 			JOptionPane.showMessageDialog(this, "Don't forget to edit\n" //$NON-NLS-1$
 					+ " the MAS file manually\n" //$NON-NLS-1$
 					+ " to match your new file name."); //$NON-NLS-1$
@@ -1402,6 +1429,7 @@ public class FilePanel extends JPanel {
 		switch (node.getType()) {
 		case GOALFILE:
 		case MODFILE:
+		case EMOFILE:
 		case PLFILE:
 		case TXTFILE:
 			break;

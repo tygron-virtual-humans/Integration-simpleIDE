@@ -91,6 +91,7 @@ public class NewFileAction extends GOALAction {
 		case GOALFILE:
 		case MASFILE:
 		case MODFILE:
+		case EMOFILE:
 		case PLFILE:
 		case TXTFILE:
 		case NULLFILE:

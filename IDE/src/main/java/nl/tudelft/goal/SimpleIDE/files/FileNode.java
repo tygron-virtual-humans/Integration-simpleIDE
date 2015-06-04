@@ -136,6 +136,7 @@ public class FileNode extends DefaultMutableTreeNode implements IDENode {
 			} else {
 				return IconFactory.NO_PL_FILE.getIcon();
 			}
+		case EMOFILE:
 		case TXTFILE:
 		case NULLFILE:
 			return IconFactory.OTHER_FILE.getIcon();

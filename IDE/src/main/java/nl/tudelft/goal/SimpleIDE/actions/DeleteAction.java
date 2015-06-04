@@ -64,7 +64,9 @@ public class DeleteAction extends GOALAction {
 				&& (nodeType == NodeType.MASFILE
 				|| nodeType == NodeType.GOALFILE
 				|| nodeType == NodeType.MODFILE
-				|| nodeType == NodeType.PLFILE || nodeType == NodeType.TXTFILE)
+				|| nodeType == NodeType.EMOFILE
+				|| nodeType == NodeType.PLFILE 
+				|| nodeType == NodeType.TXTFILE)
 				&& ((FileNode) node).getBaseFile().exists());
 
 	}
