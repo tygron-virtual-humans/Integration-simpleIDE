@@ -137,8 +137,6 @@ public class ModeProvider {
 			return;
 		}
 		mode.setTokenMarker(xmh.getTokenMarker());
-		
-		System.out.println("bala"+fileName);
 
 		InputStream resource = ClassLoader.getSystemClassLoader()
 				.getResourceAsStream(fileName);

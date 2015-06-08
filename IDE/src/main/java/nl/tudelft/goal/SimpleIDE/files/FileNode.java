@@ -22,6 +22,7 @@ import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
 
 import nl.tudelft.goal.SimpleIDE.IDENode;
 import nl.tudelft.goal.SimpleIDE.IconFactory;
@@ -137,6 +138,11 @@ public class FileNode extends DefaultMutableTreeNode implements IDENode {
 				return IconFactory.NO_PL_FILE.getIcon();
 			}
 		case EMOFILE:
+			if (this.baseFile.exists()) {
+				return IconFactory.EMO_FILE.getIcon();
+			} else {
+				return IconFactory.NO_EMO_FILE.getIcon();
+			}
 		case TXTFILE:
 		case NULLFILE:
 			return IconFactory.OTHER_FILE.getIcon();
