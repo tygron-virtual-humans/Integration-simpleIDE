@@ -84,7 +84,7 @@ Observable<Observer<QueryPanel, DatabaseChangedInfo>, QueryPanel, DatabaseChange
 	 *            the IntrospectorPanel containing this, allowing us to force
 	 *            refresh when we execute action. HACK #2923
 	 * @param datatype
-	 *            is type of the database: BELIEFS, GOALS, MAILS or PERCEPTS
+	 *            is type of the database: BELIEFS, GOALS, MAILS, PERCEPTS or EMOTIONS
 	 */
 	public QueryPanel(Agent<IDEGOALInterpreter> agent) {
 		this.agent = agent;

@@ -80,6 +80,7 @@ public class KillAction extends GOALAction {
 		case MASFILE:
 		case GOALFILE:
 		case MODFILE:
+		case EMOFILE:
 		case PLFILE:
 		case TXTFILE:
 		case NULLFILE:

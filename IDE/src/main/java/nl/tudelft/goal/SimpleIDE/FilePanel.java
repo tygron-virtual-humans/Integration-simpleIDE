@@ -41,6 +41,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,6 +80,7 @@ import nl.tudelft.goal.SimpleIDE.actions.ReloadFileAction;
 import nl.tudelft.goal.SimpleIDE.actions.RenameAction;
 import nl.tudelft.goal.SimpleIDE.actions.RunAction;
 import nl.tudelft.goal.SimpleIDE.actions.SaveFileAction;
+import nl.tudelft.goal.SimpleIDE.files.EmotionNode;
 import nl.tudelft.goal.SimpleIDE.files.FileNode;
 import nl.tudelft.goal.SimpleIDE.files.GOALNode;
 import nl.tudelft.goal.SimpleIDE.files.MASNode;
@@ -359,7 +361,11 @@ public class FilePanel extends JPanel {
 				List<File> agentFiles = this.platform.getMASProgram(
 						newNode.getBaseFile()).getAgentFiles();
 				for (File agentfile : agentFiles) {
-					refreshGOALFile(agentfile);
+					if (Extension.getFileExtension(agentfile) == Extension.GOAL) {
+						refreshGOALFile(agentfile);
+					} else if (Extension.getFileExtension(agentfile) == Extension.EMOTION) {
+						refreshEmo2gFile(agentfile);
+					}
 				}
 				break;
 			case GOAL:
@@ -367,6 +373,12 @@ public class FilePanel extends JPanel {
 				break;
 			case MODULES:
 				newNode = new ModulesNode(newFile);
+				appendNode(null, newNode);
+				this.allFiles.add(newNode);
+				refreshSpuriousList();
+				break;
+			case EMOTION:
+				newNode = new EmotionNode(newFile);
 				appendNode(null, newNode);
 				this.allFiles.add(newNode);
 				refreshSpuriousList();
@@ -518,6 +530,9 @@ public class FilePanel extends JPanel {
 			case MODULES:
 				newNode = new ModulesNode(file);
 				break;
+			case EMOTION:
+				newNode = new EmotionNode(file);
+				break;
 			case PROLOG:
 				newNode = new PrologNode(file);
 				break;
@@ -637,6 +652,13 @@ public class FilePanel extends JPanel {
 		// Get new agent files.
 		List<File> newFiles = this.platform
 				.getMASProgram(masNode.getBaseFile()).getAgentFiles();
+		
+		// Get new emotion file.
+		String[] splitPath = this.platform.getMASProgram(
+				masNode.getBaseFile()).getEmotionFile().split("/");
+		splitPath = Arrays.copyOfRange(splitPath, 1, splitPath.length);
+		newFiles.add(new File(masNode.getBaseFile()
+				.getParent()+"/"+splitPath[splitPath.length-1]));
 
 		// Check whether nodes need to be removed, i.e., whether they do not
 		// correspond with any files associated with the MAS file.
@@ -676,7 +698,12 @@ public class FilePanel extends JPanel {
 				}
 			}
 			if (!currentFiles.contains(agentFile)) {
-				GOALNode newNode = new GOALNode(agentFile);
+				FileNode newNode;
+				if (Extension.getFileExtension(agentFile) == Extension.EMOTION) {
+					newNode = new EmotionNode(agentFile);
+				} else {
+					newNode = new GOALNode(agentFile);
+				} 
 				this.allFiles.add(newNode);
 				// GOALNode newNode = insertGOALfile(agentFile.getAgentFile());
 				appendNode(masNode, newNode);
@@ -1007,6 +1034,41 @@ public class FilePanel extends JPanel {
 	}
 
 	/**
+	 * After the file contents of given file were saved, Updates the tree model
+	 * so that the children of the given goal node correspond to the goal files
+	 * described in the agent file. Any files that are children of the agent
+	 * file but are not referenced to in the agent file will be moved to the
+	 * null file node.
+	 *
+	 * @param emo2gFile
+	 *            the file that was changed
+	 */
+	public void refreshEmo2gFile(File emo2gFile) {
+		for (FileNode node : this.allFiles.getAll(emo2gFile)) {
+			refreshEmotionNode((EmotionNode) node);
+		}
+	}
+
+	/**
+	 * A Emotion node needs refreshing. This is done by refreshing its parent
+	 * MAS node.
+	 *
+	 * @param node
+	 *            is a {@link EmotionNode} in the Files tree.
+	 */
+	private void refreshEmotionNode(EmotionNode node) {
+		if (!this.rootNode.isNodeDescendant(node)) {
+			// apparently you can edit files that are not in the files
+			// tree. Maybe for example when exporting an agent database?
+			return;
+		}
+		TreeNode parent = node.getParent();
+		if (parent instanceof MASNode) {
+			//refreshMASNode((MASNode) parent);
+		}
+	}
+
+	/**
 	 * A Prolog node needs refreshing. This is done by refreshing its parent
 	 * .goal file node.
 	 *
@@ -1241,6 +1303,7 @@ public class FilePanel extends JPanel {
 	private void showRenameWarning(File f) {
 		switch (Extension.getFileExtension(f)) {
 		case GOAL:
+		case EMOTION:
 			JOptionPane.showMessageDialog(this, "Don't forget to edit\n" //$NON-NLS-1$
 					+ " the MAS file manually\n" //$NON-NLS-1$
 					+ " to match your new file name."); //$NON-NLS-1$
@@ -1402,6 +1465,7 @@ public class FilePanel extends JPanel {
 		switch (node.getType()) {
 		case GOALFILE:
 		case MODFILE:
+		case EMOFILE:
 		case PLFILE:
 		case TXTFILE:
 			break;

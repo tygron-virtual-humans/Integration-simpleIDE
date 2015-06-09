@@ -126,6 +126,12 @@ public class DatabasePanel extends JPanel implements DebugObserver,
 			agent.getController().getDebugger()
 					.subscribe(this, Channel.PERCEPTS_CONDITIONAL_VIEW);
 			break;
+		case EMOTIONBASE:
+			// Percept base changes are reported on
+			// Channel.EMOTIONS_CONDITIONAL_VIEW.
+			agent.getController().getDebugger()
+					.subscribe(this, Channel.EMOTIONS_CONDITIONAL_VIEW);
+			break;
 		}
 
 		refreshPanelContent();
@@ -157,6 +163,7 @@ public class DatabasePanel extends JPanel implements DebugObserver,
 				// //DEBUG
 			case MAILBOX:
 			case PERCEPTBASE:
+			case EMOTIONBASE:
 				buffer.append(this.agent.getController().getRunState()
 						.getMentalState().getOwnBase(this.databaseType)
 						.getTheory().toString());

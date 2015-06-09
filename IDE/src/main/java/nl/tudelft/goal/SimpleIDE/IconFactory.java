@@ -95,6 +95,10 @@ public enum IconFactory {
 
 	NO_PL_FILE("plfile-ne.png"),
 
+	EMO_FILE("emofile.gif"),
+
+	NO_EMO_FILE("emofile-ne.png"),
+
 	OTHER_FILE("typelessfile.gif"),
 	/*
 	 * file manipulation commands

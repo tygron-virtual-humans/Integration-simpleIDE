@@ -67,6 +67,7 @@ public class EditAction extends GOALAction {
 		case GOALFILE:
 		case MASFILE:
 		case MODFILE:
+		case EMOFILE:
 		case PLFILE:
 			return true;
 		default:
@@ -90,6 +91,9 @@ public class EditAction extends GOALAction {
 			break;
 		case MODFILE:
 			extension = Extension.MODULES;
+			break;
+		case EMOFILE:
+			extension = Extension.EMOTION;
 			break;
 		case PLFILE:
 			extension = Extension.PROLOG;

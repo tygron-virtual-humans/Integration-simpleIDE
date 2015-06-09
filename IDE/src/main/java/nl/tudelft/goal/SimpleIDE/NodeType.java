@@ -32,7 +32,7 @@ public enum NodeType {
 	MODFILE,
 	/** File type */
 	PLFILE,
-	/** File type. */
+	/** File type */
 	TXTFILE,
 	/**
 	 * File type, used to put goal files without parent mas under in the

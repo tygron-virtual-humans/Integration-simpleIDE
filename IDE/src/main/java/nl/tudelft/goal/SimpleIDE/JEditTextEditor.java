@@ -123,6 +123,11 @@ public final class JEditTextEditor extends TextEditorInterface {
 				mode.setProperty(FILE_KEY, "modes/goal.xml");
 				ModeProvider.instance.addMode(mode);
 				break;
+			case EMOTION:
+				mode = new Mode("emotion");
+				mode.setProperty(FILE_KEY, "modes/emotion.xml");
+				ModeProvider.instance.addMode(mode);
+				break;
 			case PROLOG:
 				mode = new Mode("prolog");
 				mode.setProperty(FILE_KEY, "modes/prolog.xml");

@@ -63,7 +63,9 @@ public class CloseAndRemoveAction extends GOALAction {
 				&& (nodeType == NodeType.MASFILE
 				|| nodeType == NodeType.GOALFILE
 				|| nodeType == NodeType.MODFILE
-				|| nodeType == NodeType.PLFILE || nodeType == NodeType.TXTFILE));
+				|| nodeType == NodeType.EMOFILE
+				|| nodeType == NodeType.PLFILE 
+				|| nodeType == NodeType.TXTFILE));
 	}
 
 	/**
@@ -126,6 +128,7 @@ public class CloseAndRemoveAction extends GOALAction {
 		switch (type) {
 		case GOALFILE:
 		case MODFILE:
+		case EMOFILE:
 		case PLFILE:
 			JOptionPane
 			.showMessageDialog(

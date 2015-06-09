@@ -7,11 +7,11 @@
 	<!-- left this groupID for historical reasons -->
 	<groupId>org.gjt.sp.jedit</groupId>
 	<artifactId>jedit</artifactId>
-	<version>1.1.1</version>
+	<version>1.1.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>JEdit editor modified for internal editor use in IDE</name>
-	<url>https://github.com/goalhub/simpleIDE/jEdit/tree/master/</url>
+	<url>https://github.com/tygron-virtual-humans/Integration-simpleIDE/jEdit/tree/master/</url>
 	<description>jEdit editor, modified for use inside our IDE.</description>
 
 	<licenses>
@@ -31,19 +31,19 @@
 	</developers>
 
 	<organization>
-		<name>goalhub</name>
-		<url>https://github.com/goalhub</url>
+		<name>tygron-virtual-humans</name>
+		<url>https://github.com/tygron-virtual-humans</url>
 	</organization>
 
 	<issueManagement>
-		<url>https://github.com/goalhub/simpleide/issues</url>
+		<url>https://github.com/tygron-virtual-humans/Integration-simpleIDE/issues</url>
 		<system>Github Issues</system>
 	</issueManagement>
 
 	<scm>
-		<connection>scm:git:git@github.com:goalhub/simpleide.git</connection>
-		<developerConnection>scm:git:git@github.com:goalhub/simpleide.git</developerConnection>
-		<url>https://github.com:goalhub/simpleide</url>
+		<connection>scm:git:git@github.com:tygron-virtual-humans/Integration-simpleIDE.git</connection>
+		<developerConnection>scm:git:git@github.com:tygron-virtual-humans/Integration-simpleIDE.git</developerConnection>
+		<url>https://github.com:tygron-virtual-humans/Integration-simpleIDE</url>
 	</scm>
 
 	<properties>
@@ -54,7 +54,7 @@
 	<repositories>
 		<repository>
 			<id>goalhub-mvn-repo</id>
-			<url>https://raw.github.com/goalhub/mvn-repo/master</url>
+			<url>https://raw.github.com/tygron-virtual-humans/Integration-mvn-repo/master</url>
 		</repository>
 	</repositories>
 
@@ -163,7 +163,7 @@
 					<!-- git commit message -->
 					<message>Maven artifacts for ${project.name} version ${project.version}</message>
 					<!-- matches distribution management repository url above -->
-					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+					<outputDirectory>${project.build.directory}/Integration-mvn-repo</outputDirectory>
 					<!-- remote branch name -->
 					<branch>refs/heads/master</branch>
 					<merge>true</merge>
@@ -171,9 +171,9 @@
 						<include>**/*</include>
 					</includes>
 					<!-- github repo name -->
-					<repositoryName>mvn-repo</repositoryName>
+					<repositoryName>Integration-mvn-repo</repositoryName>
 					<!-- github organization -->
-					<repositoryOwner>goalhub</repositoryOwner>
+					<repositoryOwner>tygron-virtual-humans</repositoryOwner>
 				</configuration>
 				<executions>
 					<!-- run site-maven-plugin as part of the build's 'deploy' phase -->
