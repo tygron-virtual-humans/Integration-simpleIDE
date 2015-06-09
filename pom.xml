@@ -11,7 +11,7 @@
 	<packaging>pom</packaging>
 	<name>GOAL SimpleIDE module wrapper</name>
 
-	<url>https://github.com/goalhub/simpleIDE</url>
+	<url>https://github.com/tygron-virtual-humans/Integration-simpleIDE</url>
 	<description>An IDE for GOAL based on JEdit.</description>
 
 	<licenses>
@@ -31,19 +31,19 @@
 	</developers>
 
 	<organization>
-		<name>goalhub</name>
-		<url>https://github.com/goalhub</url>
+		<name>tygron-virtual-humans</name>
+		<url>https://github.com/tygron-virtual-humans</url>
 	</organization>
 
 	<issueManagement>
-		<url>https://github.com/goalhub/simpleIDE/issues</url>
+		<url>https://github.com/tygron-virtual-humans/Integration-simpleIDE/issues</url>
 		<system>Github Issues</system>
 	</issueManagement>
 
 	<scm>
-		<connection>scm:git:git@github.com:goalhub/simpleIDE.git</connection>
-		<developerConnection>scm:git:git@github.com:goalhub/simpleIDE.git</developerConnection>
-		<url>https://github.com:goalhub/simpleIDE</url>
+		<connection>scm:git:git@github.com:tygron-virtual-humans/Integration-simpleIDE.git</connection>
+		<developerConnection>scm:git:git@github.com:tygron-virtual-humans/Integration-simpleIDE.git</developerConnection>
+		<url>https://github.com:tygron-virtual-humans/Integration-simpleIDE</url>
 	</scm>
 
 	<properties>
