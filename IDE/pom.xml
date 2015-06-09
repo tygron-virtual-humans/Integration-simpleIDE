@@ -10,7 +10,7 @@
 	<packaging>jar</packaging>
 
 	<name>GOAL SimpleIDE</name>
-	<url>https://github.com/goalhub/simpleIDE</url>
+	<url>https://github.com/tygron-virtual-humans/Integration-simpleIDE</url>
 	<description>An IDE for GOAL based on JEdit.</description>
 
 	<licenses>
@@ -30,19 +30,19 @@
 	</developers>
 
 	<organization>
-		<name>goalhub</name>
-		<url>https://github.com/goalhub</url>
+		<name>tygron-virtual-humans</name>
+		<url>https://github.com/tygron-virtual-humans</url>
 	</organization>
 
 	<issueManagement>
-		<url>https://github.com/goalhub/simpleIDE/issues</url>
+		<url>https://github.com/tygron-virtual-humans/Integration-simpleIDE/issues</url>
 		<system>Github Issues</system>
 	</issueManagement>
 
 	<scm>
-		<connection>scm:git:git@github.com:goalhub/simpleIDE.git</connection>
-		<developerConnection>scm:git:git@github.com:goalhub/simpleIDE.git</developerConnection>
-		<url>https://github.com:goalhub/simpleIDE</url>
+		<connection>scm:git:git@github.com:tygron-virtual-humans/Integration-simpleIDE.git</connection>
+		<developerConnection>scm:git:git@github.com:tygron-virtual-humans/Integration-simpleIDE.git</developerConnection>
+		<url>https://github.com:tygron-virtual-humans/Integration-simpleIDE</url>
 	</scm>
 
 	<properties>
@@ -52,7 +52,7 @@
 	<repositories>
 		<repository>
 			<id>goalhub-mvn-repo</id>
-			<url>https://raw.github.com/goalhub/mvn-repo/master</url>
+			<url>https://raw.github.com/tygron-virtual-humans/Integration-mvn-repo/master</url>
 		</repository>
 
 		<repository>
@@ -247,7 +247,7 @@
 					<message>Maven artifacts for ${project.name} version
 						${project.version}</message>
 					<!-- matches distribution management repository url above -->
-					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+					<outputDirectory>${project.build.directory}/Integration-mvn-repo</outputDirectory>
 					<!-- remote branch name -->
 					<branch>refs/heads/master</branch>
 					<merge>true</merge>
@@ -255,9 +255,9 @@
 						<include>**/*</include>
 					</includes>
 					<!-- github repo name -->
-					<repositoryName>mvn-repo</repositoryName>
+					<repositoryName>Integration-mvn-repo</repositoryName>
 					<!-- github organization -->
-					<repositoryOwner>goalhub</repositoryOwner>
+					<repositoryOwner>tygron-virtual-humans</repositoryOwner>
 				</configuration>
 				<executions>
 					<!-- run site-maven-plugin as part of the build's 'deploy' phase -->
