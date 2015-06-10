@@ -654,11 +654,13 @@ public class FilePanel extends JPanel {
 				.getMASProgram(masNode.getBaseFile()).getAgentFiles();
 		
 		// Get new emotion file.
-		String[] splitPath = this.platform.getMASProgram(
-				masNode.getBaseFile()).getEmotionFile().split("/");
-		splitPath = Arrays.copyOfRange(splitPath, 1, splitPath.length);
-		newFiles.add(new File(masNode.getBaseFile()
-				.getParent()+"/"+splitPath[splitPath.length-1]));
+		if (this.platform.getMASProgram(masNode.getBaseFile()).getEmotionFile() != null) {
+			String[] splitPath = this.platform.getMASProgram(
+					masNode.getBaseFile()).getEmotionFile().split("/");
+			splitPath = Arrays.copyOfRange(splitPath, 1, splitPath.length);
+			newFiles.add(new File(masNode.getBaseFile()
+					.getParent()+"/"+splitPath[splitPath.length-1]));
+		}
 
 		// Check whether nodes need to be removed, i.e., whether they do not
 		// correspond with any files associated with the MAS file.

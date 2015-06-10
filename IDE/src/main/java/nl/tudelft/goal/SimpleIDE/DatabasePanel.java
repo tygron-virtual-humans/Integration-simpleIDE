@@ -19,6 +19,7 @@
 package nl.tudelft.goal.SimpleIDE;
 
 import goal.core.agent.Agent;
+import goal.core.mentalstate.BeliefBase;
 import goal.tools.IDEDebugger;
 import goal.tools.IDEGOALInterpreter;
 import goal.tools.debugger.Channel;
@@ -164,9 +165,11 @@ public class DatabasePanel extends JPanel implements DebugObserver,
 			case MAILBOX:
 			case PERCEPTBASE:
 			case EMOTIONBASE:
-				buffer.append(this.agent.getController().getRunState()
-						.getMentalState().getOwnBase(this.databaseType)
-						.getTheory().toString());
+				BeliefBase base = this.agent.getController().getRunState()
+						.getMentalState().getOwnBase(this.databaseType);
+				if (base != null) {
+					buffer.append(base.getTheory().toString());
+				}
 				break;
 			case GOALBASE:
 				buffer.append(this.agent.getController().getRunState()
