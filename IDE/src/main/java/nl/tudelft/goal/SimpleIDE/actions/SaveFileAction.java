@@ -26,6 +26,7 @@ import goalhub.krTools.KRFactory;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import krTools.KRInterface;
 import krTools.errors.exceptions.KRInitFailedException;
@@ -125,8 +126,18 @@ public class SaveFileAction extends GOALAction {
 						.refreshMod2gFile(theFile);
 				break;
 			case EMOTION:
-				developmentEnvironment.getMainPanel().getFilePanel()
-						.refreshEmo2gFile(theFile);
+				try {
+					try {
+						PlatformManager.getCurrent().parseEmotionConfig(
+								theFile.getCanonicalFile());
+					} catch (ParserException | IOException e1) {
+						throw new GOALUserError("Can't parse GOAL file "
+								+ theFile, e1);
+					}
+				} finally {
+					developmentEnvironment.getMainPanel().getFilePanel()
+							.refreshEmo2gFile(theFile);
+				}
 				break;
 			case PROLOG:
 				developmentEnvironment.getMainPanel().getFilePanel()
