@@ -7,11 +7,11 @@
 	<!-- left this groupID for historical reasons -->
 	<groupId>org.gjt.sp.jedit</groupId>
 	<artifactId>jedit</artifactId>
-	<version>1.1.2-SNAPSHOT</version>
+	<version>1.1.2</version>
 	<packaging>jar</packaging>
 
 	<name>JEdit editor modified for internal editor use in IDE</name>
-	<url>https://github.com/tygron-virtual-humans/Integration-simpleIDE/jEdit/tree/master/</url>
+	<url>https://github.com/tygron-virtual-humans/Integration-simpleIDE/</url>
 	<description>jEdit editor, modified for use inside our IDE.</description>
 
 	<licenses>
@@ -53,7 +53,7 @@
 
 	<repositories>
 		<repository>
-			<id>goalhub-mvn-repo</id>
+			<id>Integration-mvn-repo</id>
 			<url>https://raw.github.com/tygron-virtual-humans/Integration-mvn-repo/master</url>
 		</repository>
 	</repositories>
@@ -150,7 +150,7 @@
 				<artifactId>maven-deploy-plugin</artifactId>
 				<version>2.8.2</version>
 				<configuration>
-					<altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+					<altDeploymentRepository>internal.repo::default::file://${project.build.directory}/Integration-mvn-repo</altDeploymentRepository>
 				</configuration>
 			</plugin>
 
